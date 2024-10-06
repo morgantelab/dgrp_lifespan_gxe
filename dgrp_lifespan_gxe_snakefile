@@ -1,6 +1,10 @@
+wildcard_constraints:
+    CV_SCENARIO = "|".join(map(str, config["CV_SCENARIO"]))
+
 rule all:
 	input:
-		config["WORKDIR"]+"/data/dgrp_lifespan_gxe_grm.rds"
+		config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
+		expand(config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO}_test_sets.rds",CV_SCENARIO=config["CV_SCENARIO"])
 
 rule compute_grm:
 	input:
@@ -8,7 +12,7 @@ rule compute_grm:
 		GENO_BIM=config["WORKDIR"]+"/data/dgrp_lifespan_gxe_filt_geno.bim",
 		GENO_FAM=config["WORKDIR"]+"/data/dgrp_lifespan_gxe_filt_geno.fam"
 	output:
-		config["WORKDIR"]+"/data/dgrp_lifespan_gxe_grm.rds"
+		config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds"
 	params:
 		CODE=config["CODE_DIR"]+"/"+"compute_grm.R",
 		GENO=config["GENO_PLINK_FILE"],
@@ -24,11 +28,42 @@ rule compute_grm:
 		export MKL_NUM_THREADS={params.CPU}
 		export OMP_NUM_THREADS={params.CPU}
 
-
 		Rscript {params.CODE} --geno {params.GENO} \
 		                      --output {output}
 
 		mamba deactivate
 		"""
 
+rule create_test_sets:
+	input:
+		config["WORKDIR"]+"/data/pheno_env.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO}_test_sets.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"create_test_sets.R",
+		CV_SCENARIO="{CV_SCENARIO}",
+		N_REPS=config["N_REPS"],
+		TEST_PROP=config["TEST_SET_PROP"],
+		SEED=config["SEED"],
+		CPU="1"
+	resources: cpus=1, mem_mb=1000, time_min=30
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --pheno {input} \
+		                      --cv_scheme {params.CV_SCENARIO} \
+		                      --n_reps {params.N_REPS} \
+		                      --test_set_prop {params.TEST_PROP} \
+		                      --seed {params.SEED} \
+		                      --output {output}
+
+		mamba deactivate
+		"""
 
