@@ -1,0 +1,34 @@
+rule all:
+	input:
+		config["WORKDIR"]+"/data/dgrp_lifespan_gxe_grm.rds"
+
+rule compute_grm:
+	input:
+		GENO_BED=config["WORKDIR"]+"/data/dgrp_lifespan_gxe_filt_geno.bed",
+		GENO_BIM=config["WORKDIR"]+"/data/dgrp_lifespan_gxe_filt_geno.bim",
+		GENO_FAM=config["WORKDIR"]+"/data/dgrp_lifespan_gxe_filt_geno.fam"
+	output:
+		config["WORKDIR"]+"/data/dgrp_lifespan_gxe_grm.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"compute_grm.R",
+		GENO=config["GENO_PLINK_FILE"],
+		CPU="4"
+	resources: cpus=4, mem_mb=15000, time_min=30
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+
+		Rscript {params.CODE} --geno {params.GENO} \
+		                      --output {output}
+
+		mamba deactivate
+		"""
+
+
