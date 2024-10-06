@@ -12,3 +12,5 @@ analysis/site_libs
 data/*
 run/*
 output/*
+slurm/*
+.snakemake/*
