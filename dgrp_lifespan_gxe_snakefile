@@ -1,10 +1,13 @@
 wildcard_constraints:
-    CV_SCENARIO = "|".join(map(str, config["CV_SCENARIO"]))
+    CV_SCENARIO_REPS = "|".join(map(str, config["CV_SCENARIO_REPS"])),
+    REP_REPS = "|".join(map(str, config["REP_REPS"])),
+    MODEL_GBLUP = "|".join(map(str, config["MODEL_GBLUP"]))
 
 rule all:
 	input:
-		config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
-		expand(config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO}_test_sets.rds",CV_SCENARIO=config["CV_SCENARIO"])
+	  config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
+	  expand(config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_test_sets.rds", CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"]),
+		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_{MODEL_GBLUP}_fit_{REP_REPS}.rds", MODEL_GBLUP=config["MODEL_GBLUP"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], REP_REPS=config["REP_REPS"])
 
 rule compute_grm:
 	input:
@@ -38,13 +41,13 @@ rule create_test_sets:
 	input:
 		config["WORKDIR"]+"/data/pheno_env.rds"
 	output:
-		config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO}_test_sets.rds"
+		config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_test_sets.rds"
 	params:
 		CODE=config["CODE_DIR"]+"/"+"create_test_sets.R",
-		CV_SCENARIO="{CV_SCENARIO}",
+		CV_SCENARIO="{CV_SCENARIO_REPS}",
 		N_REPS=config["N_REPS"],
-		TEST_PROP=config["TEST_SET_PROP"],
-		SEED=config["SEED"],
+		TEST_PROP=config["TEST_SET_PROP_REPS"],
+		SEED=config["SEED_REPS"],
 		CPU="1"
 	resources: cpus=1, mem_mb=1000, time_min=30
 	shell:
@@ -67,3 +70,50 @@ rule create_test_sets:
 		mamba deactivate
 		"""
 
+rule fit_gblup_reps:
+	input:
+		PHENO=config["WORKDIR"]+"/data/pheno_env.rds",
+		GRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
+		CV=config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_test_sets.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_{MODEL_GBLUP}_fit_{REP_REPS}.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"fit_gblup_g_e_gxe.R",
+		N_REPS=config["N_REPS"],
+		REP="{REP_REPS}",
+		MODEL="{MODEL_GBLUP}",
+		R2=config["R2_GBLUP"],
+		NITER=config["NITER_GBLUP"],
+		NBURNIN=config["NBURNIN_GBLUP"],
+		THIN=config["THIN_GBLUP"],
+		VERB=config["VERBOSE_GBLUP"],
+		SEED=config["SEED_GBLUP"],
+		TMP=config["SCRATCH"]+"/BGLR_1/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_{MODEL_GBLUP}_{REP_REPS}_",
+		CPU="1"
+	resources: cpus=1, mem_mb=4000, time_min=60
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --grm_file {input.GRM} \
+		                      --pheno_file {input.PHENO} \
+		                      --cv_file {input.CV} \
+		                      --rep {params.REP} \
+		                      --model {params.MODEL} \
+		                      --R2 {params.R2} \
+		                      --niter {params.NITER} \
+		                      --nburn {params.NBURNIN} \
+		                      --thin {params.THIN} \
+		                      --verbose {params.VERB} \
+		                      --intermediate_file {params.TMP} \
+		                      --seed {params.SEED} \
+		                      --output_file {output}
+
+		mamba deactivate
+		"""
