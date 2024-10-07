@@ -8,4 +8,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+This website includes analyses to assess gene-environment interactions ($G \times E$) on lifespan in the *Drosophila*
+Genetic Reference Panel (DGRP).
+
++ [Initial analysis.](dgrp_lifespan_gxe_initial_results.html)

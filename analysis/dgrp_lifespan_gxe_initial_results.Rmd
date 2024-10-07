@@ -34,7 +34,7 @@ We fitted the following linear mixed models:
 
 where 
 $y$ is a $q$-vector of phenotypic observations, 
-$\mu$ is an $q$-vector of intercept values, 
+$\mu$ is a $q$-vector of intercept values, 
 $g$ is a $q$-vector of additive genetic values, $g \sim N_q(\mathbf O, \mathbf{ZGZ^\intercal} \sigma^2_g)$, 
 $\mathbf Z$ is a $q \times n$ incidence matrix, 
 $\mathbf G$ is a $n \times n$ genomic relationship matrix (GRM), 
@@ -56,7 +56,6 @@ procedure was repeated 20 times.
 
 Prediction accuracy was evaluated as the correlation coefficient between observed and predicted phenotypes.
 
-20 replicates for each simulation scenario were run.
 
 ## Random observations scenario
 
