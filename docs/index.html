@@ -9,11 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Fabio Morgante" />
 
-<meta name="date" content="2024-10-07" />
 
-<title>Prediction of lifespan with different models</title>
+<title>Home</title>
 
 <script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -31,9 +29,6 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
@@ -240,69 +235,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -310,16 +242,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -371,10 +293,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Prediction of lifespan with different
-models</h1>
-<h4 class="author">Fabio Morgante</h4>
-<h4 class="date">October 07, 2024</h4>
+<h1 class="title toc-ignore">Home</h1>
 
 </div>
 
@@ -407,7 +326,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span> 0
 </p>
@@ -444,90 +363,6 @@ class="panel-collapse collapse">
 <p>Great! Since the R Markdown file has been committed to the Git
 repository, you know the exact version of the code that produced these
 results.</p>
-</div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading">
-<p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
-</p>
-</div>
-<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
-<div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the
-global environment can affect the analysis in your R Markdown file in
-unknown ways. For reproduciblity it’s best to always run the code in an
-empty environment.</p>
-</div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading">
-<p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241004code">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Seed:</strong>
-<code>set.seed(20241004)</code> </a>
-</p>
-</div>
-<div id="strongSeedstrongcodesetseed20241004code"
-class="panel-collapse collapse">
-<div class="panel-body">
-<p>The command <code>set.seed(20241004)</code> was run prior to running
-the code in the R Markdown file. Setting a seed ensures that any results
-that rely on randomness, e.g. subsampling or permutations, are
-reproducible.</p>
-</div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading">
-<p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Session information:</strong>
-recorded </a>
-</p>
-</div>
-<div id="strongSessioninformationstrongrecorded"
-class="panel-collapse collapse">
-<div class="panel-body">
-<p>Great job! Recording the operating system, R version, and package
-versions is critical for reproducibility.</p>
-</div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading">
-<p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Cache:</strong> none </a>
-</p>
-</div>
-<div id="strongCachestrongnone" class="panel-collapse collapse">
-<div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be
-confident that you successfully produced the results during this
-run.</p>
-</div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading">
-<p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
-</p>
-</div>
-<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
-<div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr
-project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
@@ -595,12 +430,10 @@ have uncommitted changes.
 
 <p>
 These are the previous versions of the repository in which changes were
-made to the R Markdown
-(<code>analysis/dgrp_lifespan_gxe_initial_results.Rmd</code>) and HTML
-(<code>docs/dgrp_lifespan_gxe_initial_results.html</code>) files. If
-you’ve configured a remote Git repository (see
-<code>?wflow_git_remote</code>), click on the hyperlinks in the table
-below to view the files as they were in that past version.
+made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
+(<code>docs/index.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -629,7 +462,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/59252bf4b0004fd5fbd9c542ab13f74508bf867c/analysis/dgrp_lifespan_gxe_initial_results.Rmd" target="_blank">59252bf</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/59252bf4b0004fd5fbd9c542ab13f74508bf867c/analysis/index.Rmd" target="_blank">59252bf</a>
 </td>
 <td>
 fmorgante
@@ -643,36 +476,19 @@ Fix typos
 </tr>
 <tr>
 <td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/295ad282e3faa68b3131a30266efedfa70510628/docs/dgrp_lifespan_gxe_initial_results.html" target="_blank">295ad28</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-07
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
 Rmd
 </td>
 <td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/707718f5376057758102d749573c4464c440f479/analysis/dgrp_lifespan_gxe_initial_results.Rmd" target="_blank">707718f</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/b097ee5c9624d6b23858bda93bdaf92916466661/analysis/index.Rmd" target="_blank">b097ee5</a>
 </td>
 <td>
 fmorgante
 </td>
 <td>
-2024-10-07
+2024-10-04
 </td>
 <td>
-Add description of the analyses
+Start workflowr project.
 </td>
 </tr>
 </tbody>
@@ -682,114 +498,13 @@ Add description of the analyses
 </div>
 </div>
 </div>
-<pre class="r"><code>###Load libraries
-#library(ggplot2)
-#library(cowplot)</code></pre>
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
-<p>The goal of this analysis is to assess the performance of the linear
-mixed models including genotype only, environment only, genotype +
-environment, genotype + environment + genotype <span
-class="math inline">\(\times\)</span> environment information at
-predicting life span in the DGRP.</p>
-<p>We used data from <a
-href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000645">Huang
-et al. (2020)</a>, which has life span measurements for 176 lines at 3
-temperatures (18C, 25C, 28C) for the 2 sexes. In this work, we used both
-temperature and sex as environmental variables.</p>
-<p>We fitted the following linear mixed models:</p>
+<p>This website includes analyses to assess gene-environment
+interactions (<span class="math inline">\(G \times E\)</span>) on
+lifespan in the <em>Drosophila</em> Genetic Reference Panel (DGRP).</p>
 <ul>
-<li>G-BLUP. <span class="math inline">\(y = \mu + g +
-\epsilon\)</span>.</li>
-<li>E-BLUP. <span class="math inline">\(y = \mu + e +
-\epsilon\)</span>.</li>
-<li>GE-BLUP. <span class="math inline">\(y = \mu + g + e +
-\epsilon\)</span>.</li>
-<li>GxE-BLUP. <span class="math inline">\(y = \mu + g + e + ge +
-\epsilon\)</span>.</li>
+<li><a href="dgrp_lifespan_gxe_initial_results.html">Initial
+analysis.</a></li>
 </ul>
-<p>where <span class="math inline">\(y\)</span> is a <span
-class="math inline">\(q\)</span>-vector of phenotypic observations,
-<span class="math inline">\(\mu\)</span> is a <span
-class="math inline">\(q\)</span>-vector of intercept values, <span
-class="math inline">\(g\)</span> is a <span
-class="math inline">\(q\)</span>-vector of additive genetic values,
-<span class="math inline">\(g \sim N_q(\mathbf O, \mathbf{ZGZ^\intercal}
-\sigma^2_g)\)</span>, <span class="math inline">\(\mathbf Z\)</span> is
-a <span class="math inline">\(q \times n\)</span> incidence matrix,
-<span class="math inline">\(\mathbf G\)</span> is a <span
-class="math inline">\(n \times n\)</span> genomic relationship matrix
-(GRM), <span class="math inline">\(e\)</span> is a <span
-class="math inline">\(q\)</span>-vector of environmental values, <span
-class="math inline">\(e \sim N_q(\mathbf O, \mathbf{E}
-\sigma^2_e)\)</span>, <span class="math inline">\(\mathbf E\)</span> is
-a <span class="math inline">\(q \times q\)</span> matrix of similarity
-based on environmental variables, computed as <span
-class="math inline">\(\mathbf E = \mathbf{XX}^\intercal\)</span>, <span
-class="math inline">\(\mathbf X\)</span> is a <span
-class="math inline">\(q \times c\)</span> matrix of environmental
-measurements, <span class="math inline">\(ge \sim N_q(\mathbf O,
-\mathbf{ZGZ^\intercal \circ E} \sigma^2_{ge})\)</span>, <span
-class="math inline">\(\epsilon\)</span> is a <span
-class="math inline">\(q\)</span>-vector of residual values, <span
-class="math inline">\(\epsilon \sim N_q(\mathbf O, \mathbf{I}
-\sigma^2_\epsilon)\)</span>.</p>
-<p>These models were fitted using a Bayesian approach as implemented in
-the <span class="math inline">\(\sf BGLR\)</span> package.</p>
-<p>We used different cross-validation schemes:</p>
-<ul>
-<li>We assigned 20% of the <em>observations</em> (i.e., combination of
-line, sex and temperature) to the test set randomly. This procedure was
-repeated 20 times.</li>
-<li>We assigned 20% of the <em>lines</em> (i.e., for the 2 sexes and the
-3 temperatures) to the test set randomly. This procedure was repeated 20
-times.</li>
-</ul>
-<p>Prediction accuracy was evaluated as the correlation coefficient
-between observed and predicted phenotypes.</p>
-</div>
-<div id="random-observations-scenario" class="section level2">
-<h2>Random observations scenario</h2>
-<br>
-<p>
-<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
-<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-Session information
-</button>
-</p>
-<div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.1.2 (2021-11-01)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Rocky Linux 8.5 (Green Obsidian)
-
-Matrix products: default
-BLAS/LAPACK: /opt/ohpc/pub/libs/gnu9/openblas/0.3.7/lib/libopenblasp-r0.3.7.so
-
-locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
- [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
- [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
- [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
-
-attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
-
-loaded via a namespace (and not attached):
- [1] Rcpp_1.0.13       rstudioapi_0.16.0 whisker_0.4.1     knitr_1.47       
- [5] magrittr_2.0.3    workflowr_1.7.0   R6_2.5.1          rlang_1.1.4      
- [9] fastmap_1.2.0     fansi_1.0.6       stringr_1.5.1     tools_4.1.2      
-[13] xfun_0.44         utf8_1.2.4        cli_3.6.2         git2r_0.32.0     
-[17] jquerylib_0.1.4   htmltools_0.5.8.1 rprojroot_2.0.4   yaml_2.3.8       
-[21] digest_0.6.35     tibble_3.2.1      lifecycle_1.0.4   later_1.3.2      
-[25] sass_0.4.9        vctrs_0.6.5       fs_1.6.4          promises_1.3.0   
-[29] cachem_1.1.0      glue_1.7.0        evaluate_0.23     rmarkdown_2.27   
-[33] stringi_1.8.4     bslib_0.7.0       compiler_4.1.2    pillar_1.9.0     
-[37] jsonlite_1.8.8    httpuv_1.6.11     pkgconfig_2.0.3  </code></pre>
-</div>
-</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -807,8 +522,6 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -846,35 +559,6 @@ $(document).ready(function () {
 });
 </script>
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
