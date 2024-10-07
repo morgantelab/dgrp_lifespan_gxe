@@ -1,0 +1,62 @@
+---
+title: "Prediction of lifespan with different models"
+author: "Fabio Morgante"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  workflowr::wflow_html:
+    toc: true
+editor_options:
+  chunk_output_type: console
+---
+
+```{r set options}
+###Load libraries
+#library(ggplot2)
+#library(cowplot)
+```
+
+## Introduction
+
+The goal of this analysis is to assess the performance of the linear mixed models including genotype only, environment only,
+genotype + environment, genotype + environment + genotype $\times$ environment information at predicting life span in the 
+DGRP.
+
+We used data from [Huang et al. (2020)](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000645), which
+has life span measurements for 176 lines at 3 temperatures (18C, 25C, 28C) for the 2 sexes. In this work, we used both temperature 
+and sex as environmental variables.
+
+We fitted the following linear mixed models:
+
+* G-BLUP. $y = \mu + g + \epsilon$.
+* E-BLUP. $y = \mu + e + \epsilon$.
+* GE-BLUP. $y = \mu + g + e + \epsilon$.
+* GxE-BLUP. $y = \mu + g + e + ge + \epsilon$.
+
+where 
+$y$ is a $q$-vector of phenotypic observations, 
+$\mu$ is an $q$-vector of intercept values, 
+$g$ is a $q$-vector of additive genetic values, $g \sim N_q(\mathbf O, \mathbf{ZGZ^\intercal} \sigma^2_g)$, 
+$\mathbf Z$ is a $q \times n$ incidence matrix, 
+$\mathbf G$ is a $n \times n$ genomic relationship matrix (GRM), 
+$e$ is a $q$-vector of environmental values, $e \sim N_q(\mathbf O, \mathbf{E} \sigma^2_e)$, 
+$\mathbf E$ is a $q \times q$  matrix of similarity based on environmental variables, computed as 
+$\mathbf E = \mathbf{XX}^\intercal$, 
+$\mathbf X$ is a $q \times c$ matrix of environmental measurements,
+$ge \sim N_q(\mathbf O, \mathbf{ZGZ^\intercal \circ E} \sigma^2_{ge})$,
+$\epsilon$ is a $q$-vector of residual values, $\epsilon \sim N_q(\mathbf O, \mathbf{I} \sigma^2_\epsilon)$.
+
+These models were fitted using a Bayesian approach as implemented in the $\sf BGLR$ package.
+
+We used different cross-validation schemes:
+
+* We assigned 20\% of the *observations* (i.e., combination of line, sex and temperature) to the test set randomly. This
+procedure was repeated 20 times.
+* We assigned 20\% of the *lines* (i.e., for the 2 sexes and the 3 temperatures) to the test set randomly. This
+procedure was repeated 20 times.
+
+Prediction accuracy was evaluated as the correlation coefficient between observed and predicted phenotypes.
+
+20 replicates for each simulation scenario were run.
+
+## Random observations scenario
+
