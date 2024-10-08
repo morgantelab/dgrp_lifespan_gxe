@@ -11,7 +11,7 @@
 
 <meta name="author" content="Fabio Morgante" />
 
-<meta name="date" content="2024-10-07" />
+<meta name="date" content="2024-10-08" />
 
 <title>Prediction of lifespan with different models</title>
 
@@ -374,7 +374,7 @@ div.tocify {
 <h1 class="title toc-ignore">Prediction of lifespan with different
 models</h1>
 <h4 class="author">Fabio Morgante</h4>
-<h4 class="date">October 07, 2024</h4>
+<h4 class="date">October 08, 2024</h4>
 
 </div>
 
@@ -403,7 +403,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-10-07
+<strong>Last updated:</strong> 2024-10-08
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -534,15 +534,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree59252bf4b0004fd5fbd9c542ab13f74508bf867ctargetblank59252bfa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreec8ba048dc486d5f5676db1fc08b6b1d5fdca2895targetblankc8ba048a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/59252bf4b0004fd5fbd9c542ab13f74508bf867c" target="_blank">59252bf</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/c8ba048dc486d5f5676db1fc08b6b1d5fdca2895" target="_blank">c8ba048</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree59252bf4b0004fd5fbd9c542ab13f74508bf867ctargetblank59252bfa"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreec8ba048dc486d5f5676db1fc08b6b1d5fdca2895targetblankc8ba048a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -552,7 +552,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/59252bf4b0004fd5fbd9c542ab13f74508bf867c" target="_blank">59252bf</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/c8ba048dc486d5f5676db1fc08b6b1d5fdca2895" target="_blank">c8ba048</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -577,7 +577,8 @@ Ignored files:
     Ignored:    slurm/
 
 Unstaged changes:
-    Modified:   analysis/_site.yml
+    Modified:   dgrp_lifespan_gxe.yaml
+    Modified:   dgrp_lifespan_gxe_snakefile
 
 </code></pre>
 <p>
@@ -624,6 +625,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/c8ba048dc486d5f5676db1fc08b6b1d5fdca2895/analysis/dgrp_lifespan_gxe_initial_results.Rmd" target="_blank">c8ba048</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-08
+</td>
+<td>
+Add results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/961ad49363e678198bb8db067f87952b7c9b7455/docs/dgrp_lifespan_gxe_initial_results.html" target="_blank">961ad49</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -683,8 +718,19 @@ Add description of the analyses
 </div>
 </div>
 <pre class="r"><code>###Load libraries
-#library(ggplot2)
-#library(cowplot)</code></pre>
+library(ggplot2)
+library(cowplot)
+library(dplyr)</code></pre>
+<pre><code>
+Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    filter, lag</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>prefix &lt;- &quot;dgrp_lifespan_gxe&quot;
+n_reps &lt;- 20</code></pre>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>The goal of this analysis is to assess the performance of the linear
@@ -695,20 +741,24 @@ predicting life span in the DGRP.</p>
 <p>We used data from <a
 href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000645">Huang
 et al. (2020)</a>, which has life span measurements for 176 lines at 3
-temperatures (18C, 25C, 28C) for the 2 sexes. In this work, we used both
-temperature and sex as environmental variables.</p>
+temperatures (18C, 25C, 28C) for the 2 sexes (coded as 1=females and
+0=males). The authors showed that there is extensive <span
+class="math inline">\(G \times E\)</span> affecting life span. In the
+present work, we used both temperature and sex as environmental
+variables.</p>
 <p>We fitted the following linear mixed models:</p>
 <ul>
-<li>G-BLUP. <span class="math inline">\(y = \mu + g +
+<li>G-BLUP – <span class="math inline">\(y = \mu + g +
 \epsilon\)</span>.</li>
-<li>E-BLUP. <span class="math inline">\(y = \mu + e +
+<li>E-BLUP – <span class="math inline">\(y = \mu + e +
 \epsilon\)</span>.</li>
-<li>GE-BLUP. <span class="math inline">\(y = \mu + g + e +
+<li>GE-BLUP – <span class="math inline">\(y = \mu + g + e +
 \epsilon\)</span>.</li>
-<li>GxE-BLUP. <span class="math inline">\(y = \mu + g + e + ge +
+<li>GxE-BLUP – <span class="math inline">\(y = \mu + g + e + ge +
 \epsilon\)</span>.</li>
 </ul>
-<p>where <span class="math inline">\(y\)</span> is a <span
+<p>where</p>
+<p><span class="math inline">\(y\)</span> is a <span
 class="math inline">\(q\)</span>-vector of phenotypic observations,
 <span class="math inline">\(\mu\)</span> is a <span
 class="math inline">\(q\)</span>-vector of intercept values, <span
@@ -734,22 +784,204 @@ class="math inline">\(\epsilon\)</span> is a <span
 class="math inline">\(q\)</span>-vector of residual values, <span
 class="math inline">\(\epsilon \sim N_q(\mathbf O, \mathbf{I}
 \sigma^2_\epsilon)\)</span>.</p>
-<p>These models were fitted using a Bayesian approach as implemented in
-the <span class="math inline">\(\sf BGLR\)</span> package.</p>
+<p>These models were fitted in the training set using a Bayesian
+approach as implemented in the <span class="math inline">\(\sf
+BGLR\)</span> package.</p>
 <p>We used different cross-validation schemes:</p>
 <ul>
-<li>We assigned 20% of the <em>observations</em> (i.e., combination of
-line, sex and temperature) to the test set randomly. This procedure was
-repeated 20 times.</li>
-<li>We assigned 20% of the <em>lines</em> (i.e., for the 2 sexes and the
-3 temperatures) to the test set randomly. This procedure was repeated 20
-times.</li>
+<li><em>Random within environment scenario</em>. We assigned 20% of the
+<em>lines</em> to the test set randomly and analyzed each
+sex/temperature combination separately using the standard GBLUP model.
+This procedure was repeated 20 times.</li>
+<li><em>Random lines scenario</em>. We assigned 20% of the
+<em>lines</em> (i.e., for the 2 sexes and the 3 temperatures) to the
+test set randomly, and analyzed the sex/temperature combinations jointly
+with the models above. The peculiarity of this scenario is that the
+lines in the test set are not represented at all in the training set.
+This procedure was repeated 20 times.</li>
+<li><em>Random observations scenario</em>. We assigned 20% of the
+<em>observations</em> (i.e., combination of line, sex and temperature)
+to the test set randomly, and analyzed the sex/temperature combinations
+jointly with the models above. The peculiarity of this scenario is that
+all the lines, sexes and temperatures are represented in the training
+set. This procedure was repeated 20 times.</li>
 </ul>
 <p>Prediction accuracy was evaluated as the correlation coefficient
-between observed and predicted phenotypes.</p>
+between observed and predicted phenotypes in the test set.</p>
 </div>
-<div id="random-observations-scenario" class="section level2">
-<h2>Random observations scenario</h2>
+<div id="results" class="section level2">
+<h2>Results</h2>
+<div id="random-within-environment-scenario" class="section level3">
+<h3>Random within environment scenario</h3>
+<p>This is the baseline scenario, where we acknowldege that the genetic
+architecture of life span is different across environments and we
+analyze them separately using G-BLUP.</p>
+<pre class="r"><code>sex &lt;- c(1, 0)
+temp &lt;- c(18,25,28)
+model &lt;- &quot;G&quot;
+
+
+i &lt;- 0
+
+n_col &lt;- 6
+n_row &lt;- n_reps * length(sex) * length(temp) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;sex&quot;, &quot;temp&quot;, &quot;model&quot;, &quot;r&quot;, &quot;env&quot;)
+
+for(s in sex){
+  for(t in temp){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/G_fit/&quot;, prefix, &quot;_random_within_env_&quot;, s, &quot;_&quot;, t, &quot;_G_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+      
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- s
+      res[i, 3] &lt;- t
+      res[i, 4] &lt;- model
+      res[i, 5] &lt;- cor(dat$y_test, dat$yhat_test)
+      res[i, 6] &lt;- paste0(s, &quot;_&quot;, t)
+    }
+  }
+}
+
+res &lt;- transform(res, env=as.factor(env))
+
+p &lt;- ggplot(res, aes(x = env, y = r)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  labs(x = &quot;Environment&quot;, y = expression(italic(r)), title=&quot;&quot;) +
+  theme_cowplot(font_size = 18)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_initial_results.Rmd/random%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(env) %&gt;% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>   env     mean_r        se_r
+1 0_18 0.04223327 0.007007738
+2 0_25 0.23519782 0.008377354
+3 0_28 0.06550124 0.007505677
+4 1_18 0.19370201 0.005908819
+5 1_25 0.18811712 0.009835346
+6 1_28 0.09081538 0.006253045</code></pre>
+<p>The results show that prediction accuracy varies across environments
+and is generally low.</p>
+</div>
+<div id="random-lines-scenario" class="section level3">
+<h3>Random lines scenario</h3>
+<p>In this scenario, we combine the data across environments and fit the
+different models.</p>
+<pre class="r"><code>schemes &lt;- &quot;random_lines&quot;
+model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
+
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, sche, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- cor(dat$y_test, dat$yhat_test)
+    }
+  }
+}
+
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(r)), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_initial_results.Rmd/random%20lines-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>  model     mean_r         se_r
+1     E 0.84800421 0.0009316177
+2     G 0.07329524 0.0027000729
+3 GandE 0.85035425 0.0008718673
+4   GxE 0.84866235 0.0008764310</code></pre>
+<p>The results show that G-BLUP performs poorly. This is expected
+because we are making the implicit assumption that genetic effects are
+equal across environments, which is not the case. E-BLUP does very well
+in this scenario because when combining the data across environments, a
+lot of the variance is explained by the environmental effects, which we
+have good power to estimate. GE-BLUP and GxE-BLUP give very similar
+accuracy to E-BLUP. This is not surprising since some lines are not in
+the training set, so the training-test transfer of information happens
+mostly at the environment level.</p>
+</div>
+<div id="random-observations-scenario" class="section level3">
+<h3>Random observations scenario</h3>
+<p>In this scenario, every line and environment is potentially
+represented in the training set. It is specific combinations of lines
+and environments (e.g., line_101 in females at 18C) that are not seen in
+the training set. This is the scenario where we expect an advantage from
+using models with both genotype and environment information because the
+training-test transfer of information happens at every level</p>
+<pre class="r"><code>schemes &lt;- &quot;random_obs&quot;
+model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
+
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, sche, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- cor(dat$y_test, dat$yhat_test)
+    }
+  }
+}
+
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(r)), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_initial_results.Rmd/random%20obs-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>  model      mean_r         se_r
+1     E  0.85059324 0.0008514498
+2     G -0.05020698 0.0020449403
+3 GandE  0.89771700 0.0006102571
+4   GxE  0.91579303 0.0005706425</code></pre>
+<p>The results show that, as expected, GE-BLUP improves prediction
+accuracy over E-BLUP. GxE-BLUP achieves the highest prediction
+accuracy.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -777,17 +1009,24 @@ locale:
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
+other attached packages:
+[1] dplyr_1.1.4   cowplot_1.1.3 ggplot2_3.5.1
+
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.13       rstudioapi_0.16.0 whisker_0.4.1     knitr_1.47       
- [5] magrittr_2.0.3    workflowr_1.7.0   R6_2.5.1          rlang_1.1.4      
- [9] fastmap_1.2.0     fansi_1.0.6       stringr_1.5.1     tools_4.1.2      
-[13] xfun_0.44         utf8_1.2.4        cli_3.6.2         git2r_0.32.0     
-[17] jquerylib_0.1.4   htmltools_0.5.8.1 rprojroot_2.0.4   yaml_2.3.8       
-[21] digest_0.6.35     tibble_3.2.1      lifecycle_1.0.4   later_1.3.2      
-[25] sass_0.4.9        vctrs_0.6.5       fs_1.6.4          promises_1.3.0   
-[29] cachem_1.1.0      glue_1.7.0        evaluate_0.23     rmarkdown_2.27   
-[33] stringi_1.8.4     bslib_0.7.0       compiler_4.1.2    pillar_1.9.0     
-[37] jsonlite_1.8.8    httpuv_1.6.11     pkgconfig_2.0.3  </code></pre>
+ [1] Rcpp_1.0.13       highr_0.11        pillar_1.9.0      compiler_4.1.2   
+ [5] bslib_0.7.0       later_1.3.2       jquerylib_0.1.4   git2r_0.32.0     
+ [9] workflowr_1.7.0   tools_4.1.2       digest_0.6.35     gtable_0.3.5     
+[13] jsonlite_1.8.8    evaluate_0.23     lifecycle_1.0.4   tibble_3.2.1     
+[17] pkgconfig_2.0.3   rlang_1.1.4       cli_3.6.2         rstudioapi_0.16.0
+[21] yaml_2.3.8        xfun_0.44         fastmap_1.2.0     withr_3.0.0      
+[25] stringr_1.5.1     knitr_1.47        generics_0.1.3    fs_1.6.4         
+[29] vctrs_0.6.5       sass_0.4.9        tidyselect_1.2.1  rprojroot_2.0.4  
+[33] grid_4.1.2        glue_1.7.0        R6_2.5.1          fansi_1.0.6      
+[37] rmarkdown_2.27    farver_2.1.2      magrittr_2.0.3    whisker_0.4.1    
+[41] scales_1.3.0      promises_1.3.0    htmltools_0.5.8.1 colorspace_2.1-0 
+[45] httpuv_1.6.11     labeling_0.4.3    utf8_1.2.4        stringi_1.8.4    
+[49] munsell_0.5.1     cachem_1.1.0     </code></pre>
+</div>
 </div>
 </div>
 
