@@ -15,8 +15,8 @@ mamba activate dgrp_lifespan_gxe
 #--dag | display | dot
 #-p -n \
 ## test dag generation
-#snakemake -p -n -s dgrp_lifespan_gxe_snakefile \
-#         --configfile dgrp_lifespan_gxe.yaml
+# snakemake -p -n -s dgrp_lifespan_gxe_snakefile \
+#          --configfile dgrp_lifespan_gxe.yaml
            #--rerun-triggers mtime \
 
 snakemake \
