@@ -26,9 +26,10 @@ genotype + environment, genotype + environment + genotype $\times$ environment i
 DGRP.
 
 We used data from [Huang et al. (2020)](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000645), which
-has life span measurements for 176 lines at 3 temperatures (18C, 25C, 28C) for the 2 sexes (coded as 1=females and 0=males). 
+has life span measurements for $n=176$ lines at 3 temperatures (18C, 25C, 28C) for the 2 sexes (coded as 1=females and 0=males), 
+which results in $q=1,056$ observations. 
 The authors showed that there is extensive $G \times E$ affecting life span. In the present work, we used both temperature 
-and sex as environmental variables.
+and sex as $c=2$ environmental variables, for a total of $r=6$ environments.
 
 We fitted the following linear mixed models:
 
