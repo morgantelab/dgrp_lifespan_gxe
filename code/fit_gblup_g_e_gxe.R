@@ -51,12 +51,14 @@ if(model!="E"){
 }
 
 ###Create E
-X <- dat[, c("temp", "sex")]
-We <- scale(X)
-E <- tcrossprod(We)
-E <- E/mean(diag(E))
+if(model!="G"){
+  X <- dat[, c("temp", "sex")]
+  We <- scale(X)
+  E <- tcrossprod(We)
+  E <- E/mean(diag(E))
+}
 
-
+###Set up linear predictor for BGLR
 if(model=="G"){
   
   ETA <- list(G=list(K=ZGZ,model="RKHS"))
