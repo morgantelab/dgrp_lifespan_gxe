@@ -1,6 +1,6 @@
 WORKDIR: "/data2/morgante_lab/fabiom/dgrp_lifespan_gxe"
 CODE_DIR: "/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/code"
-SCRATCH: "/scratch1/fabiom/tmp/"
+SCRATCH: "/scratch1/fabiom/tmp"
 PHENO_FILE: "/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/data/pheno_env.rds"
 GENO_PLINK_FILE: "/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/data/dgrp_lifespan_gxe_filt_geno"
 PREFIX: "dgrp_lifespan_gxe"
