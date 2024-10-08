@@ -44,6 +44,15 @@ if(cv_scheme == "random_obs"){
     test_sets[[i]] <- dat$obs_id[which(dat$line_id %in% test_lines_ids)]
   }
   
-} 
+} else if(cv_scheme == "random_within_env"){
+  lines_ids <- unique(dat$line_id)
+  
+  n <- length(lines_ids)
+  test_sets <- vector("list", n_reps)
+  
+  for(i in 1:n_reps){
+    test_sets[[i]] <- sample(x=lines_ids, size=round(n*test_set_prop))
+  }
+}
 
 saveRDS(test_sets, file=output)
