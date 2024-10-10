@@ -12,8 +12,11 @@ rule all:
 	  expand(config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_test_sets.rds", CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"]),
 	  expand(config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_random_within_env_{SEX}_{TEMP}_test_sets.rds", SEX=config["SEX"], TEMP=config["TEMP"]),
 		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_{MODEL_GBLUP}_fit_{REP_REPS}.rds", MODEL_GBLUP=config["MODEL_GBLUP"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], REP_REPS=config["REP_REPS"]),
-		expand(config["WORKDIR"]+"/"+"output/G_fit/"+config["PREFIX"]+"_random_within_env_{SEX}_{TEMP}_G_fit_{REP_REPS}.rds", SEX=config["SEX"], TEMP=config["TEMP"], REP_REPS=config["REP_REPS"])
-		
+		expand(config["WORKDIR"]+"/"+"output/G_fit/"+config["PREFIX"]+"_random_within_env_{SEX}_{TEMP}_G_fit_{REP_REPS}.rds", SEX=config["SEX"], TEMP=config["TEMP"], REP_REPS=config["REP_REPS"]),
+		expand(config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SEX}_trm.rds", SEX=config["SEX"]),
+		expand(config["WORKDIR"]+"/data/pheno_env_{SEX}.rds", SEX=config["SEX"]),
+		expand(config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_{SEX}_test_sets.rds", CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], SEX=config["SEX"]),
+		expand(config["WORKDIR"]+"/"+"output/{MODEL_TBLUP}_fit/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_{SEX}_{MODEL_TBLUP}_fit_{REP_REPS}.rds", MODEL_TBLUP=config["MODEL_TBLUP"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], SEX=config["SEX"], REP_REPS=config["REP_REPS"])
 		
 
 rule compute_grm:
@@ -232,6 +235,147 @@ rule fit_gblup_reps_within_env:
 		                      --rep {params.REP} \
 		                      --sex {params.SEX} \
 		                      --temp {params.TEMP} \
+		                      --R2 {params.R2} \
+		                      --niter {params.NITER} \
+		                      --nburn {params.NBURNIN} \
+		                      --thin {params.THIN} \
+		                      --verbose {params.VERB} \
+		                      --intermediate_file {params.TMP} \
+		                      --seed {params.SEED} \
+		                      --output_file {output}
+
+		mamba deactivate
+		"""
+
+
+rule compute_trm:
+	input:
+		EXP=config["WORKDIR"]+"/data/combined_samples_known_novel_fpkm_VR_NoWol_{SEX}_line_means_rename_noflag_transp_common.txt",
+		LINES=config["WORKDIR"]+"/data/lines_kept.txt"
+	output:
+		config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SEX}_trm.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"compute_trm.R",
+		CPU="4"
+	resources: cpus=4, mem_mb=5000, time_min=30
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --expression {input.EXP} \
+		                      --lines_to_keep {input.LINES} \
+		                      --output {output}
+
+		mamba deactivate
+		"""
+
+
+rule split_pheno_env_data_by_sex:
+	input:
+		PHENO=config["WORKDIR"]+"/data/pheno_env.rds",
+		TRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SEX}_trm.rds"
+	output:
+		config["WORKDIR"]+"/data/pheno_env_{SEX}.rds",
+	params:
+		CODE=config["CODE_DIR"]+"/"+"split_pheno_env_data_by_sex.R",
+		SEX="{SEX}",
+		CPU="1"
+	resources: cpus=1, mem_mb=1000, time_min=30
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --pheno {input.PHENO} \
+		                      --trm {input.TRM} \
+		                      --sex {params.SEX} \
+		                      --output {output}
+
+		mamba deactivate
+		"""
+
+
+rule create_test_sets_by_sex:
+	input:
+		config["WORKDIR"]+"/data/pheno_env_{SEX}.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_{SEX}_test_sets.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"create_test_sets.R",
+		CV_SCENARIO="{CV_SCENARIO_REPS}",
+		N_REPS=config["N_REPS"],
+		TEST_PROP=config["TEST_SET_PROP_REPS"],
+		SEED=config["SEED_REPS"],
+		CPU="1"
+	resources: cpus=1, mem_mb=1000, time_min=30
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --pheno {input} \
+		                      --cv_scheme {params.CV_SCENARIO} \
+		                      --n_reps {params.N_REPS} \
+		                      --test_set_prop {params.TEST_PROP} \
+		                      --seed {params.SEED} \
+		                      --output {output}
+
+		mamba deactivate
+		"""
+
+
+rule fit_tblup_reps:
+	input:
+		PHENO=config["WORKDIR"]+"/data/pheno_env_{SEX}.rds",
+		TRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SEX}_trm.rds",
+		CV=config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_{SEX}_test_sets.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/{MODEL_TBLUP}_fit/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_{SEX}_{MODEL_TBLUP}_fit_{REP_REPS}.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"fit_tblup_t_e_txe.R",
+		N_REPS=config["N_REPS"],
+		REP="{REP_REPS}",
+		MODEL="{MODEL_TBLUP}",
+		R2=config["R2_TBLUP"],
+		NITER=config["NITER_TBLUP"],
+		NBURNIN=config["NBURNIN_TBLUP"],
+		THIN=config["THIN_TBLUP"],
+		VERB=config["VERBOSE_TBLUP"],
+		SEED=config["SEED_TBLUP"],
+		TMP=config["SCRATCH"]+"/BGLR_1/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_{SEX}_{MODEL_TBLUP}_{REP_REPS}_",
+		CPU="1"
+	resources: cpus=1, mem_mb=4000, time_min=60
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --trm_file {input.TRM} \
+		                      --pheno_file {input.PHENO} \
+		                      --cv_file {input.CV} \
+		                      --rep {params.REP} \
+		                      --model {params.MODEL} \
 		                      --R2 {params.R2} \
 		                      --niter {params.NITER} \
 		                      --nburn {params.NBURNIN} \
