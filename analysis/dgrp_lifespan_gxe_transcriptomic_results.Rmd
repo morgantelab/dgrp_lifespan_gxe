@@ -1,0 +1,394 @@
+---
+title: "Prediction of life span with different models"
+author: "Fabio Morgante"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  workflowr::wflow_html:
+    toc: true
+editor_options:
+  chunk_output_type: console
+---
+
+```{r set options, message=FALSE}
+###Load libraries
+library(ggplot2)
+library(cowplot)
+library(dplyr)
+
+prefix <- "dgrp_lifespan_gxe"
+n_reps <- 20
+```
+
+## Introduction
+
+The goal of this analysis is to assess the performance of the linear mixed models including gene expression only, environment only,
+gene expression + environment, gene expression + environment + gene expression $\times$ environment information at predicting life span in the 
+DGRP.
+
+We used data from [Huang et al. (2020)](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000645), which
+has life span measurements for $n=176$ lines at 3 temperatures (18C, 25C, 28C) for the 2 sexes (coded as 1=females and 0=males), 
+which results in $q=1,056$ observations. 
+The authors showed that there is extensive $G \times E$ affecting life span. In this analysis, we used both temperature 
+as the environmental variable, since the transcriptome is different across sexes.
+
+We fitted the following linear mixed models:
+
+* T-BLUP -- $y = \mu + t + \epsilon$.
+* E-BLUP -- $y = \mu + e + \epsilon$.
+* TE-BLUP -- $y = \mu + t + e + \epsilon$.
+* TxE-BLUP -- $y = \mu + t + e + te + \epsilon$.
+
+where
+
+$y$ is a $q$-vector of phenotypic observations, 
+$\mu$ is a $q$-vector of intercept values, 
+$t$ is a $q$-vector of  transcriptomic values, $t \sim N_q(\mathbf O, \mathbf{ZTZ^\intercal} \sigma^2_t)$, 
+$\mathbf Z$ is a $q \times n$ incidence matrix, 
+$\mathbf T$ is a $n \times n$ transcriptomic relationship matrix (TRM), 
+$e$ is a $q$-vector of environmental values, $e \sim N_q(\mathbf O, \mathbf{E} \sigma^2_e)$, 
+$\mathbf E$ is a $q \times q$  matrix of similarity based on environmental variables, computed as 
+$\mathbf E = \mathbf{XX}^\intercal$, 
+$\mathbf X$ is a $q \times c$ matrix of environmental measurements,
+$te \sim N_q(\mathbf O, \mathbf{ZTZ^\intercal \circ E} \sigma^2_{te})$,
+$\epsilon$ is a $q$-vector of residual values, $\epsilon \sim N_q(\mathbf O, \mathbf{I} \sigma^2_\epsilon)$.
+
+These models were fitted in the training set using a Bayesian approach as implemented in the $\sf BGLR$ package.
+
+We used different cross-validation schemes:
+
+* _Random within environment scenario_. We assigned 20\% of the *lines* to the test set randomly and analyzed each sex/temperature 
+combination separately using the standard GBLUP model. This procedure was repeated 20 times.
+* _Random lines scenario_. We assigned 20\% of the *lines* (i.e., for the 2 sexes and the 3 temperatures) to the test set randomly, 
+and analyzed the sex/temperature combinations jointly with the models above. The peculiarity of this scenario is that the lines in 
+the test set are not represented at all in the training set. This procedure was repeated 20 times.
+* _Random observations scenario_. We assigned 20\% of the *observations* (i.e., combination of line, sex and temperature) to 
+the test set randomly, and analyzed the sex/temperature combinations jointly with the models above. The peculiarity of this 
+scenario is that all the lines, sexes and temperatures are represented in the training set. This procedure was repeated 20 times.
+
+Prediction accuracy was evaluated as the correlation coefficient between observed and predicted phenotypes in the test set. The two sexes were analyzed separately.
+
+## Results
+
+### Females
+
+#### Random within environment scenario
+
+This is the baseline scenario, where we acknowldege that the genetic architecture of life span is different across environments and we
+analyze them separately using T-BLUP.
+
+```{r random within env females, fig.height=10, fig.width=13}
+sex <- 1
+temp <- c(18,25,28)
+model <- "T"
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(temp) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "temp", "model", "r")
+
+  for(t in temp){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/T_fit/", prefix, "_random_within_env_", sex, "_", t, "_T_fit_", repp, ".rds"))
+      i <- i + 1
+      
+      res[i, 1] <- repp
+      res[i, 2] <- t
+      res[i, 3] <- model
+      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+    }
+  }
+
+res <- transform(res, temp=as.factor(temp))
+
+p <- ggplot(res, aes(x = temp, y = r)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  labs(x = "Environment", y = expression(italic(r)), title="") +
+  theme_cowplot(font_size = 18)
+
+print(p)
+
+res %>% group_by(temp) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+```
+
+The results show that prediction accuracy varies across environments and is higher than using [genotypes](dgrp_lifespan_gxe_genomic_results.html).
+
+
+#### Random lines scenario
+
+In this scenario, we combine the data across environments and fit the different models.
+
+```{r random lines females, fig.height=10, fig.width=13}
+sex <- 1
+schemes <- "random_lines"
+model <- c("T", "Et", "TandE", "TxE")
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+    }
+  }
+}
+
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
+  labs(x = "Model", y = expression(italic(r)), title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+```
+
+The results show that T-BLUP performs poorly. This is expected because we are making the implicit assumption that transcriptomic
+effects are equal across environments, which is not the case. E-BLUP does very well in this scenario because when combining 
+the data across environments, a lot of the variance is explained by the environmental effects, which we have good power to 
+estimate. TxE-BLUP gives marginally higher accuracy than TE-BLUP, which gives marginally higher accuracy than E-BLUP, although
+these accuracies are very similar.
+
+#### Random observations scenario
+
+In this scenario, every line and environment is potentially represented in the training set. It is specific combinations of
+lines and environments (e.g., line_101 at 18C) that are not seen in the training set. This is the scenario 
+where we expect an advantage from using models with both gene expression and environment information because the training-test 
+transfer of information happens at every level.
+
+```{r random obs females, fig.height=10, fig.width=13}
+sex <- 1
+schemes <- "random_obs"
+model <- c("T", "Et", "TandE", "TxE")
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+    }
+  }
+}
+
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
+  labs(x = "Model", y = expression(italic(r)), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+```
+
+The results show a similar pattern to the previous scenario. However, TE-BLUP and TxE-BLUP achieve marginally higher accuracies than 
+in the previous scenario, due to the full training-test transfer of information. 
+
+
+### Males
+
+#### Random within environment scenario
+
+This is the baseline scenario, where we acknowldege that the genetic architecture of life span is different across environments and we
+analyze them separately using T-BLUP.
+
+```{r random within env males, fig.height=10, fig.width=13}
+sex <- 0
+temp <- c(18,25,28)
+model <- "T"
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(temp) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "temp", "model", "r")
+
+  for(t in temp){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/T_fit/", prefix, "_random_within_env_", sex, "_", t, "_T_fit_", repp, ".rds"))
+      i <- i + 1
+      
+      res[i, 1] <- repp
+      res[i, 2] <- t
+      res[i, 3] <- model
+      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+    }
+  }
+
+res <- transform(res, temp=as.factor(temp))
+
+p <- ggplot(res, aes(x = temp, y = r)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  labs(x = "Environment", y = expression(italic(r)), title="") +
+  theme_cowplot(font_size = 18)
+
+print(p)
+
+res %>% group_by(temp) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+```
+
+The results show that prediction accuracy is pretty similar across environments.
+
+
+#### Random lines scenario
+
+In this scenario, we combine the data across environments and fit the different models.
+
+```{r random lines males, fig.height=10, fig.width=13}
+sex <- 0
+schemes <- "random_lines"
+model <- c("T", "Et", "TandE", "TxE")
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+    }
+  }
+}
+
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
+  labs(x = "Model", y = expression(italic(r)), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+```
+
+The results show that T-BLUP performs poorly. This is expected because we are making the implicit assumption that transcriptomic
+effects are equal across environments, which is not the case. E-BLUP does very well in this scenario because when combining 
+the data across environments, a lot of the variance is explained by the environmental effects, which we have good power to 
+estimate. TE-BLUP and TxE-BLUP give marginally higher accuracy than E-BLUP, although these accuracies are very similar.
+
+#### Random observations scenario
+
+In this scenario, every line and environment is potentially represented in the training set. It is specific combinations of
+lines and environments (e.g., line_101 in females at 18C) that are not seen in the training set. This is the scenario 
+where we expect an advantage from using models with both gene expression and environment information because the training-test 
+transfer of information happens at every level
+
+```{r random obs males, fig.height=10, fig.width=13}
+sex <- 0
+schemes <- "random_obs"
+model <- c("T", "Et", "TandE", "TxE")
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+    }
+  }
+}
+
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
+  labs(x = "Model", y = expression(italic(r)), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+```
+
+The results show a similar pattern to the previous scenario. However, the difference between (TE-BLUP, TxE-BLUP) and E-BLUP is larger than 
+in the previous scenario, due to the full training-test transfer of information.

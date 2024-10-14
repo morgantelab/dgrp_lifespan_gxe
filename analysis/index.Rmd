@@ -11,4 +11,5 @@ editor_options:
 This website includes analyses to assess gene-environment interactions ($G \times E$) on lifespan in the *Drosophila*
 Genetic Reference Panel (DGRP).
 
-+ [Initial analysis.](dgrp_lifespan_gxe_initial_results.html)
++ [Genomic prediction.](dgrp_lifespan_gxe_genomic_results.html)
++ [Transcriptomic prediction.](dgrp_lifespan_gxe_transcriptomic_results.html)
