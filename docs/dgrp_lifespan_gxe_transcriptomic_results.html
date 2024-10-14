@@ -13,7 +13,7 @@
 
 <meta name="date" content="2024-10-14" />
 
-<title>Prediction of life span with different models</title>
+<title>Transcriptomic prediction of life span with different models</title>
 
 <script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -371,8 +371,8 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Prediction of life span with different
-models</h1>
+<h1 class="title toc-ignore">Transcriptomic prediction of life span with
+different models</h1>
 <h4 class="author">Fabio Morgante</h4>
 <h4 class="date">October 14, 2024</h4>
 
@@ -534,15 +534,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree24fb66c0b6810d35bbd8eb641186407bf7d2abd0targetblank24fb66ca">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree4e3e612fed582fc8a5899e97a606e92f598b4343targetblank4e3e612a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/24fb66c0b6810d35bbd8eb641186407bf7d2abd0" target="_blank">24fb66c</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/4e3e612fed582fc8a5899e97a606e92f598b4343" target="_blank">4e3e612</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree24fb66c0b6810d35bbd8eb641186407bf7d2abd0targetblank24fb66ca"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree4e3e612fed582fc8a5899e97a606e92f598b4343targetblank4e3e612a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -552,7 +552,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/24fb66c0b6810d35bbd8eb641186407bf7d2abd0" target="_blank">24fb66c</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/4e3e612fed582fc8a5899e97a606e92f598b4343" target="_blank">4e3e612</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -579,13 +579,6 @@ Ignored files:
     Ignored:    output/test_sets/
     Ignored:    run/
     Ignored:    slurm/
-
-Untracked files:
-    Untracked:  code/fit_tblup_t_within_env.R
-
-Unstaged changes:
-    Deleted:    analysis/dgrp_lifespan_gxe_initial_results.Rmd
-    Modified:   dgrp_lifespan_gxe_snakefile
 
 </code></pre>
 <p>
@@ -637,6 +630,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/4e3e612fed582fc8a5899e97a606e92f598b4343/analysis/dgrp_lifespan_gxe_transcriptomic_results.Rmd" target="_blank">4e3e612</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-14
+</td>
+<td>
+Minor embellishments
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/dgrp_lifespan_gxe_transcriptomic_results.html" target="_blank">022638e</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-14
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/24fb66c0b6810d35bbd8eb641186407bf7d2abd0/analysis/dgrp_lifespan_gxe_transcriptomic_results.Rmd" target="_blank">24fb66c</a>
 </td>
 <td>
@@ -679,7 +706,10 @@ class="math inline">\(n=176\)</span> lines at 3 temperatures (18C, 25C,
 showed that there is extensive <span class="math inline">\(G \times
 E\)</span> affecting life span. In this analysis, we used both
 temperature as the environmental variable, since the transcriptome is
-different across sexes.</p>
+different across sexes. Transcriptomic data at baseline conditions were
+obtained by <a
+href="https://genome.cshlp.org/content/30/3/485.short">Everett et
+al. (2020)</a>.</p>
 <p>We fitted the following linear mixed models:</p>
 <ul>
 <li>T-BLUP – <span class="math inline">\(y = \mu + t +
@@ -789,6 +819,43 @@ p &lt;- ggplot(res, aes(x = temp, y = r)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20females-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-within-env-females-1">
+Past versions of "random within env females-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-within-env-females-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random within env females-1.png" target="_blank">022638e</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(temp) %&gt;% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  temp    mean_r        se_r
 1   18 0.3202463 0.006705572
@@ -844,6 +911,43 @@ p &lt;- ggplot(res, aes(x = model, y = r, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20females-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-females-1">
+Past versions of "random lines females-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-females-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random lines females-1.png" target="_blank">022638e</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model    mean_r        se_r
 1    Et 0.8484243 0.001252802
@@ -910,6 +1014,43 @@ p &lt;- ggplot(res, aes(x = model, y = r, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20females-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-females-1">
+Past versions of "random obs females-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-females-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random obs females-1.png" target="_blank">022638e</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model     mean_r        se_r
 1    Et  0.8450099 0.001429850
@@ -965,6 +1106,43 @@ p &lt;- ggplot(res, aes(x = temp, y = r)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20males-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-within-env-males-1">
+Past versions of "random within env males-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-within-env-males-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random within env males-1.png" target="_blank">022638e</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(temp) %&gt;% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  temp    mean_r        se_r
 1   18 0.2711625 0.004284594
@@ -1019,6 +1197,43 @@ p &lt;- ggplot(res, aes(x = model, y = r, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20males-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-males-1">
+Past versions of "random lines males-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-males-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random lines males-1.png" target="_blank">022638e</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model    mean_r         se_r
 1    Et 0.8593359 0.0007915789
@@ -1085,6 +1300,43 @@ p &lt;- ggplot(res, aes(x = model, y = r, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20males-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-males-1">
+Past versions of "random obs males-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-males-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random obs males-1.png" target="_blank">022638e</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model     mean_r         se_r
 1    Et  0.8660534 0.0006771890
