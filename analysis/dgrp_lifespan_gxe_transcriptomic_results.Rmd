@@ -1,5 +1,5 @@
 ---
-title: "Prediction of life span with different models"
+title: "Transcriptomic prediction of life span with different models"
 author: "Fabio Morgante"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
@@ -29,7 +29,8 @@ We used data from [Huang et al. (2020)](https://journals.plos.org/plosbiology/ar
 has life span measurements for $n=176$ lines at 3 temperatures (18C, 25C, 28C) for the 2 sexes (coded as 1=females and 0=males), 
 which results in $q=1,056$ observations. 
 The authors showed that there is extensive $G \times E$ affecting life span. In this analysis, we used both temperature 
-as the environmental variable, since the transcriptome is different across sexes.
+as the environmental variable, since the transcriptome is different across sexes. Transcriptomic data at baseline conditions were obtained by
+[Everett et al. (2020)](https://genome.cshlp.org/content/30/3/485.short).
 
 We fitted the following linear mixed models:
 
