@@ -534,15 +534,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree9558bc7af36bf7ad97e5faeeecc24a5ba7e87246targetblank9558bc7a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree1091563f08d32456638eee023d61a2ecf09576eftargetblank1091563a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/9558bc7af36bf7ad97e5faeeecc24a5ba7e87246" target="_blank">9558bc7</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/1091563f08d32456638eee023d61a2ecf09576ef" target="_blank">1091563</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree9558bc7af36bf7ad97e5faeeecc24a5ba7e87246targetblank9558bc7a"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree1091563f08d32456638eee023d61a2ecf09576eftargetblank1091563a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -552,7 +552,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/9558bc7af36bf7ad97e5faeeecc24a5ba7e87246" target="_blank">9558bc7</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/1091563f08d32456638eee023d61a2ecf09576ef" target="_blank">1091563</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -625,6 +625,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/1091563f08d32456638eee023d61a2ecf09576ef/analysis/dgrp_lifespan_gxe_genomic_results.Rmd" target="_blank">1091563</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-15
+</td>
+<td>
+Minor fixes
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/dce17d9d41f5075cccb08dd7584467fb186b8a85/docs/dgrp_lifespan_gxe_genomic_results.html" target="_blank">dce17d9</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-15
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -841,7 +875,7 @@ i &lt;- 0
 n_col &lt;- 6
 n_row &lt;- n_reps * length(sex) * length(temp) * length(model)
 res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) &lt;- c(&quot;rep&quot;, &quot;sex&quot;, &quot;temp&quot;, &quot;model&quot;, &quot;r&quot;, &quot;env&quot;)
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;sex&quot;, &quot;temp&quot;, &quot;model&quot;, &quot;r2&quot;, &quot;env&quot;)
 
 res_var &lt;- as.data.frame(matrix(NA, ncol=n_col+2, nrow=n_row))
 colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;sex&quot;, &quot;temp&quot;, &quot;model&quot;, &quot;VarG&quot;, &quot;VarEps&quot;, &quot;H2&quot;, &quot;env&quot;)
@@ -910,6 +944,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/dce17d9d41f5075cccb08dd7584467fb186b8a85/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env-1.png" target="_blank">dce17d9</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-15
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/8530bb379906a619955b9046e9d54820b473503a/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env-1.png" target="_blank">8530bb3</a>
 </td>
 <td>
@@ -936,7 +981,7 @@ fmorgante
 </div>
 <pre class="r"><code>res &lt;- transform(res, env=as.factor(env))
 
-p &lt;- ggplot(res, aes(x = env, y = r)) +
+p &lt;- ggplot(res, aes(x = env, y = r2)) +
   geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
   stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
                position = position_dodge2(width = 0.87,   
@@ -970,6 +1015,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/dce17d9d41f5075cccb08dd7584467fb186b8a85/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env-2.png" target="_blank">dce17d9</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-15
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/8530bb379906a619955b9046e9d54820b473503a/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env-2.png" target="_blank">8530bb3</a>
 </td>
 <td>
@@ -983,8 +1039,8 @@ fmorgante
 </table>
 </div>
 </div>
-<pre class="r"><code>res %&gt;% group_by(env) %&gt;% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %&gt;% as.data.frame()</code></pre>
-<pre><code>   env     mean_r        se_r
+<pre class="r"><code>res %&gt;% group_by(env) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>   env    mean_r2       se_r2
 1 0_18 0.02044484 0.001325085
 2 0_25 0.08198644 0.003060515
 3 0_28 0.02569779 0.002158930
@@ -1007,7 +1063,7 @@ i &lt;- 0
 n_col &lt;- 4
 n_row &lt;- n_reps * length(schemes) * length(model)
 res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r&quot;)
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
 
 res_var &lt;- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
 colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;VarG&quot;, &quot;VarE&quot;, &quot;VarGxE&quot;, &quot;VarEps&quot;, &quot;VarTot&quot;)
@@ -1132,7 +1188,7 @@ fmorgante
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
 
-p &lt;- ggplot(res, aes(x = model, y = r, fill = model)) +
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
   geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
   stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
                position = position_dodge2(width = 0.87,   
@@ -1168,6 +1224,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/dce17d9d41f5075cccb08dd7584467fb186b8a85/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines-2.png" target="_blank">dce17d9</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-15
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/8530bb379906a619955b9046e9d54820b473503a/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines-2.png" target="_blank">8530bb3</a>
 </td>
 <td>
@@ -1181,8 +1248,8 @@ fmorgante
 </table>
 </div>
 </div>
-<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %&gt;% as.data.frame()</code></pre>
-<pre><code>  model      mean_r         se_r
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>  model     mean_r2         se_r
 1     E 0.719440952 0.0015876075
 2     G 0.008142541 0.0003735195
 3 GandE 0.723391212 0.0014904695
@@ -1214,7 +1281,7 @@ i &lt;- 0
 n_col &lt;- 4
 n_row &lt;- n_reps * length(schemes) * length(model)
 res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r&quot;)
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
 
 res_var &lt;- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
 colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;VarG&quot;, &quot;VarE&quot;, &quot;VarGxE&quot;, &quot;VarEps&quot;, &quot;VarTot&quot;)
@@ -1339,7 +1406,7 @@ fmorgante
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
 
-p &lt;- ggplot(res, aes(x = model, y = r, fill = model)) +
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
   geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
   stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
                position = position_dodge2(width = 0.87,   
@@ -1375,6 +1442,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/dce17d9d41f5075cccb08dd7584467fb186b8a85/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs-2.png" target="_blank">dce17d9</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-15
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/8530bb379906a619955b9046e9d54820b473503a/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs-2.png" target="_blank">8530bb3</a>
 </td>
 <td>
@@ -1388,8 +1466,8 @@ fmorgante
 </table>
 </div>
 </div>
-<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %&gt;% as.data.frame()</code></pre>
-<pre><code>  model      mean_r         se_r
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>  model     mean_r2         se_r
 1     E 0.723784353 0.0014408341
 2     G 0.004109817 0.0002653191
 3 GandE 0.806037325 0.0010898595
