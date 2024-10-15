@@ -86,7 +86,7 @@ i <- 0
 n_col <- 6
 n_row <- n_reps * length(sex) * length(temp) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) <- c("rep", "sex", "temp", "model", "r", "env")
+colnames(res) <- c("rep", "sex", "temp", "model", "r2", "env")
 
 res_var <- as.data.frame(matrix(NA, ncol=n_col+2, nrow=n_row))
 colnames(res_var) <- c("rep", "sex", "temp", "model", "VarG", "VarEps", "H2", "env")
@@ -135,7 +135,7 @@ print(p_var)
 
 res <- transform(res, env=as.factor(env))
 
-p <- ggplot(res, aes(x = env, y = r)) +
+p <- ggplot(res, aes(x = env, y = r2)) +
   geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
   stat_summary(fun=mean, geom="point", shape=23,
                position = position_dodge2(width = 0.87,   
@@ -145,7 +145,7 @@ p <- ggplot(res, aes(x = env, y = r)) +
 
 print(p)
 
-res %>% group_by(env) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+res %>% group_by(env) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 
 ```
 
@@ -165,7 +165,7 @@ i <- 0
 n_col <- 4
 n_row <- n_reps * length(schemes) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) <- c("rep", "scheme", "model", "r")
+colnames(res) <- c("rep", "scheme", "model", "r2")
 
 res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
 colnames(res_var) <- c("rep", "scheme", "model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
@@ -238,7 +238,7 @@ print(p)
 res <- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
 
-p <- ggplot(res, aes(x = model, y = r, fill = model)) +
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
   geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
   stat_summary(fun=mean, geom="point", shape=23,
                position = position_dodge2(width = 0.87,   
@@ -250,7 +250,7 @@ p <- ggplot(res, aes(x = model, y = r, fill = model)) +
 
 print(p)
 
-res %>% group_by(model) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
 The results show that G-BLUP performs poorly. This is expected because we are making the implicit assumption that genetic
@@ -276,7 +276,7 @@ i <- 0
 n_col <- 4
 n_row <- n_reps * length(schemes) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) <- c("rep", "scheme", "model", "r")
+colnames(res) <- c("rep", "scheme", "model", "r2")
 
 res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
 colnames(res_var) <- c("rep", "scheme", "model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
@@ -349,7 +349,7 @@ print(p)
 res <- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
 
-p <- ggplot(res, aes(x = model, y = r, fill = model)) +
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
   geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
   stat_summary(fun=mean, geom="point", shape=23,
                position = position_dodge2(width = 0.87,   
@@ -361,7 +361,7 @@ p <- ggplot(res, aes(x = model, y = r, fill = model)) +
 
 print(p)
 
-res %>% group_by(model) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
 The results show that, as expected, GE-BLUP improves prediction accuracy over E-BLUP. GxE-BLUP achieves the highest
