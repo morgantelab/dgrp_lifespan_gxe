@@ -66,7 +66,7 @@ the test set are not represented at all in the training set. This procedure was 
 the test set randomly, and analyzed the sex/temperature combinations jointly with the models above. The peculiarity of this 
 scenario is that all the lines, sexes and temperatures are represented in the training set. This procedure was repeated 20 times.
 
-Prediction accuracy was evaluated as the correlation coefficient between observed and predicted phenotypes in the test set. The two sexes were analyzed separately.
+Prediction accuracy was evaluated as the $R^2$ of the regression of observed phenotypes on predicted phenotypes in the test set. The two sexes were analyzed separately.
 
 ## Results
 
@@ -88,7 +88,7 @@ i <- 0
 n_col <- 4
 n_row <- n_reps * length(temp) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) <- c("rep", "temp", "model", "r")
+colnames(res) <- c("rep", "temp", "model", "r2")
 
   for(t in temp){
     for(repp in 1:n_reps){
@@ -98,23 +98,23 @@ colnames(res) <- c("rep", "temp", "model", "r")
       res[i, 1] <- repp
       res[i, 2] <- t
       res[i, 3] <- model
-      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
     }
   }
 
 res <- transform(res, temp=as.factor(temp))
 
-p <- ggplot(res, aes(x = temp, y = r)) +
+p <- ggplot(res, aes(x = temp, y = r2)) +
   geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
   stat_summary(fun=mean, geom="point", shape=23,
                position = position_dodge2(width = 0.87,   
                                           preserve = "single")) +
-  labs(x = "Environment", y = expression(italic(r)), title="") +
+  labs(x = "Environment", y = expression(italic(R)^2), title="") +
   theme_cowplot(font_size = 18)
 
 print(p)
 
-res %>% group_by(temp) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+res %>% group_by(temp) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
 The results show that prediction accuracy varies across environments and is higher than using [genotypes](dgrp_lifespan_gxe_genomic_results.html).
@@ -135,7 +135,7 @@ i <- 0
 n_col <- 4
 n_row <- n_reps * length(schemes) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) <- c("rep", "scheme", "model", "r")
+colnames(res) <- c("rep", "scheme", "model", "r2")
 
 for(sche in schemes){
   for(met in model){
@@ -146,7 +146,7 @@ for(sche in schemes){
       res[i, 1] <- repp
       res[i, 2] <- sche
       res[i, 3] <- met
-      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
     }
   }
 }
@@ -154,20 +154,20 @@ for(sche in schemes){
 res <- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
 
-p <- ggplot(res, aes(x = model, y = r, fill = model)) +
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
   geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
   stat_summary(fun=mean, geom="point", shape=23,
                position = position_dodge2(width = 0.87,   
                                           preserve = "single")) +
   scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
   scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
-  labs(x = "Model", y = expression(italic(r)), title="") +
+  labs(x = "Model", y = expression(italic(R)^2), title="") +
   theme_cowplot(font_size = 18) +
   theme(legend.position="none")
 
 print(p)
 
-res %>% group_by(model) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
 The results show that T-BLUP performs poorly. This is expected because we are making the implicit assumption that transcriptomic
@@ -194,7 +194,7 @@ i <- 0
 n_col <- 4
 n_row <- n_reps * length(schemes) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) <- c("rep", "scheme", "model", "r")
+colnames(res) <- c("rep", "scheme", "model", "r2")
 
 for(sche in schemes){
   for(met in model){
@@ -205,7 +205,7 @@ for(sche in schemes){
       res[i, 1] <- repp
       res[i, 2] <- sche
       res[i, 3] <- met
-      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
     }
   }
 }
@@ -213,20 +213,20 @@ for(sche in schemes){
 res <- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
 
-p <- ggplot(res, aes(x = model, y = r, fill = model)) +
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
   geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
   stat_summary(fun=mean, geom="point", shape=23,
                position = position_dodge2(width = 0.87,   
                                           preserve = "single")) +
   scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
   scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
-  labs(x = "Model", y = expression(italic(r)), fill="Method", title="") +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
   theme_cowplot(font_size = 18) +
   theme(legend.position="none")
 
 print(p)
 
-res %>% group_by(model) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
 The results show a similar pattern to the previous scenario. However, TE-BLUP and TxE-BLUP achieve marginally higher accuracies than 
@@ -251,7 +251,7 @@ i <- 0
 n_col <- 4
 n_row <- n_reps * length(temp) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) <- c("rep", "temp", "model", "r")
+colnames(res) <- c("rep", "temp", "model", "r2")
 
   for(t in temp){
     for(repp in 1:n_reps){
@@ -261,23 +261,23 @@ colnames(res) <- c("rep", "temp", "model", "r")
       res[i, 1] <- repp
       res[i, 2] <- t
       res[i, 3] <- model
-      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
     }
   }
 
 res <- transform(res, temp=as.factor(temp))
 
-p <- ggplot(res, aes(x = temp, y = r)) +
+p <- ggplot(res, aes(x = temp, y = r2)) +
   geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
   stat_summary(fun=mean, geom="point", shape=23,
                position = position_dodge2(width = 0.87,   
                                           preserve = "single")) +
-  labs(x = "Environment", y = expression(italic(r)), title="") +
+  labs(x = "Environment", y = expression(italic(R)^2), title="") +
   theme_cowplot(font_size = 18)
 
 print(p)
 
-res %>% group_by(temp) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+res %>% group_by(temp) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
 The results show that prediction accuracy is pretty similar across environments.
@@ -298,7 +298,7 @@ i <- 0
 n_col <- 4
 n_row <- n_reps * length(schemes) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) <- c("rep", "scheme", "model", "r")
+colnames(res) <- c("rep", "scheme", "model", "r2")
 
 for(sche in schemes){
   for(met in model){
@@ -309,7 +309,7 @@ for(sche in schemes){
       res[i, 1] <- repp
       res[i, 2] <- sche
       res[i, 3] <- met
-      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
     }
   }
 }
@@ -317,20 +317,20 @@ for(sche in schemes){
 res <- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
 
-p <- ggplot(res, aes(x = model, y = r, fill = model)) +
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
   geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
   stat_summary(fun=mean, geom="point", shape=23,
                position = position_dodge2(width = 0.87,   
                                           preserve = "single")) +
   scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
   scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
-  labs(x = "Model", y = expression(italic(r)), fill="Method", title="") +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
   theme_cowplot(font_size = 18) +
   theme(legend.position="none")
 
 print(p)
 
-res %>% group_by(model) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
 The results show that T-BLUP performs poorly. This is expected because we are making the implicit assumption that transcriptomic
@@ -356,7 +356,7 @@ i <- 0
 n_col <- 4
 n_row <- n_reps * length(schemes) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) <- c("rep", "scheme", "model", "r")
+colnames(res) <- c("rep", "scheme", "model", "r2")
 
 for(sche in schemes){
   for(met in model){
@@ -367,7 +367,7 @@ for(sche in schemes){
       res[i, 1] <- repp
       res[i, 2] <- sche
       res[i, 3] <- met
-      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
     }
   }
 }
@@ -375,20 +375,20 @@ for(sche in schemes){
 res <- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
 
-p <- ggplot(res, aes(x = model, y = r, fill = model)) +
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
   geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
   stat_summary(fun=mean, geom="point", shape=23,
                position = position_dodge2(width = 0.87,   
                                           preserve = "single")) +
   scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
   scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
-  labs(x = "Model", y = expression(italic(r)), fill="Method", title="") +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
   theme_cowplot(font_size = 18) +
   theme(legend.position="none")
 
 print(p)
 
-res %>% group_by(model) %>% summarise(mean_r=mean(r), se_r=(sd(r)/n_reps)) %>% as.data.frame()
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
 The results show a similar pattern to the previous scenario. However, the difference between (TE-BLUP, TxE-BLUP) and E-BLUP is larger than 
