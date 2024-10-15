@@ -66,7 +66,7 @@ the test set are not represented at all in the training set. This procedure was 
 the test set randomly, and analyzed the sex/temperature combinations jointly with the models above. The peculiarity of this 
 scenario is that all the lines, sexes and temperatures are represented in the training set. This procedure was repeated 20 times.
 
-Prediction accuracy was evaluated as the correlation coefficient between observed and predicted phenotypes in the test set.
+Prediction accuracy was evaluated as the $R^2$ of the regression of observed phenotypes on predicted phenotypes in the test set.
 
 ## Results
 
@@ -102,7 +102,7 @@ for(s in sex){
       res[i, 2] <- s
       res[i, 3] <- t
       res[i, 4] <- model
-      res[i, 5] <- cor(dat$y_test, dat$yhat_test)
+      res[i, 5] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
       res[i, 6] <- paste0(s, "_", t)
       
       res_var[i, 1] <- repp
@@ -126,7 +126,7 @@ p_var <- ggplot(res_var, aes(x = env, y = H2)) +
   stat_summary(fun=mean, geom="point", shape=23,
                position = position_dodge2(width = 0.87,   
                                           preserve = "single")) +
-  labs(x = "Environment", y = expression(italic(H)^2), title="") +
+  labs(x = "Environment", y = expression(italic(PVE)), title="") +
   theme_cowplot(font_size = 18)
 
 print(p_var)
@@ -140,7 +140,7 @@ p <- ggplot(res, aes(x = env, y = r)) +
   stat_summary(fun=mean, geom="point", shape=23,
                position = position_dodge2(width = 0.87,   
                                           preserve = "single")) +
-  labs(x = "Environment", y = expression(italic(PVE)), title="") +
+  labs(x = "Environment", y = expression(italic(R)^2), title="") +
   theme_cowplot(font_size = 18)
 
 print(p)
@@ -180,7 +180,7 @@ for(sche in schemes){
       res[i, 1] <- repp
       res[i, 2] <- sche
       res[i, 3] <- met
-      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
       
       res_var[i, 1] <- repp
       res_var[i, 2] <- sche
@@ -244,7 +244,7 @@ p <- ggplot(res, aes(x = model, y = r, fill = model)) +
                position = position_dodge2(width = 0.87,   
                                           preserve = "single")) +
   scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
-  labs(x = "Model", y = expression(italic(r)), fill="Method", title="") +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
   theme_cowplot(font_size = 18) +
   theme(legend.position="none")
 
@@ -291,7 +291,7 @@ for(sche in schemes){
       res[i, 1] <- repp
       res[i, 2] <- sche
       res[i, 3] <- met
-      res[i, 4] <- cor(dat$y_test, dat$yhat_test)
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
       
       res_var[i, 1] <- repp
       res_var[i, 2] <- sche
@@ -355,7 +355,7 @@ p <- ggplot(res, aes(x = model, y = r, fill = model)) +
                position = position_dodge2(width = 0.87,   
                                           preserve = "single")) +
   scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
-  labs(x = "Model", y = expression(italic(r)), fill="Method", title="") +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
   theme_cowplot(font_size = 18) +
   theme(legend.position="none")
 
