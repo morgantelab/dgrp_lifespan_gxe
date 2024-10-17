@@ -13,6 +13,7 @@ editor_options:
 ###Load libraries
 library(ggplot2)
 library(cowplot)
+library(tidyr)
 library(dplyr)
 
 prefix <- "dgrp_lifespan_gxe"
@@ -90,6 +91,10 @@ n_row <- n_reps * length(temp) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
 colnames(res) <- c("rep", "temp", "model", "r2")
 
+res_var <- as.data.frame(matrix(NA, ncol=n_col+2, nrow=n_row))
+colnames(res_var) <- c("rep", "temp", "model", "VarT", "VarEps", "H2")
+
+
   for(t in temp){
     for(repp in 1:n_reps){
       dat <- readRDS(paste0("output/T_fit/", prefix, "_random_within_env_", sex, "_", t, "_T_fit_", repp, ".rds"))
@@ -99,9 +104,30 @@ colnames(res) <- c("rep", "temp", "model", "r2")
       res[i, 2] <- t
       res[i, 3] <- model
       res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- t
+      res_var[i, 3] <- model
+      res_var[i, 4] <- dat$model_fit$ETA$T$varU
+      res_var[i, 5] <- dat$model_fit$varE
+      res_var[i, 6] <- dat$model_fit$ETA$T$varU/(dat$model_fit$ETA$T$varU + dat$model_fit$varE)
     }
   }
 
+###PVE
+res_var <- transform(res_var, temp=as.factor(temp))
+
+p_var <- ggplot(res_var, aes(x = temp, y = H2)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  labs(x = "Environment", y = expression(italic(PVE)), title="") +
+  theme_cowplot(font_size = 18)
+
+print(p_var)
+
+###Accuracy
 res <- transform(res, temp=as.factor(temp))
 
 p <- ggplot(res, aes(x = temp, y = r2)) +
@@ -137,6 +163,9 @@ n_row <- n_reps * length(schemes) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
 colnames(res) <- c("rep", "scheme", "model", "r2")
 
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("rep", "scheme", "model", "VarT", "VarE", "VarTxE", "VarEps", "VarTot")
+
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
@@ -147,10 +176,59 @@ for(sche in schemes){
       res[i, 2] <- sche
       res[i, 3] <- met
       res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$T$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$T$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$TxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$TxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+
     }
   }
 }
 
+###PVE
+res_var$propT <- res_var$VarT/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propTxE <- res_var$VarTxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(rep, model, propT, propE, propTxE, propEps) %>% 
+  gather(value="Prop", key="Source", propT, propE, propTxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propT", "propE", "propTxE", "propEps"), labels=c("VarT", "VarE", "VarTxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
 res <- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
 
@@ -196,6 +274,9 @@ n_row <- n_reps * length(schemes) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
 colnames(res) <- c("rep", "scheme", "model", "r2")
 
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("rep", "scheme", "model", "VarT", "VarE", "VarTxE", "VarEps", "VarTot")
+
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
@@ -206,10 +287,58 @@ for(sche in schemes){
       res[i, 2] <- sche
       res[i, 3] <- met
       res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$T$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$T$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$TxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$TxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
     }
   }
 }
 
+###PVE
+res_var$propT <- res_var$VarT/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propTxE <- res_var$VarTxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(rep, model, propT, propE, propTxE, propEps) %>% 
+  gather(value="Prop", key="Source", propT, propE, propTxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propT", "propE", "propTxE", "propEps"), labels=c("VarT", "VarE", "VarTxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
 res <- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
 
@@ -253,6 +382,10 @@ n_row <- n_reps * length(temp) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
 colnames(res) <- c("rep", "temp", "model", "r2")
 
+res_var <- as.data.frame(matrix(NA, ncol=n_col+2, nrow=n_row))
+colnames(res_var) <- c("rep", "temp", "model", "VarT", "VarEps", "H2")
+
+
   for(t in temp){
     for(repp in 1:n_reps){
       dat <- readRDS(paste0("output/T_fit/", prefix, "_random_within_env_", sex, "_", t, "_T_fit_", repp, ".rds"))
@@ -262,9 +395,30 @@ colnames(res) <- c("rep", "temp", "model", "r2")
       res[i, 2] <- t
       res[i, 3] <- model
       res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- t
+      res_var[i, 3] <- model
+      res_var[i, 4] <- dat$model_fit$ETA$T$varU
+      res_var[i, 5] <- dat$model_fit$varE
+      res_var[i, 6] <- dat$model_fit$ETA$T$varU/(dat$model_fit$ETA$T$varU + dat$model_fit$varE)
     }
   }
 
+###PVE
+res_var <- transform(res_var, temp=as.factor(temp))
+
+p_var <- ggplot(res_var, aes(x = temp, y = H2)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  labs(x = "Environment", y = expression(italic(PVE)), title="") +
+  theme_cowplot(font_size = 18)
+
+print(p_var)
+
+###Accuracy
 res <- transform(res, temp=as.factor(temp))
 
 p <- ggplot(res, aes(x = temp, y = r2)) +
@@ -300,6 +454,9 @@ n_row <- n_reps * length(schemes) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
 colnames(res) <- c("rep", "scheme", "model", "r2")
 
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("rep", "scheme", "model", "VarT", "VarE", "VarTxE", "VarEps", "VarTot")
+
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
@@ -310,10 +467,59 @@ for(sche in schemes){
       res[i, 2] <- sche
       res[i, 3] <- met
       res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$T$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$T$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$TxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$TxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+
     }
   }
 }
 
+###PVE
+res_var$propT <- res_var$VarT/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propTxE <- res_var$VarTxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(rep, model, propT, propE, propTxE, propEps) %>% 
+  gather(value="Prop", key="Source", propT, propE, propTxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propT", "propE", "propTxE", "propEps"), labels=c("VarT", "VarE", "VarTxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
 res <- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
 
@@ -358,6 +564,9 @@ n_row <- n_reps * length(schemes) * length(model)
 res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
 colnames(res) <- c("rep", "scheme", "model", "r2")
 
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("rep", "scheme", "model", "VarT", "VarE", "VarTxE", "VarEps", "VarTot")
+
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
@@ -368,10 +577,58 @@ for(sche in schemes){
       res[i, 2] <- sche
       res[i, 3] <- met
       res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$T$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$T$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$TxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$TxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
     }
   }
 }
 
+###PVE
+res_var$propT <- res_var$VarT/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propTxE <- res_var$VarTxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(rep, model, propT, propE, propTxE, propEps) %>% 
+  gather(value="Prop", key="Source", propT, propE, propTxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propT", "propE", "propTxE", "propEps"), labels=c("VarT", "VarE", "VarTxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
 res <- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
 
