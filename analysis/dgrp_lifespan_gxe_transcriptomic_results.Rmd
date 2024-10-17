@@ -514,6 +514,7 @@ p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
                position = position_dodge2(width = 0.87,   
                                           preserve = "total")) +
   scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
   labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
   theme_cowplot(font_size = 18) 
 
@@ -623,6 +624,7 @@ p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
                position = position_dodge2(width = 0.87,   
                                           preserve = "total")) +
   scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
   labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
   theme_cowplot(font_size = 18) 
 
