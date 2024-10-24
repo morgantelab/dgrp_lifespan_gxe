@@ -53,6 +53,19 @@ if(cv_scheme == "random_obs"){
   for(i in 1:n_reps){
     test_sets[[i]] <- sample(x=lines_ids, size=round(n*test_set_prop))
   }
+} else if(cv_scheme == "temp"){
+  test_sets <- vector("list", 3)
+  
+  it <- 0
+  for(i in c(18,25,28)){
+#    for(j in c(1,0)){
+      it <- it+1
+      
+      #test_idx <- which(dat$temp == i & dat$sex == j)
+      test_idx <- which(dat$temp == i)
+      test_sets[[it]] <- dat$obs_id[test_idx]
+#    }
+  }
 }
 
 saveRDS(test_sets, file=output)
