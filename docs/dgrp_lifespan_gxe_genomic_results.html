@@ -11,7 +11,7 @@
 
 <meta name="author" content="Fabio Morgante" />
 
-<meta name="date" content="2024-10-15" />
+<meta name="date" content="2024-10-24" />
 
 <title>Genomic prediction of life span with different models</title>
 
@@ -374,7 +374,7 @@ div.tocify {
 <h1 class="title toc-ignore">Genomic prediction of life span with
 different models</h1>
 <h4 class="author">Fabio Morgante</h4>
-<h4 class="date">October 15, 2024</h4>
+<h4 class="date">October 24, 2024</h4>
 
 </div>
 
@@ -403,7 +403,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-10-15
+<strong>Last updated:</strong> 2024-10-24
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -534,15 +534,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreeb4d42a1b94b1f95bbef4de92ebcc520e7824ff14targetblankb4d42a1a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreef49ca0a50356e06fa5b2d8c0531eeef0980fe4eatargetblankf49ca0aa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/b4d42a1b94b1f95bbef4de92ebcc520e7824ff14" target="_blank">b4d42a1</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/f49ca0a50356e06fa5b2d8c0531eeef0980fe4ea" target="_blank">f49ca0a</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreeb4d42a1b94b1f95bbef4de92ebcc520e7824ff14targetblankb4d42a1a"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreef49ca0a50356e06fa5b2d8c0531eeef0980fe4eatargetblankf49ca0aa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -552,7 +552,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/b4d42a1b94b1f95bbef4de92ebcc520e7824ff14" target="_blank">b4d42a1</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/f49ca0a50356e06fa5b2d8c0531eeef0980fe4ea" target="_blank">f49ca0a</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -626,6 +626,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/f49ca0a50356e06fa5b2d8c0531eeef0980fe4ea/analysis/dgrp_lifespan_gxe_genomic_results.Rmd" target="_blank">f49ca0a</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-24
+</td>
+<td>
+Add across tempreature results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/bfc1461a735460ba936cfd01ccd96fccd70a08b3/docs/dgrp_lifespan_gxe_genomic_results.html" target="_blank">bfc1461</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-15
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1289,7 +1323,7 @@ represented in the training set. It is specific combinations of lines
 and environments (e.g., line_101 in females at 18C) that are not seen in
 the training set. This is the scenario where we expect an advantage from
 using models with both genotype and environment information because the
-training-test transfer of information happens at every level</p>
+training-test transfer of information happens at every level.</p>
 <pre class="r"><code>schemes &lt;- &quot;random_obs&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
 
@@ -1493,6 +1527,140 @@ fmorgante
 <p>The results show that, as expected, GE-BLUP improves prediction
 accuracy over E-BLUP. GxE-BLUP achieves the highest prediction
 accuracy.</p>
+</div>
+<div id="new-temperature-scenario" class="section level3">
+<h3>New temperature scenario</h3>
+<p>In this scenario, we assigned all the observations in a specific
+temperature to the test set, i.e., that temperature is never seen in the
+training set. Thus, there is no transfer of training-test information at
+the temperature level, which is the factor that explains the majority of
+the phenotypic variance.</p>
+<pre class="r"><code>n_reps &lt;- 3
+schemes &lt;- &quot;temp&quot;
+model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
+
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;temp&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+res_var &lt;- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) &lt;- c(&quot;temp&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;VarG&quot;, &quot;VarE&quot;, &quot;VarGxE&quot;, &quot;VarEps&quot;, &quot;VarTot&quot;)
+
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, sche, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] &lt;- repp
+      res_var[i, 2] &lt;- sche
+      res_var[i, 3] &lt;- met
+      if(!is.null(dat$model_fit$ETA$G$varU)){
+        res_var[i, 4] &lt;- dat$model_fit$ETA$G$varU
+      } else {
+        res_var[i, 4] &lt;- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] &lt;- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] &lt;- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$GxE$varU)){
+        res_var[i, 6] &lt;- dat$model_fit$ETA$GxE$varU
+      } else {
+        res_var[i, 6] &lt;- NA
+      }
+
+      res_var[i, 7] &lt;- dat$model_fit$varE
+      res_var[i, 8] &lt;- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+
+###PVE
+res_var$propG &lt;- res_var$VarG/res_var$VarTot
+res_var$propE &lt;- res_var$VarE/res_var$VarTot
+res_var$propGxE &lt;- res_var$VarGxE/res_var$VarTot
+res_var$propEps &lt;- res_var$VarEps/res_var$VarTot
+
+res_var_long &lt;- res_var %&gt;% select(temp, model, propG, propE, propGxE, propEps) %&gt;% 
+  gather(value=&quot;Prop&quot;, key=&quot;Source&quot;, propG, propE, propGxE, propEps)
+
+res_var_long &lt;- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c(&quot;propG&quot;, &quot;propE&quot;, &quot;propGxE&quot;, &quot;propEps&quot;), labels=c(&quot;VarG&quot;, &quot;VarE&quot;, &quot;VarGxE&quot;, &quot;VarRes&quot;)))
+
+p &lt;- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;total&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(PVE)), fill=&quot;Source&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) 
+
+print(p)</code></pre>
+<pre><code>Warning: Removed 15 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 15 rows containing non-finite outside the scale range
+(`stat_summary()`).</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>###Accuracy
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position=&quot;none&quot;)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>  model    mean_r2        se_r
+1     E 0.01530178 0.004543686
+2     G 0.27412654 0.010361872
+3 GandE 0.28817305 0.018338645
+4   GxE 0.26904402 0.043655817</code></pre>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% as.data.frame()</code></pre>
+<pre><code>   temp scheme model          r2
+1     1   temp     G 0.277155191
+2     2   temp     G 0.303586981
+3     3   temp     G 0.241637452
+4     1   temp     E 0.027398587
+5     2   temp     E 0.017974397
+6     3   temp     E 0.000532356
+7     1   temp GandE 0.300870951
+8     2   temp GandE 0.335729817
+9     3   temp GandE 0.227918395
+10    1   temp   GxE 0.305878684
+11    2   temp   GxE 0.377649823
+12    3   temp   GxE 0.123603541</code></pre>
+<p>In general, prediction accuracy is lower in this scenario. The
+results show that, as expected, E-BLUP predicts poorly. G-BLUP predicts
+decently because all the lines are present in the test set. GE-BLUP
+improves accuracy over G-BLUP. GxE-BLUP is worse than G-BLUP and
+GE-BLUP, on average. However, when looking at the temperature-specific
+accuracies, we can see that it is only the prediction of lifespan at 28C
+that has lower accuracy.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
