@@ -264,7 +264,7 @@ training set, so the training-test transfer of information happens mostly at the
 In this scenario, every line and environment is potentially represented in the training set. It is specific combinations of
 lines and environments (e.g., line_101 in females at 18C) that are not seen in the training set. This is the scenario 
 where we expect an advantage from using models with both genotype and environment information because the training-test 
-transfer of information happens at every level
+transfer of information happens at every level.
 
 ```{r random obs, fig.height=10, fig.width=13}
 schemes <- "random_obs"
@@ -367,4 +367,115 @@ res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>
 The results show that, as expected, GE-BLUP improves prediction accuracy over E-BLUP. GxE-BLUP achieves the highest
 prediction accuracy.
 
+
+### New temperature scenario
+
+In this scenario, we assigned all the observations in a specific temperature to the test set, i.e., that temperature 
+is never seen in the training set. Thus, there is no transfer of training-test information at the temperature level,
+which is the factor that explains the majority of the phenotypic variance.
+
+```{r across temp, fig.height=10, fig.width=13}
+n_reps <- 3
+schemes <- "temp"
+model <- c("G", "E", "GandE", "GxE")
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("temp", "scheme", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("temp", "scheme", "model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
+
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$G$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$G$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$GxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$GxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+
+###PVE
+res_var$propG <- res_var$VarG/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propGxE <- res_var$VarGxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(temp, model, propG, propE, propGxE, propEps) %>% 
+  gather(value="Prop", key="Source", propG, propE, propGxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propG", "propE", "propGxE", "propEps"), labels=c("VarG", "VarE", "VarGxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+
+res %>% group_by(model) %>% as.data.frame()
+```
+
+In general, prediction accuracy is lower in this scenario. The results show that, as expected, E-BLUP predicts poorly. G-BLUP predicts decently
+because all the lines are present in the test set. GE-BLUP improves accuracy over G-BLUP. GxE-BLUP is worse than G-BLUP and GE-BLUP, on average.
+However, when looking at the temperature-specific accuracies, we can see that it is only the prediction of lifespan at 28C that has lower accuracy.
 
