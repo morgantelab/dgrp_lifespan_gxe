@@ -1,6 +1,16 @@
 ###Load library
-library(dplyr)
+library(optparse)
 
+###Parse arguments
+parser <- OptionParser()
+parser <- add_option(parser, c("--output_data"), type="character")
+parser <- add_option(parser, c("--output_lines_ids"), type="character")
+outparse <- parse_args(parser)
+
+output_data <- outparse$output_data
+output_lines_ids <- outparse$output_lines_ids
+
+###Set seed
 set.seed(1)
 
 ###Read in data
@@ -57,18 +67,9 @@ rownames(dat) <- 1:nrow(dat)
 ###Create id of the observation
 dat$obs_id <- paste0(dat$line_id, "_", dat$temp, "_", dat$sex)
 
-###Scale phenotype within each sex/temp combo --> variance is very different
-dat_scaled <- dat %>% group_by(sex, temp) %>% mutate(y_s = scale(y, center=TRUE, scale=TRUE)) %>% as.data.frame()
-dat$y <- dat_scaled$y_s
-
 ###Save data
-saveRDS(dat, file="../data/pheno_env.rds")
+saveRDS(dat, file=output_data)
 
 ###Write out list of lines for plink
-write.table(cbind(ids_complete_cases, ids_complete_cases), file="../data/lines_kept.txt", col.names = FALSE,
+write.table(cbind(ids_complete_cases, ids_complete_cases), file=output_lines_ids, col.names = FALSE,
             row.names = FALSE, quote=FALSE, sep="\t")
-
-
-
-
-
