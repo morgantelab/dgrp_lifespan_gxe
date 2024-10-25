@@ -2,8 +2,11 @@ WORKDIR: "/data2/morgante_lab/fabiom/dgrp_lifespan_gxe"
 CODE_DIR: "/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/code"
 SCRATCH: "/scratch1/fabiom/tmp"
 PHENO_FILE: "/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/data/pheno_env.rds"
-GENO_PLINK_FILE: "/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/data/dgrp_lifespan_gxe_filt_geno"
+GENO_PLINK_FILE: "/data2/morgante_lab/data/dgrp/genotypes/dgrp2"
 PREFIX: "dgrp_lifespan_gxe"
+GENO_MAF: "0.05"
+GENO_MISS: "0.2"
+SCALE_PHENO: ['original','scaled_within_env','scaled_overall']
 CV_SCENARIO_REPS: ['random_obs','random_lines']
 N_REPS: "20"
 REP_REPS: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20']
