@@ -11,7 +11,7 @@
 
 <meta name="author" content="Fabio Morgante" />
 
-<meta name="date" content="2024-10-24" />
+<meta name="date" content="2024-10-25" />
 
 <title>Transcriptomic prediction of life span with different models</title>
 
@@ -374,7 +374,7 @@ div.tocify {
 <h1 class="title toc-ignore">Transcriptomic prediction of life span with
 different models</h1>
 <h4 class="author">Fabio Morgante</h4>
-<h4 class="date">October 24, 2024</h4>
+<h4 class="date">October 25, 2024</h4>
 
 </div>
 
@@ -403,7 +403,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-10-24
+<strong>Last updated:</strong> 2024-10-25
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -534,15 +534,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreef49ca0a50356e06fa5b2d8c0531eeef0980fe4eatargetblankf49ca0aa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree9d720a87b0c394f5b12a3f24fcaf63363e50da95targetblank9d720a8a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/f49ca0a50356e06fa5b2d8c0531eeef0980fe4ea" target="_blank">f49ca0a</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/9d720a87b0c394f5b12a3f24fcaf63363e50da95" target="_blank">9d720a8</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreef49ca0a50356e06fa5b2d8c0531eeef0980fe4eatargetblankf49ca0aa"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree9d720a87b0c394f5b12a3f24fcaf63363e50da95targetblank9d720a8a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -552,7 +552,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/f49ca0a50356e06fa5b2d8c0531eeef0980fe4ea" target="_blank">f49ca0a</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/9d720a87b0c394f5b12a3f24fcaf63363e50da95" target="_blank">9d720a8</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -579,6 +579,9 @@ Ignored files:
     Ignored:    output/test_sets/
     Ignored:    run/
     Ignored:    slurm/
+
+Unstaged changes:
+    Modified:   dgrp_lifespan_gxe_snakemake_submitter.sh
 
 </code></pre>
 <p>
@@ -625,6 +628,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/66afcdd827caf63326608f0f2a09dc2f0ea3a2c3/docs/dgrp_lifespan_gxe_transcriptomic_results.html" target="_blank">66afcdd</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1113,10 +1133,10 @@ fmorgante
 </div>
 </div>
 <pre class="r"><code>res %&gt;% group_by(temp) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
-<pre><code>  temp    mean_r2       se_r2
-1   18 0.11964430 0.004073644
-2   25 0.10602105 0.004130528
-3   28 0.04271272 0.001880552</code></pre>
+<pre><code>  temp   mean_r2       se_r2
+1   18 0.1201101 0.004086826
+2   25 0.1058351 0.004123527
+3   28 0.0425277 0.001876263</code></pre>
 <p>The results show that prediction accuracy varies across environments
 and is higher than using <a
 href="dgrp_lifespan_gxe_genomic_results.html">genotypes</a>.</p>
@@ -1320,11 +1340,11 @@ fmorgante
 </div>
 </div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
-<pre><code>  model    mean_r2        se_r2
-1    Et 0.72042014 0.0021078025
-2     T 0.01648764 0.0005146352
-3 TandE 0.73641777 0.0020679589
-4   TxE 0.74758655 0.0020682161</code></pre>
+<pre><code>  model     mean_r2        se_r2
+1    Et 0.004833702 0.0003400395
+2     T 0.076750697 0.0023431223
+3 TandE 0.073439360 0.0022624130
+4   TxE 0.079519259 0.0022505102</code></pre>
 <p>The results show that T-BLUP performs poorly. This is expected
 because we are making the implicit assumption that transcriptomic
 effects are equal across environments, which is not the case. E-BLUP
@@ -1537,11 +1557,11 @@ fmorgante
 </div>
 </div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
-<pre><code>  model    mean_r2       se_r2
-1    Et 0.71481870 0.002405064
-2     T 0.04593787 0.001266519
-3 TandE 0.75729792 0.002334361
-4   TxE 0.76935745 0.002366548</code></pre>
+<pre><code>  model     mean_r2        se_r2
+1    Et 0.008421635 0.0003430083
+2     T 0.264757616 0.0032370627
+3 TandE 0.262338227 0.0032397311
+4   TxE 0.273621729 0.0032807275</code></pre>
 <p>The results show a similar pattern to the previous scenario. However,
 TE-BLUP and TxE-BLUP achieve marginally higher accuracies than in the
 previous scenario, due to the full training-test transfer of
@@ -1932,10 +1952,10 @@ fmorgante
 </div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model    mean_r2        se_r2
-1    Et 0.73869621 0.0013628471
-2     T 0.01121764 0.0002831988
-3 TandE 0.75257735 0.0013383244
-4   TxE 0.75646865 0.0014363185</code></pre>
+1    Et 0.00582281 0.0004285622
+2     T 0.07913829 0.0018584713
+3 TandE 0.07304666 0.0017656009
+4   TxE 0.07200847 0.0016848940</code></pre>
 <p>The results show that T-BLUP performs poorly. This is expected
 because we are making the implicit assumption that transcriptomic
 effects are equal across environments, which is not the case. E-BLUP
@@ -2160,11 +2180,11 @@ fmorgante
 </div>
 </div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
-<pre><code>  model    mean_r2       se_r2
-1    Et 0.75022268 0.001175999
-2     T 0.07362787 0.001446745
-3 TandE 0.79531153 0.001110173
-4   TxE 0.79623176 0.001190225</code></pre>
+<pre><code>  model     mean_r2        se_r2
+1    Et 0.003496047 0.0002421911
+2     T 0.328995817 0.0038403019
+3 TandE 0.328424286 0.0038756390
+4   TxE 0.321795538 0.0041047073</code></pre>
 <p>The results show a similar pattern to the previous scenario. However,
 the difference between (TE-BLUP, TxE-BLUP) and E-BLUP is larger than in
 the previous scenario, due to the full training-test transfer of
