@@ -1,3 +1,6 @@
+###Load library
+library(dplyr)
+
 set.seed(1)
 
 ###Read in data
@@ -53,6 +56,10 @@ rownames(dat) <- 1:nrow(dat)
 
 ###Create id of the observation
 dat$obs_id <- paste0(dat$line_id, "_", dat$temp, "_", dat$sex)
+
+###Scale phenotype within each sex/temp combo --> variance is very different
+dat_scaled <- dat %>% group_by(sex, temp) %>% mutate(y_s = scale(y, center=TRUE, scale=TRUE)) %>% as.data.frame()
+dat$y <- dat_scaled$y_s
 
 ###Save data
 saveRDS(dat, file="../data/pheno_env.rds")
