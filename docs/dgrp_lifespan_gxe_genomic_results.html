@@ -534,15 +534,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreea108f2043fb03f898a50d62f39fe6c00f21db686targetblanka108f20a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreed4fe1263e221619e0dc9c12c7c9b6c2d2a7b5096targetblankd4fe126a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/a108f2043fb03f898a50d62f39fe6c00f21db686" target="_blank">a108f20</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/d4fe1263e221619e0dc9c12c7c9b6c2d2a7b5096" target="_blank">d4fe126</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreea108f2043fb03f898a50d62f39fe6c00f21db686targetblanka108f20a"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreed4fe1263e221619e0dc9c12c7c9b6c2d2a7b5096targetblankd4fe126a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -552,7 +552,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/a108f2043fb03f898a50d62f39fe6c00f21db686" target="_blank">a108f20</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/d4fe1263e221619e0dc9c12c7c9b6c2d2a7b5096" target="_blank">d4fe126</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -625,6 +625,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/d4fe1263e221619e0dc9c12c7c9b6c2d2a7b5096/analysis/dgrp_lifespan_gxe_genomic_results.Rmd" target="_blank">d4fe126</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+<td>
+Add descriptions
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/dgrp_lifespan_gxe_genomic_results.html" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -955,6 +989,16 @@ to the test set randomly, and analyzed the sex/temperature combinations
 jointly with the models above. The peculiarity of this scenario is that
 all the lines, sexes and temperatures are represented in the training
 set. This procedure was repeated 20 times.</li>
+<li><em>New temperature scenario</em>. We assigned all the observations
+in a specific temperature to the test set, i.e., that temperature is
+never seen in the training set. This procedure was repeated 3 times,
+once for each temperature.</li>
+</ul>
+<p>We used different treatments of the phenotype:</p>
+<ul>
+<li>Leave it on the original scale.</li>
+<li>Scale it within each sex/temperature combination.</li>
+<li>Scale it across sex/temperature combinations.</li>
 </ul>
 <p>Prediction accuracy was evaluated as the <span
 class="math inline">\(R^2\)</span> of the regression of observed
@@ -1025,6 +1069,43 @@ p_var &lt;- ggplot(res_var, aes(x = env, y = H2)) +
 
 print(p_var)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20within%20env%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-within-env-orig-1">
+Past versions of "random within env orig-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-within-env-orig-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env orig-1.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res &lt;- transform(res, env=as.factor(env))
 
 p &lt;- ggplot(res, aes(x = env, y = r2)) +
@@ -1037,6 +1118,43 @@ p &lt;- ggplot(res, aes(x = env, y = r2)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20within%20env%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-within-env-orig-2">
+Past versions of "random within env orig-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-within-env-orig-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env orig-2.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(env) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>   env    mean_r2       se_r2
 1 0_18 0.02044484 0.001325085
@@ -1104,6 +1222,44 @@ p_var &lt;- ggplot(res_var, aes(x = env, y = H2)) +
 
 print(p_var)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20within%20env%20scaled%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-within-env-scaled-within-env-1">
+Past versions of "random within env scaled within env-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-within-env-scaled-within-env-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env scaled within env-1.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res &lt;- transform(res, env=as.factor(env))
 
 p &lt;- ggplot(res, aes(x = env, y = r2)) +
@@ -1116,6 +1272,44 @@ p &lt;- ggplot(res, aes(x = env, y = r2)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20within%20env%20scaled%20within%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-within-env-scaled-within-env-2">
+Past versions of "random within env scaled within env-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-within-env-scaled-within-env-2"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env scaled within env-2.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(env) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>   env    mean_r2       se_r2
 1 0_18 0.02044484 0.001325085
@@ -1183,6 +1377,44 @@ p_var &lt;- ggplot(res_var, aes(x = env, y = H2)) +
 
 print(p_var)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20within%20env%20scaled%20overall-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-within-env-scaled-overall-1">
+Past versions of "random within env scaled overall-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-within-env-scaled-overall-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env scaled overall-1.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res &lt;- transform(res, env=as.factor(env))
 
 p &lt;- ggplot(res, aes(x = env, y = r2)) +
@@ -1195,6 +1427,44 @@ p &lt;- ggplot(res, aes(x = env, y = r2)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20within%20env%20scaled%20overall-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-within-env-scaled-overall-2">
+Past versions of "random within env scaled overall-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-within-env-scaled-overall-2"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env scaled overall-2.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(env) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>   env    mean_r2       se_r2
 1 0_18 0.02044484 0.001325085
@@ -1204,7 +1474,8 @@ print(p)</code></pre>
 5 1_25 0.07214699 0.003644104
 6 1_28 0.02310565 0.001321833</code></pre>
 <p>The results show that prediction accuracy varies across environments
-and is generally low.</p>
+and is generally low. As expected, scaling the phenotypes does not
+affect accuracy in this case.</p>
 </div>
 </div>
 <div id="random-lines-scenario" class="section level3">
@@ -1295,6 +1566,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20lines%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-orig-1">
+Past versions of "random lines orig-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-orig-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig-1.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -1311,6 +1619,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20lines%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-orig-2">
+Past versions of "random lines orig-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-orig-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig-2.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model     mean_r2         se_r
 1     E 0.719440952 0.0015876075
@@ -1402,6 +1747,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20lines%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-within-env-1">
+Past versions of "random lines within env-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-within-env-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines within env-1.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -1418,6 +1800,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20lines%20within%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-within-env-2">
+Past versions of "random lines within env-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-within-env-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines within env-2.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model     mean_r2         se_r
 1     E 0.004939067 0.0004013413
@@ -1509,6 +1928,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20lines%20overall-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-overall-1">
+Past versions of "random lines overall-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-overall-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines overall-1.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -1525,21 +1981,62 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20lines%20overall-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-overall-2">
+Past versions of "random lines overall-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-overall-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines overall-2.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model     mean_r2         se_r
 1     E 0.719440952 0.0015876075
 2     G 0.008142541 0.0003735195
 3 GandE 0.723391212 0.0014904695
 4   GxE 0.720519670 0.0014943849</code></pre>
-<p>The results show that G-BLUP performs poorly. This is expected
-because we are making the implicit assumption that genetic effects are
-equal across environments, which is not the case. E-BLUP does very well
-in this scenario because when combining the data across environments, a
-lot of the variance is explained by the environmental effects, which we
-have good power to estimate. GE-BLUP and GxE-BLUP give very similar
-accuracy to E-BLUP. This is not surprising since some lines are not in
-the training set, so the training-test transfer of information happens
-mostly at the environment level.</p>
+<p>With the phenotype on the original scale or scaled across the
+environments, the results show that G-BLUP performs poorly. This is
+expected because we are making the implicit assumption that genetic
+effects are equal across environments, which is not the case. E-BLUP
+does very well in this scenario because when combining the data across
+environments, a lot of the variance is explained by the environmental
+effects, which we have good power to estimate. GE-BLUP and GxE-BLUP give
+very similar accuracy to E-BLUP. This is not surprising since some lines
+are not in the training set, so the training-test transfer of
+information happens mostly at the environment level.</p>
+<p>However, with the phenotype scaled within environment, E-BLUP now
+does not predict at all because we have zeroed out differences between
+environments. All the models including G do pretty poorly.</p>
 </div>
 </div>
 <div id="random-observations-scenario" class="section level3">
@@ -1635,6 +2132,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20obs%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-orig-1">
+Past versions of "random obs orig-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-orig-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig-1.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -1651,6 +2185,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20obs%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-orig-2">
+Past versions of "random obs orig-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-orig-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig-2.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model     mean_r2         se_r
 1     E 0.723784353 0.0014408341
@@ -1743,6 +2314,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20obs%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-within-env-1">
+Past versions of "random obs within env-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-within-env-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs within env-1.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -1759,6 +2367,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20obs%20within%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-within-env-2">
+Past versions of "random obs within env-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-within-env-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs within env-2.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model    mean_r2         se_r
 1     E 0.00859128 0.0003572983
@@ -1851,6 +2496,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20obs%20overall-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-overall-1">
+Past versions of "random obs overall-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-overall-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs overall-1.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -1867,14 +2549,57 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20obs%20overall-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-overall-2">
+Past versions of "random obs overall-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-overall-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs overall-2.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model     mean_r2         se_r
 1     E 0.723784353 0.0014408341
 2     G 0.004109817 0.0002653191
 3 GandE 0.806037325 0.0010898595
 4   GxE 0.838800615 0.0010373070</code></pre>
-<p>The results show that, as expected, GE-BLUP improves prediction
-accuracy over E-BLUP. GxE-BLUP achieves the highest prediction
+<p>With the phenotype on the original scale or scaled across the
+environments, the results show that, as expected, GE-BLUP improves
+prediction accuracy over E-BLUP. GxE-BLUP achieves the highest
+prediction accuracy.</p>
+<p>However, with the phenotype scaled within environment, E-BLUP now
+does not predict at all because we have zeroed out differences between
+environments. G-BLUP and GE-BLUP perform equally well (why does G-BLUP
+work decently now?) and GxE-BLUP achieves the highest prediction
 accuracy.</p>
 </div>
 </div>
@@ -1971,6 +2696,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 15 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-temp-orig-1">
+Past versions of "across temp orig-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-temp-orig-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp orig-1.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -1987,6 +2749,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-temp-orig-2">
+Past versions of "across temp orig-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-temp-orig-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp orig-2.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model    mean_r2        se_r
 1     E 0.01530178 0.004543686
@@ -2094,6 +2893,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 15 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-within-env-1">
+Past versions of "across within env-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-within-env-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across within env-1.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -2110,6 +2946,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20within%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-within-env-2">
+Past versions of "across within env-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-within-env-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across within env-2.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model      mean_r2         se_r
 1     E 3.454929e-22 1.573713e-22
@@ -2217,6 +3090,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 15 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20overall-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-overall-1">
+Past versions of "across overall-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-overall-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across overall-1.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -2233,6 +3143,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20overall-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-overall-2">
+Past versions of "across overall-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-overall-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across overall-2.png" target="_blank">970178d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model    mean_r2        se_r
 1     E 0.01530178 0.004543686
@@ -2253,13 +3200,16 @@ print(p)</code></pre>
 10    1   temp   GxE 0.305878684
 11    2   temp   GxE 0.377649823
 12    3   temp   GxE 0.123603541</code></pre>
-<p>In general, prediction accuracy is lower in this scenario. The
-results show that, as expected, E-BLUP predicts poorly. G-BLUP predicts
-decently because all the lines are present in the test set. GE-BLUP
-improves accuracy over G-BLUP. GxE-BLUP is worse than G-BLUP and
-GE-BLUP, on average. However, when looking at the temperature-specific
-accuracies, we can see that it is only the prediction of lifespan at 28C
-that has lower accuracy.</p>
+<p>With the phenotype on the original scale or scaled across the
+environments, in general, prediction accuracy is lower in this scenario.
+As expected, E-BLUP predicts poorly. G-BLUP predicts decently because
+all the lines are present in the test set. GE-BLUP improves accuracy
+over G-BLUP. GxE-BLUP is worse than G-BLUP and GE-BLUP, on average.
+However, when looking at the temperature-specific accuracies, we can see
+that it is only the prediction of lifespan at 28C that has lower
+accuracy.</p>
+<p>With the phenotype scaled within environment, the pattern is very
+similar in this scenario.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
