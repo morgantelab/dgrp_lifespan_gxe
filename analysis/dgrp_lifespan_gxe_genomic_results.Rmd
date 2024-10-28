@@ -75,10 +75,13 @@ Prediction accuracy was evaluated as the $R^2$ of the regression of observed phe
 This is the baseline scenario, where we acknowldege that the genetic architecture of life span is different across environments and we
 analyze them separately using G-BLUP.
 
-```{r random within env, fig.height=10, fig.width=13}
+#### Original scale phenotype
+
+```{r random within env orig, fig.height=10, fig.width=13}
 sex <- c(1, 0)
 temp <- c(18,25,28)
 model <- "G"
+pheno <- "original_pheno"
 
 
 i <- 0
@@ -95,7 +98,7 @@ colnames(res_var) <- c("rep", "sex", "temp", "model", "VarG", "VarEps", "H2", "e
 for(s in sex){
   for(t in temp){
     for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/G_fit/", prefix, "_random_within_env_", s, "_", t, "_G_fit_", repp, ".rds"))
+      dat <- readRDS(paste0("output/G_fit/", prefix, "_", pheno, "_random_within_env_", s, "_", t, "_G_fit_", repp, ".rds"))
       i <- i + 1
       
       res[i, 1] <- repp
@@ -149,16 +152,173 @@ res %>% group_by(env) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>%
 
 ```
 
+#### Phenotype scaled within environment
+
+```{r random within env scaled within env, fig.height=10, fig.width=13}
+sex <- c(1, 0)
+temp <- c(18,25,28)
+model <- "G"
+pheno <- "scaled_within_env_pheno"
+
+
+i <- 0
+
+n_col <- 6
+n_row <- n_reps * length(sex) * length(temp) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "sex", "temp", "model", "r2", "env")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+2, nrow=n_row))
+colnames(res_var) <- c("rep", "sex", "temp", "model", "VarG", "VarEps", "H2", "env")
+
+
+for(s in sex){
+  for(t in temp){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/G_fit/", prefix, "_", pheno, "_random_within_env_", s, "_", t, "_G_fit_", repp, ".rds"))
+      i <- i + 1
+      
+      res[i, 1] <- repp
+      res[i, 2] <- s
+      res[i, 3] <- t
+      res[i, 4] <- model
+      res[i, 5] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      res[i, 6] <- paste0(s, "_", t)
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- s
+      res_var[i, 3] <- t
+      res_var[i, 4] <- model
+      res_var[i, 5] <- dat$model_fit$ETA$G$varU
+      res_var[i, 6] <- dat$model_fit$varE
+      res_var[i, 7] <- dat$model_fit$ETA$G$varU/(dat$model_fit$ETA$G$varU + dat$model_fit$varE)
+      res_var[i, 8] <- paste0(s, "_", t)
+
+    }
+  }
+}
+
+#res_var_long <- res_var %>% select(rep, VarG, VarEps, env) %>% gather(value="Var", key="Source", VarG, VarEps)
+res_var <- transform(res_var, env=as.factor(env))
+
+p_var <- ggplot(res_var, aes(x = env, y = H2)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  labs(x = "Environment", y = expression(italic(PVE)), title="") +
+  theme_cowplot(font_size = 18)
+
+print(p_var)
+
+
+
+res <- transform(res, env=as.factor(env))
+
+p <- ggplot(res, aes(x = env, y = r2)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  labs(x = "Environment", y = expression(italic(R)^2), title="") +
+  theme_cowplot(font_size = 18)
+
+print(p)
+
+res %>% group_by(env) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
+
+```
+
+#### Phenotype scaled across environments
+
+```{r random within env scaled overall, fig.height=10, fig.width=13}
+sex <- c(1, 0)
+temp <- c(18,25,28)
+model <- "G"
+pheno <- "scaled_overall_pheno"
+
+
+i <- 0
+
+n_col <- 6
+n_row <- n_reps * length(sex) * length(temp) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "sex", "temp", "model", "r2", "env")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+2, nrow=n_row))
+colnames(res_var) <- c("rep", "sex", "temp", "model", "VarG", "VarEps", "H2", "env")
+
+
+for(s in sex){
+  for(t in temp){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/G_fit/", prefix, "_", pheno, "_random_within_env_", s, "_", t, "_G_fit_", repp, ".rds"))
+      i <- i + 1
+      
+      res[i, 1] <- repp
+      res[i, 2] <- s
+      res[i, 3] <- t
+      res[i, 4] <- model
+      res[i, 5] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      res[i, 6] <- paste0(s, "_", t)
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- s
+      res_var[i, 3] <- t
+      res_var[i, 4] <- model
+      res_var[i, 5] <- dat$model_fit$ETA$G$varU
+      res_var[i, 6] <- dat$model_fit$varE
+      res_var[i, 7] <- dat$model_fit$ETA$G$varU/(dat$model_fit$ETA$G$varU + dat$model_fit$varE)
+      res_var[i, 8] <- paste0(s, "_", t)
+
+    }
+  }
+}
+
+#res_var_long <- res_var %>% select(rep, VarG, VarEps, env) %>% gather(value="Var", key="Source", VarG, VarEps)
+res_var <- transform(res_var, env=as.factor(env))
+
+p_var <- ggplot(res_var, aes(x = env, y = H2)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  labs(x = "Environment", y = expression(italic(PVE)), title="") +
+  theme_cowplot(font_size = 18)
+
+print(p_var)
+
+
+
+res <- transform(res, env=as.factor(env))
+
+p <- ggplot(res, aes(x = env, y = r2)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  labs(x = "Environment", y = expression(italic(R)^2), title="") +
+  theme_cowplot(font_size = 18)
+
+print(p)
+
+res %>% group_by(env) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
+
+```
+
+
 The results show that prediction accuracy varies across environments and is generally low.
 
 ### Random lines scenario
 
 In this scenario, we combine the data across environments and fit the different models.
 
-```{r random lines, fig.height=10, fig.width=13}
+#### Original scale phenotype
+
+```{r random lines orig, fig.height=10, fig.width=13}
 schemes <- "random_lines"
 model <- c("G", "E", "GandE", "GxE")
-
+pheno <- "original_pheno"
 
 i <- 0
 
@@ -174,7 +334,207 @@ colnames(res_var) <- c("rep", "scheme", "model", "VarG", "VarE", "VarGxE", "VarE
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$G$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$G$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$GxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$GxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+
+###PVE
+res_var$propG <- res_var$VarG/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propGxE <- res_var$VarGxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(rep, model, propG, propE, propGxE, propEps) %>% 
+  gather(value="Prop", key="Source", propG, propE, propGxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propG", "propE", "propGxE", "propEps"), labels=c("VarG", "VarE", "VarGxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+#### Phenotype scaled within environment
+
+```{r random lines within env, fig.height=10, fig.width=13}
+schemes <- "random_lines"
+model <- c("G", "E", "GandE", "GxE")
+pheno <- "scaled_within_env_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("rep", "scheme", "model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
+
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$G$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$G$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$GxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$GxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+
+###PVE
+res_var$propG <- res_var$VarG/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propGxE <- res_var$VarGxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(rep, model, propG, propE, propGxE, propEps) %>% 
+  gather(value="Prop", key="Source", propG, propE, propGxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propG", "propE", "propGxE", "propEps"), labels=c("VarG", "VarE", "VarGxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+#### Phenotype scaled across environments
+
+```{r random lines overall, fig.height=10, fig.width=13}
+schemes <- "random_lines"
+model <- c("G", "E", "GandE", "GxE")
+pheno <- "scaled_overall_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("rep", "scheme", "model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
+
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
       i <- i + 1
         
       res[i, 1] <- repp
@@ -266,9 +626,12 @@ lines and environments (e.g., line_101 in females at 18C) that are not seen in t
 where we expect an advantage from using models with both genotype and environment information because the training-test 
 transfer of information happens at every level.
 
-```{r random obs, fig.height=10, fig.width=13}
+#### Original scale phenotype
+
+```{r random obs orig, fig.height=10, fig.width=13}
 schemes <- "random_obs"
 model <- c("G", "E", "GandE", "GxE")
+pheno <- "original_pheno"
 
 
 i <- 0
@@ -285,7 +648,209 @@ colnames(res_var) <- c("rep", "scheme", "model", "VarG", "VarE", "VarGxE", "VarE
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$G$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$G$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$GxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$GxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+
+###PVE
+res_var$propG <- res_var$VarG/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propGxE <- res_var$VarGxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(rep, model, propG, propE, propGxE, propEps) %>% 
+  gather(value="Prop", key="Source", propG, propE, propGxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propG", "propE", "propGxE", "propEps"), labels=c("VarG", "VarE", "VarGxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+#### Phenotype scaled within environment
+
+```{r random obs within env, fig.height=10, fig.width=13}
+schemes <- "random_obs"
+model <- c("G", "E", "GandE", "GxE")
+pheno <- "scaled_within_env_pheno"
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("rep", "scheme", "model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
+
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$G$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$G$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$GxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$GxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+
+###PVE
+res_var$propG <- res_var$VarG/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propGxE <- res_var$VarGxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(rep, model, propG, propE, propGxE, propEps) %>% 
+  gather(value="Prop", key="Source", propG, propE, propGxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propG", "propE", "propGxE", "propEps"), labels=c("VarG", "VarE", "VarGxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+#### Phenotype scaled across environments
+
+```{r random obs overall, fig.height=10, fig.width=13}
+schemes <- "random_obs"
+model <- c("G", "E", "GandE", "GxE")
+pheno <- "scaled_overall_pheno"
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("rep", "scheme", "model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
+
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
       i <- i + 1
         
       res[i, 1] <- repp
@@ -374,10 +939,13 @@ In this scenario, we assigned all the observations in a specific temperature to 
 is never seen in the training set. Thus, there is no transfer of training-test information at the temperature level,
 which is the factor that explains the majority of the phenotypic variance.
 
-```{r across temp, fig.height=10, fig.width=13}
+#### Original scale phenotype
+
+```{r across temp orig, fig.height=10, fig.width=13}
 n_reps <- 3
 schemes <- "temp"
 model <- c("G", "E", "GandE", "GxE")
+pheno <- "original_pheno"
 
 
 i <- 0
@@ -394,7 +962,7 @@ colnames(res_var) <- c("temp", "scheme", "model", "VarG", "VarE", "VarGxE", "Var
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
       i <- i + 1
         
       res[i, 1] <- repp
@@ -474,6 +1042,215 @@ res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>
 
 res %>% group_by(model) %>% as.data.frame()
 ```
+
+#### Phenotype scaled within environment
+
+```{r across within env, fig.height=10, fig.width=13}
+n_reps <- 3
+schemes <- "temp"
+model <- c("G", "E", "GandE", "GxE")
+pheno <- "scaled_within_env_pheno"
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("temp", "scheme", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("temp", "scheme", "model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
+
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$G$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$G$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$GxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$GxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+
+###PVE
+res_var$propG <- res_var$VarG/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propGxE <- res_var$VarGxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(temp, model, propG, propE, propGxE, propEps) %>% 
+  gather(value="Prop", key="Source", propG, propE, propGxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propG", "propE", "propGxE", "propEps"), labels=c("VarG", "VarE", "VarGxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+
+res %>% group_by(model) %>% as.data.frame()
+```
+
+#### Phenotype scaled across environments
+
+```{r across overall, fig.height=10, fig.width=13}
+n_reps <- 3
+schemes <- "temp"
+model <- c("G", "E", "GandE", "GxE")
+pheno <- "scaled_overall_pheno"
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("temp", "scheme", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("temp", "scheme", "model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
+
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$G$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$G$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$GxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$GxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+
+###PVE
+res_var$propG <- res_var$VarG/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propGxE <- res_var$VarGxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(temp, model, propG, propE, propGxE, propEps) %>% 
+  gather(value="Prop", key="Source", propG, propE, propGxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propG", "propE", "propGxE", "propEps"), labels=c("VarG", "VarE", "VarGxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+
+res %>% group_by(model) %>% as.data.frame()
+```
+
 
 In general, prediction accuracy is lower in this scenario. The results show that, as expected, E-BLUP predicts poorly. G-BLUP predicts decently
 because all the lines are present in the test set. GE-BLUP improves accuracy over G-BLUP. GxE-BLUP is worse than G-BLUP and GE-BLUP, on average.
