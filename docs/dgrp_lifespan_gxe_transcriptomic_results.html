@@ -11,7 +11,7 @@
 
 <meta name="author" content="Fabio Morgante" />
 
-<meta name="date" content="2024-10-25" />
+<meta name="date" content="2024-10-29" />
 
 <title>Transcriptomic prediction of life span with different models</title>
 
@@ -374,7 +374,7 @@ div.tocify {
 <h1 class="title toc-ignore">Transcriptomic prediction of life span with
 different models</h1>
 <h4 class="author">Fabio Morgante</h4>
-<h4 class="date">October 25, 2024</h4>
+<h4 class="date">October 29, 2024</h4>
 
 </div>
 
@@ -403,7 +403,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-10-25
+<strong>Last updated:</strong> 2024-10-29
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -534,15 +534,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree9d720a87b0c394f5b12a3f24fcaf63363e50da95targetblank9d720a8a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree25eaf46b38591c6dde0bd3c443b11acec3484950targetblank25eaf46a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/9d720a87b0c394f5b12a3f24fcaf63363e50da95" target="_blank">9d720a8</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/25eaf46b38591c6dde0bd3c443b11acec3484950" target="_blank">25eaf46</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree9d720a87b0c394f5b12a3f24fcaf63363e50da95targetblank9d720a8a"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree25eaf46b38591c6dde0bd3c443b11acec3484950targetblank25eaf46a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -552,7 +552,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/9d720a87b0c394f5b12a3f24fcaf63363e50da95" target="_blank">9d720a8</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/25eaf46b38591c6dde0bd3c443b11acec3484950" target="_blank">25eaf46</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -579,9 +579,6 @@ Ignored files:
     Ignored:    output/test_sets/
     Ignored:    run/
     Ignored:    slurm/
-
-Unstaged changes:
-    Modified:   dgrp_lifespan_gxe_snakemake_submitter.sh
 
 </code></pre>
 <p>
@@ -628,6 +625,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/25eaf46b38591c6dde0bd3c443b11acec3484950/analysis/dgrp_lifespan_gxe_transcriptomic_results.Rmd" target="_blank">25eaf46</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-29
+</td>
+<td>
+Add scaled y results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/5247c8b6f6b9e21e549da947eb11e5513695abc2/docs/dgrp_lifespan_gxe_transcriptomic_results.html" target="_blank">5247c8b</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-10-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -975,9 +1006,12 @@ analyzed separately.</p>
 <p>This is the baseline scenario, where we acknowldege that the genetic
 architecture of life span is different across environments and we
 analyze them separately using T-BLUP.</p>
+<div id="original-scale-phenotype" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>sex &lt;- 1
 temp &lt;- c(18,25,28)
 model &lt;- &quot;T&quot;
+pheno &lt;- &quot;original_pheno&quot;
 
 
 i &lt;- 0
@@ -993,7 +1027,7 @@ colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;temp&quot;, &quot;model&quot;, 
 
   for(t in temp){
     for(repp in 1:n_reps){
-      dat &lt;- readRDS(paste0(&quot;output/T_fit/&quot;, prefix, &quot;_random_within_env_&quot;, sex, &quot;_&quot;, t, &quot;_T_fit_&quot;, repp, &quot;.rds&quot;))
+      dat &lt;- readRDS(paste0(&quot;output/T_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_random_within_env_&quot;, sex, &quot;_&quot;, t, &quot;_T_fit_&quot;, repp, &quot;.rds&quot;))
       i &lt;- i + 1
       
       res[i, 1] &lt;- repp
@@ -1022,66 +1056,7 @@ p_var &lt;- ggplot(res_var, aes(x = temp, y = H2)) +
   theme_cowplot(font_size = 18)
 
 print(p_var)</code></pre>
-<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20females-1.png" width="1248" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-within-env-females-1">
-Past versions of "random within env females-1.png"
-</button>
-</p>
-<div id="fig-no-spaces-random-within-env-females-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e6bac938b07a09cff502a5252271288f7b4e0ddf/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random within env females-1.png" target="_blank">e6bac93</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/bfc1461a735460ba936cfd01ccd96fccd70a08b3/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random within env females-1.png" target="_blank">bfc1461</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-15
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random within env females-1.png" target="_blank">022638e</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-14
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20females%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, temp=as.factor(temp))
 
@@ -1094,44 +1069,77 @@ p &lt;- ggplot(res, aes(x = temp, y = r2)) +
   theme_cowplot(font_size = 18)
 
 print(p)</code></pre>
-<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20females-2.png" width="1248" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-within-env-females-2">
-Past versions of "random within env females-2.png"
-</button>
-</p>
-<div id="fig-no-spaces-random-within-env-females-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e6bac938b07a09cff502a5252271288f7b4e0ddf/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random within env females-2.png" target="_blank">e6bac93</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-</tbody>
-</table>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20females%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(temp) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>  temp   mean_r2       se_r2
+1   18 0.1201101 0.004086826
+2   25 0.1058351 0.004123527
+3   28 0.0425277 0.001876263</code></pre>
 </div>
-</div>
+<div id="phenotype-scaled-within-environment" class="section level5">
+<h5>Phenotype scaled within environment</h5>
+<pre class="r"><code>sex &lt;- 1
+temp &lt;- c(18,25,28)
+model &lt;- &quot;T&quot;
+pheno &lt;- &quot;scaled_within_env_pheno&quot;
+
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(temp) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;temp&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+res_var &lt;- as.data.frame(matrix(NA, ncol=n_col+2, nrow=n_row))
+colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;temp&quot;, &quot;model&quot;, &quot;VarT&quot;, &quot;VarEps&quot;, &quot;H2&quot;)
+
+
+  for(t in temp){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/T_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_random_within_env_&quot;, sex, &quot;_&quot;, t, &quot;_T_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+      
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- t
+      res[i, 3] &lt;- model
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] &lt;- repp
+      res_var[i, 2] &lt;- t
+      res_var[i, 3] &lt;- model
+      res_var[i, 4] &lt;- dat$model_fit$ETA$T$varU
+      res_var[i, 5] &lt;- dat$model_fit$varE
+      res_var[i, 6] &lt;- dat$model_fit$ETA$T$varU/(dat$model_fit$ETA$T$varU + dat$model_fit$varE)
+    }
+  }
+
+###PVE
+res_var &lt;- transform(res_var, temp=as.factor(temp))
+
+p_var &lt;- ggplot(res_var, aes(x = temp, y = H2)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  labs(x = &quot;Environment&quot;, y = expression(italic(PVE)), title=&quot;&quot;) +
+  theme_cowplot(font_size = 18)
+
+print(p_var)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20females%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>###Accuracy
+res &lt;- transform(res, temp=as.factor(temp))
+
+p &lt;- ggplot(res, aes(x = temp, y = r2)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  labs(x = &quot;Environment&quot;, y = expression(italic(R)^2), title=&quot;&quot;) +
+  theme_cowplot(font_size = 18)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20females%20within%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>res %&gt;% group_by(temp) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  temp   mean_r2       se_r2
 1   18 0.1201101 0.004086826
@@ -1141,14 +1149,17 @@ fmorgante
 and is higher than using <a
 href="dgrp_lifespan_gxe_genomic_results.html">genotypes</a>.</p>
 </div>
+</div>
 <div id="random-lines-scenario" class="section level4">
 <h4>Random lines scenario</h4>
 <p>In this scenario, we combine the data across environments and fit the
 different models.</p>
+<div id="original-scale-phenotype-1" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>sex &lt;- 1
 schemes &lt;- &quot;random_lines&quot;
 model &lt;- c(&quot;T&quot;, &quot;Et&quot;, &quot;TandE&quot;, &quot;TxE&quot;)
-
+pheno &lt;- &quot;original_pheno&quot;
 
 i &lt;- 0
 
@@ -1163,7 +1174,7 @@ colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
-      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, sche, &quot;_&quot;, sex, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, sex, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
       i &lt;- i + 1
         
       res[i, 1] &lt;- repp
@@ -1225,66 +1236,7 @@ print(p)</code></pre>
 (`stat_boxplot()`).</code></pre>
 <pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
-<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20females-1.png" width="1248" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-females-1">
-Past versions of "random lines females-1.png"
-</button>
-</p>
-<div id="fig-no-spaces-random-lines-females-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e6bac938b07a09cff502a5252271288f7b4e0ddf/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random lines females-1.png" target="_blank">e6bac93</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/bfc1461a735460ba936cfd01ccd96fccd70a08b3/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random lines females-1.png" target="_blank">bfc1461</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-15
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random lines females-1.png" target="_blank">022638e</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-14
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20females%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -1301,72 +1253,20 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
   theme(legend.position=&quot;none&quot;)
 
 print(p)</code></pre>
-<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20females-2.png" width="1248" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-females-2">
-Past versions of "random lines females-2.png"
-</button>
-</p>
-<div id="fig-no-spaces-random-lines-females-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e6bac938b07a09cff502a5252271288f7b4e0ddf/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random lines females-2.png" target="_blank">e6bac93</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20females%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
-<pre><code>  model     mean_r2        se_r2
-1    Et 0.004833702 0.0003400395
-2     T 0.076750697 0.0023431223
-3 TandE 0.073439360 0.0022624130
-4   TxE 0.079519259 0.0022505102</code></pre>
-<p>The results show that T-BLUP performs poorly. This is expected
-because we are making the implicit assumption that transcriptomic
-effects are equal across environments, which is not the case. E-BLUP
-does very well in this scenario because when combining the data across
-environments, a lot of the variance is explained by the environmental
-effects, which we have good power to estimate. TxE-BLUP gives marginally
-higher accuracy than TE-BLUP, which gives marginally higher accuracy
-than E-BLUP, although these accuracies are very similar.</p>
+<pre><code>  model    mean_r2       se_r2
+1    Et 0.72042014 0.002107802
+2     T 0.01646595 0.000523178
+3 TandE 0.73631557 0.002062954
+4   TxE 0.74767418 0.002061867</code></pre>
 </div>
-<div id="random-observations-scenario" class="section level4">
-<h4>Random observations scenario</h4>
-<p>In this scenario, every line and environment is potentially
-represented in the training set. It is specific combinations of lines
-and environments (e.g., line_101 at 18C) that are not seen in the
-training set. This is the scenario where we expect an advantage from
-using models with both gene expression and environment information
-because the training-test transfer of information happens at every
-level.</p>
+<div id="phenotype-scaled-within-environment-1" class="section level5">
+<h5>Phenotype scaled within environment</h5>
 <pre class="r"><code>sex &lt;- 1
-schemes &lt;- &quot;random_obs&quot;
+schemes &lt;- &quot;random_lines&quot;
 model &lt;- c(&quot;T&quot;, &quot;Et&quot;, &quot;TandE&quot;, &quot;TxE&quot;)
-
+pheno &lt;- &quot;scaled_within_env_pheno&quot;
 
 i &lt;- 0
 
@@ -1381,7 +1281,132 @@ colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
-      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, sche, &quot;_&quot;, sex, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, sex, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] &lt;- repp
+      res_var[i, 2] &lt;- sche
+      res_var[i, 3] &lt;- met
+      if(!is.null(dat$model_fit$ETA$T$varU)){
+        res_var[i, 4] &lt;- dat$model_fit$ETA$T$varU
+      } else {
+        res_var[i, 4] &lt;- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] &lt;- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] &lt;- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$TxE$varU)){
+        res_var[i, 6] &lt;- dat$model_fit$ETA$TxE$varU
+      } else {
+        res_var[i, 6] &lt;- NA
+      }
+
+      res_var[i, 7] &lt;- dat$model_fit$varE
+      res_var[i, 8] &lt;- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+###PVE
+res_var$propT &lt;- res_var$VarT/res_var$VarTot
+res_var$propE &lt;- res_var$VarE/res_var$VarTot
+res_var$propTxE &lt;- res_var$VarTxE/res_var$VarTot
+res_var$propEps &lt;- res_var$VarEps/res_var$VarTot
+
+res_var_long &lt;- res_var %&gt;% select(rep, model, propT, propE, propTxE, propEps) %&gt;% 
+  gather(value=&quot;Prop&quot;, key=&quot;Source&quot;, propT, propE, propTxE, propEps)
+
+res_var_long &lt;- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c(&quot;propT&quot;, &quot;propE&quot;, &quot;propTxE&quot;, &quot;propEps&quot;), labels=c(&quot;VarT&quot;, &quot;VarE&quot;, &quot;VarTxE&quot;, &quot;VarRes&quot;)))
+
+p &lt;- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;total&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(PVE)), fill=&quot;Source&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) 
+
+print(p)</code></pre>
+<pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
+(`stat_summary()`).</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20females%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>###Accuracy
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  scale_x_discrete(labels=c(&quot;Et&quot; = &quot;E&quot;, &quot;T&quot; = &quot;T&quot;, &quot;TandE&quot; = &quot;TandE&quot;, &quot;TxE&quot; = &quot;TxE&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position=&quot;none&quot;)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20females%20within%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>  model     mean_r2        se_r2
+1    Et 0.004577633 0.0003109242
+2     T 0.076452292 0.0023362052
+3 TandE 0.073031508 0.0022516278
+4   TxE 0.078871773 0.0022345018</code></pre>
+<p>The results show that T-BLUP performs poorly. This is expected
+because we are making the implicit assumption that transcriptomic
+effects are equal across environments, which is not the case. E-BLUP
+does very well in this scenario because when combining the data across
+environments, a lot of the variance is explained by the environmental
+effects, which we have good power to estimate. TxE-BLUP gives marginally
+higher accuracy than TE-BLUP, which gives marginally higher accuracy
+than E-BLUP, although these accuracies are very similar.</p>
+</div>
+</div>
+<div id="random-observations-scenario" class="section level4">
+<h4>Random observations scenario</h4>
+<p>In this scenario, every line and environment is potentially
+represented in the training set. It is specific combinations of lines
+and environments (e.g., line_101 at 18C) that are not seen in the
+training set. This is the scenario where we expect an advantage from
+using models with both gene expression and environment information
+because the training-test transfer of information happens at every
+level.</p>
+<div id="original-scale-phenotype-2" class="section level5">
+<h5>Original scale phenotype</h5>
+<pre class="r"><code>sex &lt;- 1
+schemes &lt;- &quot;random_obs&quot;
+model &lt;- c(&quot;T&quot;, &quot;Et&quot;, &quot;TandE&quot;, &quot;TxE&quot;)
+pheno &lt;- &quot;original_pheno&quot;
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+res_var &lt;- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;VarT&quot;, &quot;VarE&quot;, &quot;VarTxE&quot;, &quot;VarEps&quot;, &quot;VarTot&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, sex, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
       i &lt;- i + 1
         
       res[i, 1] &lt;- repp
@@ -1442,66 +1467,7 @@ print(p)</code></pre>
 (`stat_boxplot()`).</code></pre>
 <pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
-<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20females-1.png" width="1248" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-females-1">
-Past versions of "random obs females-1.png"
-</button>
-</p>
-<div id="fig-no-spaces-random-obs-females-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e6bac938b07a09cff502a5252271288f7b4e0ddf/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random obs females-1.png" target="_blank">e6bac93</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/bfc1461a735460ba936cfd01ccd96fccd70a08b3/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random obs females-1.png" target="_blank">bfc1461</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-15
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random obs females-1.png" target="_blank">022638e</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-14
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20females%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -1518,54 +1484,124 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
   theme(legend.position=&quot;none&quot;)
 
 print(p)</code></pre>
-<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20females-2.png" width="1248" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-females-2">
-Past versions of "random obs females-2.png"
-</button>
-</p>
-<div id="fig-no-spaces-random-obs-females-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e6bac938b07a09cff502a5252271288f7b4e0ddf/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random obs females-2.png" target="_blank">e6bac93</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-</tbody>
-</table>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20females%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>  model    mean_r2       se_r2
+1    Et 0.71481870 0.002405064
+2     T 0.04609244 0.001238534
+3 TandE 0.75739308 0.002334023
+4   TxE 0.76904006 0.002374466</code></pre>
 </div>
-</div>
+<div id="phenotype-scaled-within-environment-2" class="section level5">
+<h5>Phenotype scaled within environment</h5>
+<pre class="r"><code>sex &lt;- 1
+schemes &lt;- &quot;random_obs&quot;
+model &lt;- c(&quot;T&quot;, &quot;Et&quot;, &quot;TandE&quot;, &quot;TxE&quot;)
+pheno &lt;- &quot;scaled_within_env_pheno&quot;
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+res_var &lt;- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;VarT&quot;, &quot;VarE&quot;, &quot;VarTxE&quot;, &quot;VarEps&quot;, &quot;VarTot&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, sex, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] &lt;- repp
+      res_var[i, 2] &lt;- sche
+      res_var[i, 3] &lt;- met
+      if(!is.null(dat$model_fit$ETA$T$varU)){
+        res_var[i, 4] &lt;- dat$model_fit$ETA$T$varU
+      } else {
+        res_var[i, 4] &lt;- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] &lt;- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] &lt;- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$TxE$varU)){
+        res_var[i, 6] &lt;- dat$model_fit$ETA$TxE$varU
+      } else {
+        res_var[i, 6] &lt;- NA
+      }
+
+      res_var[i, 7] &lt;- dat$model_fit$varE
+      res_var[i, 8] &lt;- sum(res_var[i, 4:7], na.rm=TRUE)
+    }
+  }
+}
+
+###PVE
+res_var$propT &lt;- res_var$VarT/res_var$VarTot
+res_var$propE &lt;- res_var$VarE/res_var$VarTot
+res_var$propTxE &lt;- res_var$VarTxE/res_var$VarTot
+res_var$propEps &lt;- res_var$VarEps/res_var$VarTot
+
+res_var_long &lt;- res_var %&gt;% select(rep, model, propT, propE, propTxE, propEps) %&gt;% 
+  gather(value=&quot;Prop&quot;, key=&quot;Source&quot;, propT, propE, propTxE, propEps)
+
+res_var_long &lt;- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c(&quot;propT&quot;, &quot;propE&quot;, &quot;propTxE&quot;, &quot;propEps&quot;), labels=c(&quot;VarT&quot;, &quot;VarE&quot;, &quot;VarTxE&quot;, &quot;VarRes&quot;)))
+
+p &lt;- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;total&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(PVE)), fill=&quot;Source&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) 
+
+print(p)</code></pre>
+<pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
+(`stat_summary()`).</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20females%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>###Accuracy
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  scale_x_discrete(labels=c(&quot;Et&quot; = &quot;E&quot;, &quot;T&quot; = &quot;T&quot;, &quot;TandE&quot; = &quot;TandE&quot;, &quot;TxE&quot; = &quot;TxE&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position=&quot;none&quot;)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20females%20within%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model     mean_r2        se_r2
-1    Et 0.008421635 0.0003430083
-2     T 0.264757616 0.0032370627
-3 TandE 0.262338227 0.0032397311
-4   TxE 0.273621729 0.0032807275</code></pre>
+1    Et 0.007921056 0.0003395848
+2     T 0.264253227 0.0032111157
+3 TandE 0.261659613 0.0032070383
+4   TxE 0.272714190 0.0032343373</code></pre>
 <p>The results show a similar pattern to the previous scenario. However,
 TE-BLUP and TxE-BLUP achieve marginally higher accuracies than in the
 previous scenario, due to the full training-test transfer of
 information.</p>
+</div>
 </div>
 </div>
 <div id="males" class="section level3">
@@ -1575,9 +1611,12 @@ information.</p>
 <p>This is the baseline scenario, where we acknowldege that the genetic
 architecture of life span is different across environments and we
 analyze them separately using T-BLUP.</p>
+<div id="original-scale-phenotype-3" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>sex &lt;- 0
 temp &lt;- c(18,25,28)
 model &lt;- &quot;T&quot;
+pheno &lt;- &quot;original_pheno&quot;
 
 
 i &lt;- 0
@@ -1593,7 +1632,7 @@ colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;temp&quot;, &quot;model&quot;, 
 
   for(t in temp){
     for(repp in 1:n_reps){
-      dat &lt;- readRDS(paste0(&quot;output/T_fit/&quot;, prefix, &quot;_random_within_env_&quot;, sex, &quot;_&quot;, t, &quot;_T_fit_&quot;, repp, &quot;.rds&quot;))
+      dat &lt;- readRDS(paste0(&quot;output/T_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_random_within_env_&quot;, sex, &quot;_&quot;, t, &quot;_T_fit_&quot;, repp, &quot;.rds&quot;))
       i &lt;- i + 1
       
       res[i, 1] &lt;- repp
@@ -1622,66 +1661,7 @@ p_var &lt;- ggplot(res_var, aes(x = temp, y = H2)) +
   theme_cowplot(font_size = 18)
 
 print(p_var)</code></pre>
-<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20males-1.png" width="1248" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-within-env-males-1">
-Past versions of "random within env males-1.png"
-</button>
-</p>
-<div id="fig-no-spaces-random-within-env-males-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e6bac938b07a09cff502a5252271288f7b4e0ddf/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random within env males-1.png" target="_blank">e6bac93</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/bfc1461a735460ba936cfd01ccd96fccd70a08b3/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random within env males-1.png" target="_blank">bfc1461</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-15
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random within env males-1.png" target="_blank">022638e</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-14
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20males%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, temp=as.factor(temp))
 
@@ -1694,60 +1674,97 @@ p &lt;- ggplot(res, aes(x = temp, y = r2)) +
   theme_cowplot(font_size = 18)
 
 print(p)</code></pre>
-<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20males-2.png" width="1248" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-within-env-males-2">
-Past versions of "random within env males-2.png"
-</button>
-</p>
-<div id="fig-no-spaces-random-within-env-males-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e6bac938b07a09cff502a5252271288f7b4e0ddf/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random within env males-2.png" target="_blank">e6bac93</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20males%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>res %&gt;% group_by(temp) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  temp    mean_r2       se_r2
 1   18 0.08050506 0.002302153
 2   25 0.09590137 0.003829558
 3   28 0.06942896 0.003002771</code></pre>
-<p>The results show that prediction accuracy is pretty similar across
-environments.</p>
+</div>
+<div id="phenotype-scaled-within-environment-3" class="section level5">
+<h5>Phenotype scaled within environment</h5>
+<pre class="r"><code>sex &lt;- 0
+temp &lt;- c(18,25,28)
+model &lt;- &quot;T&quot;
+pheno &lt;- &quot;scaled_within_env_pheno&quot;
+
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(temp) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;temp&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+res_var &lt;- as.data.frame(matrix(NA, ncol=n_col+2, nrow=n_row))
+colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;temp&quot;, &quot;model&quot;, &quot;VarT&quot;, &quot;VarEps&quot;, &quot;H2&quot;)
+
+
+  for(t in temp){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/T_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_random_within_env_&quot;, sex, &quot;_&quot;, t, &quot;_T_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+      
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- t
+      res[i, 3] &lt;- model
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] &lt;- repp
+      res_var[i, 2] &lt;- t
+      res_var[i, 3] &lt;- model
+      res_var[i, 4] &lt;- dat$model_fit$ETA$T$varU
+      res_var[i, 5] &lt;- dat$model_fit$varE
+      res_var[i, 6] &lt;- dat$model_fit$ETA$T$varU/(dat$model_fit$ETA$T$varU + dat$model_fit$varE)
+    }
+  }
+
+###PVE
+res_var &lt;- transform(res_var, temp=as.factor(temp))
+
+p_var &lt;- ggplot(res_var, aes(x = temp, y = H2)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  labs(x = &quot;Environment&quot;, y = expression(italic(PVE)), title=&quot;&quot;) +
+  theme_cowplot(font_size = 18)
+
+print(p_var)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20males%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>###Accuracy
+res &lt;- transform(res, temp=as.factor(temp))
+
+p &lt;- ggplot(res, aes(x = temp, y = r2)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  labs(x = &quot;Environment&quot;, y = expression(italic(R)^2), title=&quot;&quot;) +
+  theme_cowplot(font_size = 18)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20within%20env%20males%20within%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(temp) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>  temp    mean_r2       se_r2
+1   18 0.08050506 0.002302153
+2   25 0.09590137 0.003829558
+3   28 0.06942896 0.003002771</code></pre>
+<p>The results show that prediction accuracy varies across environments
+and is higher than using <a
+href="dgrp_lifespan_gxe_genomic_results.html">genotypes</a>.</p>
+</div>
 </div>
 <div id="random-lines-scenario-1" class="section level4">
 <h4>Random lines scenario</h4>
 <p>In this scenario, we combine the data across environments and fit the
 different models.</p>
+<div id="original-scale-phenotype-4" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>sex &lt;- 0
 schemes &lt;- &quot;random_lines&quot;
 model &lt;- c(&quot;T&quot;, &quot;Et&quot;, &quot;TandE&quot;, &quot;TxE&quot;)
-
+pheno &lt;- &quot;original_pheno&quot;
 
 i &lt;- 0
 
@@ -1762,7 +1779,7 @@ colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
-      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, sche, &quot;_&quot;, sex, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, sex, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
       i &lt;- i + 1
         
       res[i, 1] &lt;- repp
@@ -1816,7 +1833,6 @@ p &lt;- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
                position = position_dodge2(width = 0.87,   
                                           preserve = &quot;total&quot;)) +
   scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
-  scale_x_discrete(labels=c(&quot;Et&quot; = &quot;E&quot;, &quot;T&quot; = &quot;T&quot;, &quot;TandE&quot; = &quot;TandE&quot;, &quot;TxE&quot; = &quot;TxE&quot;)) +
   labs(x = &quot;Model&quot;, y = expression(italic(PVE)), fill=&quot;Source&quot;, title=&quot;&quot;) +
   theme_cowplot(font_size = 18) 
 
@@ -1825,77 +1841,7 @@ print(p)</code></pre>
 (`stat_boxplot()`).</code></pre>
 <pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
-<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20males-1.png" width="1248" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-males-1">
-Past versions of "random lines males-1.png"
-</button>
-</p>
-<div id="fig-no-spaces-random-lines-males-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/7dbe97529e9288c8738c07b8211368e2064972d5/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random lines males-1.png" target="_blank">7dbe975</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e6bac938b07a09cff502a5252271288f7b4e0ddf/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random lines males-1.png" target="_blank">e6bac93</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/bfc1461a735460ba936cfd01ccd96fccd70a08b3/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random lines males-1.png" target="_blank">bfc1461</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-15
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random lines males-1.png" target="_blank">022638e</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-14
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20males%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -1907,77 +1853,150 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
                                           preserve = &quot;single&quot;)) +
   scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
   scale_x_discrete(labels=c(&quot;Et&quot; = &quot;E&quot;, &quot;T&quot; = &quot;T&quot;, &quot;TandE&quot; = &quot;TandE&quot;, &quot;TxE&quot; = &quot;TxE&quot;)) +
-  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), title=&quot;&quot;) +
   theme_cowplot(font_size = 18) +
   theme(legend.position=&quot;none&quot;)
 
 print(p)</code></pre>
-<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20males-2.png" width="1248" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-males-2">
-Past versions of "random lines males-2.png"
-</button>
-</p>
-<div id="fig-no-spaces-random-lines-males-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e6bac938b07a09cff502a5252271288f7b4e0ddf/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random lines males-2.png" target="_blank">e6bac93</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20males%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model    mean_r2        se_r2
-1    Et 0.00582281 0.0004285622
-2     T 0.07913829 0.0018584713
-3 TandE 0.07304666 0.0017656009
-4   TxE 0.07200847 0.0016848940</code></pre>
+1    Et 0.73869621 0.0013628471
+2     T 0.01121764 0.0002831988
+3 TandE 0.75257735 0.0013383244
+4   TxE 0.75646865 0.0014363185</code></pre>
+</div>
+<div id="phenotype-scaled-within-environment-4" class="section level5">
+<h5>Phenotype scaled within environment</h5>
+<pre class="r"><code>sex &lt;- 0
+schemes &lt;- &quot;random_lines&quot;
+model &lt;- c(&quot;T&quot;, &quot;Et&quot;, &quot;TandE&quot;, &quot;TxE&quot;)
+pheno &lt;- &quot;scaled_within_env_pheno&quot;
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+res_var &lt;- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;VarT&quot;, &quot;VarE&quot;, &quot;VarTxE&quot;, &quot;VarEps&quot;, &quot;VarTot&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, sex, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] &lt;- repp
+      res_var[i, 2] &lt;- sche
+      res_var[i, 3] &lt;- met
+      if(!is.null(dat$model_fit$ETA$T$varU)){
+        res_var[i, 4] &lt;- dat$model_fit$ETA$T$varU
+      } else {
+        res_var[i, 4] &lt;- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] &lt;- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] &lt;- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$TxE$varU)){
+        res_var[i, 6] &lt;- dat$model_fit$ETA$TxE$varU
+      } else {
+        res_var[i, 6] &lt;- NA
+      }
+
+      res_var[i, 7] &lt;- dat$model_fit$varE
+      res_var[i, 8] &lt;- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+###PVE
+res_var$propT &lt;- res_var$VarT/res_var$VarTot
+res_var$propE &lt;- res_var$VarE/res_var$VarTot
+res_var$propTxE &lt;- res_var$VarTxE/res_var$VarTot
+res_var$propEps &lt;- res_var$VarEps/res_var$VarTot
+
+res_var_long &lt;- res_var %&gt;% select(rep, model, propT, propE, propTxE, propEps) %&gt;% 
+  gather(value=&quot;Prop&quot;, key=&quot;Source&quot;, propT, propE, propTxE, propEps)
+
+res_var_long &lt;- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c(&quot;propT&quot;, &quot;propE&quot;, &quot;propTxE&quot;, &quot;propEps&quot;), labels=c(&quot;VarT&quot;, &quot;VarE&quot;, &quot;VarTxE&quot;, &quot;VarRes&quot;)))
+
+p &lt;- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;total&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(PVE)), fill=&quot;Source&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) 
+
+print(p)</code></pre>
+<pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
+(`stat_summary()`).</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20males%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>###Accuracy
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  scale_x_discrete(labels=c(&quot;Et&quot; = &quot;E&quot;, &quot;T&quot; = &quot;T&quot;, &quot;TandE&quot; = &quot;TandE&quot;, &quot;TxE&quot; = &quot;TxE&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position=&quot;none&quot;)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20lines%20males%20within%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>  model    mean_r2        se_r2
+1    Et 0.00584640 0.0004186923
+2     T 0.07916659 0.0018645494
+3 TandE 0.07301485 0.0017625850
+4   TxE 0.07186478 0.0016689176</code></pre>
 <p>The results show that T-BLUP performs poorly. This is expected
 because we are making the implicit assumption that transcriptomic
 effects are equal across environments, which is not the case. E-BLUP
 does very well in this scenario because when combining the data across
 environments, a lot of the variance is explained by the environmental
-effects, which we have good power to estimate. TE-BLUP and TxE-BLUP give
-marginally higher accuracy than E-BLUP, although these accuracies are
-very similar.</p>
+effects, which we have good power to estimate. TxE-BLUP gives marginally
+higher accuracy than TE-BLUP, which gives marginally higher accuracy
+than E-BLUP, although these accuracies are very similar.</p>
+</div>
 </div>
 <div id="random-observations-scenario-1" class="section level4">
 <h4>Random observations scenario</h4>
 <p>In this scenario, every line and environment is potentially
 represented in the training set. It is specific combinations of lines
-and environments (e.g., line_101 in females at 18C) that are not seen in
-the training set. This is the scenario where we expect an advantage from
+and environments (e.g., line_101 at 18C) that are not seen in the
+training set. This is the scenario where we expect an advantage from
 using models with both gene expression and environment information
 because the training-test transfer of information happens at every
-level</p>
+level.</p>
+<div id="original-scale-phenotype-5" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>sex &lt;- 0
 schemes &lt;- &quot;random_obs&quot;
 model &lt;- c(&quot;T&quot;, &quot;Et&quot;, &quot;TandE&quot;, &quot;TxE&quot;)
-
+pheno &lt;- &quot;original_pheno&quot;
 
 i &lt;- 0
 
@@ -1992,7 +2011,7 @@ colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
-      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, sche, &quot;_&quot;, sex, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, sex, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
       i &lt;- i + 1
         
       res[i, 1] &lt;- repp
@@ -2045,7 +2064,6 @@ p &lt;- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
                position = position_dodge2(width = 0.87,   
                                           preserve = &quot;total&quot;)) +
   scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
-  scale_x_discrete(labels=c(&quot;Et&quot; = &quot;E&quot;, &quot;T&quot; = &quot;T&quot;, &quot;TandE&quot; = &quot;TandE&quot;, &quot;TxE&quot; = &quot;TxE&quot;)) +
   labs(x = &quot;Model&quot;, y = expression(italic(PVE)), fill=&quot;Source&quot;, title=&quot;&quot;) +
   theme_cowplot(font_size = 18) 
 
@@ -2054,77 +2072,7 @@ print(p)</code></pre>
 (`stat_boxplot()`).</code></pre>
 <pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
-<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20males-1.png" width="1248" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-males-1">
-Past versions of "random obs males-1.png"
-</button>
-</p>
-<div id="fig-no-spaces-random-obs-males-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/7dbe97529e9288c8738c07b8211368e2064972d5/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random obs males-1.png" target="_blank">7dbe975</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e6bac938b07a09cff502a5252271288f7b4e0ddf/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random obs males-1.png" target="_blank">e6bac93</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/bfc1461a735460ba936cfd01ccd96fccd70a08b3/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random obs males-1.png" target="_blank">bfc1461</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-15
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/022638e00dda28a2ce07d72485b8cd4cc32b5929/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random obs males-1.png" target="_blank">022638e</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-14
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20males%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -2141,53 +2089,122 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
   theme(legend.position=&quot;none&quot;)
 
 print(p)</code></pre>
-<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20males-2.png" width="1248" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-males-2">
-Past versions of "random obs males-2.png"
-</button>
-</p>
-<div id="fig-no-spaces-random-obs-males-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e6bac938b07a09cff502a5252271288f7b4e0ddf/docs/figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random obs males-2.png" target="_blank">e6bac93</a>
-</td>
-<td>
-fmorgante
-</td>
-<td>
-2024-10-17
-</td>
-</tr>
-</tbody>
-</table>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20males%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>  model    mean_r2       se_r2
+1    Et 0.75022268 0.001175999
+2     T 0.07362787 0.001446745
+3 TandE 0.79531153 0.001110173
+4   TxE 0.79623176 0.001190225</code></pre>
 </div>
-</div>
+<div id="phenotype-scaled-within-environment-5" class="section level5">
+<h5>Phenotype scaled within environment</h5>
+<pre class="r"><code>sex &lt;- 0
+schemes &lt;- &quot;random_obs&quot;
+model &lt;- c(&quot;T&quot;, &quot;Et&quot;, &quot;TandE&quot;, &quot;TxE&quot;)
+pheno &lt;- &quot;scaled_within_env_pheno&quot;
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+res_var &lt;- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;VarT&quot;, &quot;VarE&quot;, &quot;VarTxE&quot;, &quot;VarEps&quot;, &quot;VarTot&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, sex, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] &lt;- repp
+      res_var[i, 2] &lt;- sche
+      res_var[i, 3] &lt;- met
+      if(!is.null(dat$model_fit$ETA$T$varU)){
+        res_var[i, 4] &lt;- dat$model_fit$ETA$T$varU
+      } else {
+        res_var[i, 4] &lt;- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] &lt;- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] &lt;- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$TxE$varU)){
+        res_var[i, 6] &lt;- dat$model_fit$ETA$TxE$varU
+      } else {
+        res_var[i, 6] &lt;- NA
+      }
+
+      res_var[i, 7] &lt;- dat$model_fit$varE
+      res_var[i, 8] &lt;- sum(res_var[i, 4:7], na.rm=TRUE)
+    }
+  }
+}
+
+###PVE
+res_var$propT &lt;- res_var$VarT/res_var$VarTot
+res_var$propE &lt;- res_var$VarE/res_var$VarTot
+res_var$propTxE &lt;- res_var$VarTxE/res_var$VarTot
+res_var$propEps &lt;- res_var$VarEps/res_var$VarTot
+
+res_var_long &lt;- res_var %&gt;% select(rep, model, propT, propE, propTxE, propEps) %&gt;% 
+  gather(value=&quot;Prop&quot;, key=&quot;Source&quot;, propT, propE, propTxE, propEps)
+
+res_var_long &lt;- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c(&quot;propT&quot;, &quot;propE&quot;, &quot;propTxE&quot;, &quot;propEps&quot;), labels=c(&quot;VarT&quot;, &quot;VarE&quot;, &quot;VarTxE&quot;, &quot;VarRes&quot;)))
+
+p &lt;- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;total&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(PVE)), fill=&quot;Source&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) 
+
+print(p)</code></pre>
+<pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 100 rows containing non-finite outside the scale range
+(`stat_summary()`).</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20males%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>###Accuracy
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  scale_x_discrete(labels=c(&quot;Et&quot; = &quot;E&quot;, &quot;T&quot; = &quot;T&quot;, &quot;TandE&quot; = &quot;TandE&quot;, &quot;TxE&quot; = &quot;TxE&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position=&quot;none&quot;)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_transcriptomic_results.Rmd/random%20obs%20males%20within%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model     mean_r2        se_r2
-1    Et 0.003496047 0.0002421911
-2     T 0.328995817 0.0038403019
-3 TandE 0.328424286 0.0038756390
-4   TxE 0.321795538 0.0041047073</code></pre>
+1    Et 0.003188668 0.0002235287
+2     T 0.328695466 0.0038530626
+3 TandE 0.327996574 0.0038855016
+4   TxE 0.321153393 0.0041129801</code></pre>
 <p>The results show a similar pattern to the previous scenario. However,
-the difference between (TE-BLUP, TxE-BLUP) and E-BLUP is larger than in
-the previous scenario, due to the full training-test transfer of
+TE-BLUP and TxE-BLUP achieve marginally higher accuracies than in the
+previous scenario, due to the full training-test transfer of
 information.</p>
 <br>
 <p>
@@ -2233,6 +2250,7 @@ loaded via a namespace (and not attached):
 [41] whisker_0.4.1     scales_1.3.0      promises_1.3.0    htmltools_0.5.8.1
 [45] colorspace_2.1-0  httpuv_1.6.11     labeling_0.4.3    utf8_1.2.4       
 [49] stringi_1.8.4     munsell_0.5.1     cachem_1.1.0     </code></pre>
+</div>
 </div>
 </div>
 </div>
