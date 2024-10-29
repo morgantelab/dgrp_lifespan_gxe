@@ -78,10 +78,13 @@ Prediction accuracy was evaluated as the $R^2$ of the regression of observed phe
 This is the baseline scenario, where we acknowldege that the genetic architecture of life span is different across environments and we
 analyze them separately using T-BLUP.
 
-```{r random within env females, fig.height=10, fig.width=13}
+##### Original scale phenotype
+
+```{r random within env females orig, fig.height=10, fig.width=13}
 sex <- 1
 temp <- c(18,25,28)
 model <- "T"
+pheno <- "original_pheno"
 
 
 i <- 0
@@ -97,7 +100,7 @@ colnames(res_var) <- c("rep", "temp", "model", "VarT", "VarEps", "H2")
 
   for(t in temp){
     for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/T_fit/", prefix, "_random_within_env_", sex, "_", t, "_T_fit_", repp, ".rds"))
+      dat <- readRDS(paste0("output/T_fit/", prefix, "_", pheno, "_random_within_env_", sex, "_", t, "_T_fit_", repp, ".rds"))
       i <- i + 1
       
       res[i, 1] <- repp
@@ -143,6 +146,75 @@ print(p)
 res %>% group_by(temp) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
+##### Phenotype scaled within environment
+
+```{r random within env females within env, fig.height=10, fig.width=13}
+sex <- 1
+temp <- c(18,25,28)
+model <- "T"
+pheno <- "scaled_within_env_pheno"
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(temp) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "temp", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+2, nrow=n_row))
+colnames(res_var) <- c("rep", "temp", "model", "VarT", "VarEps", "H2")
+
+
+  for(t in temp){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/T_fit/", prefix, "_", pheno, "_random_within_env_", sex, "_", t, "_T_fit_", repp, ".rds"))
+      i <- i + 1
+      
+      res[i, 1] <- repp
+      res[i, 2] <- t
+      res[i, 3] <- model
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- t
+      res_var[i, 3] <- model
+      res_var[i, 4] <- dat$model_fit$ETA$T$varU
+      res_var[i, 5] <- dat$model_fit$varE
+      res_var[i, 6] <- dat$model_fit$ETA$T$varU/(dat$model_fit$ETA$T$varU + dat$model_fit$varE)
+    }
+  }
+
+###PVE
+res_var <- transform(res_var, temp=as.factor(temp))
+
+p_var <- ggplot(res_var, aes(x = temp, y = H2)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  labs(x = "Environment", y = expression(italic(PVE)), title="") +
+  theme_cowplot(font_size = 18)
+
+print(p_var)
+
+###Accuracy
+res <- transform(res, temp=as.factor(temp))
+
+p <- ggplot(res, aes(x = temp, y = r2)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  labs(x = "Environment", y = expression(italic(R)^2), title="") +
+  theme_cowplot(font_size = 18)
+
+print(p)
+
+res %>% group_by(temp) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+
 The results show that prediction accuracy varies across environments and is higher than using [genotypes](dgrp_lifespan_gxe_genomic_results.html).
 
 
@@ -150,11 +222,13 @@ The results show that prediction accuracy varies across environments and is high
 
 In this scenario, we combine the data across environments and fit the different models.
 
-```{r random lines females, fig.height=10, fig.width=13}
+##### Original scale phenotype
+
+```{r random lines females orig, fig.height=10, fig.width=13}
 sex <- 1
 schemes <- "random_lines"
 model <- c("T", "Et", "TandE", "TxE")
-
+pheno <- "original_pheno"
 
 i <- 0
 
@@ -169,7 +243,7 @@ colnames(res_var) <- c("rep", "scheme", "model", "VarT", "VarE", "VarTxE", "VarE
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
       i <- i + 1
         
       res[i, 1] <- repp
@@ -248,24 +322,13 @@ print(p)
 res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
-The results show that T-BLUP performs poorly. This is expected because we are making the implicit assumption that transcriptomic
-effects are equal across environments, which is not the case. E-BLUP does very well in this scenario because when combining 
-the data across environments, a lot of the variance is explained by the environmental effects, which we have good power to 
-estimate. TxE-BLUP gives marginally higher accuracy than TE-BLUP, which gives marginally higher accuracy than E-BLUP, although
-these accuracies are very similar.
+##### Phenotype scaled within environment
 
-#### Random observations scenario
-
-In this scenario, every line and environment is potentially represented in the training set. It is specific combinations of
-lines and environments (e.g., line_101 at 18C) that are not seen in the training set. This is the scenario 
-where we expect an advantage from using models with both gene expression and environment information because the training-test 
-transfer of information happens at every level.
-
-```{r random obs females, fig.height=10, fig.width=13}
+```{r random lines females within env, fig.height=10, fig.width=13}
 sex <- 1
-schemes <- "random_obs"
+schemes <- "random_lines"
 model <- c("T", "Et", "TandE", "TxE")
-
+pheno <- "scaled_within_env_pheno"
 
 i <- 0
 
@@ -280,7 +343,121 @@ colnames(res_var) <- c("rep", "scheme", "model", "VarT", "VarE", "VarTxE", "VarE
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$T$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$T$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$TxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$TxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+###PVE
+res_var$propT <- res_var$VarT/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propTxE <- res_var$VarTxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(rep, model, propT, propE, propTxE, propEps) %>% 
+  gather(value="Prop", key="Source", propT, propE, propTxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propT", "propE", "propTxE", "propEps"), labels=c("VarT", "VarE", "VarTxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
+  labs(x = "Model", y = expression(italic(R)^2), title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+
+The results show that T-BLUP performs poorly. This is expected because we are making the implicit assumption that transcriptomic
+effects are equal across environments, which is not the case. E-BLUP does very well in this scenario because when combining 
+the data across environments, a lot of the variance is explained by the environmental effects, which we have good power to 
+estimate. TxE-BLUP gives marginally higher accuracy than TE-BLUP, which gives marginally higher accuracy than E-BLUP, although
+these accuracies are very similar.
+
+#### Random observations scenario
+
+In this scenario, every line and environment is potentially represented in the training set. It is specific combinations of
+lines and environments (e.g., line_101 at 18C) that are not seen in the training set. This is the scenario 
+where we expect an advantage from using models with both gene expression and environment information because the training-test 
+transfer of information happens at every level.
+
+##### Original scale phenotype
+
+```{r random obs females orig, fig.height=10, fig.width=13}
+sex <- 1
+schemes <- "random_obs"
+model <- c("T", "Et", "TandE", "TxE")
+pheno <- "original_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("rep", "scheme", "model", "VarT", "VarE", "VarTxE", "VarEps", "VarTot")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
       i <- i + 1
         
       res[i, 1] <- repp
@@ -358,6 +535,106 @@ print(p)
 res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
+##### Phenotype scaled within environment
+
+```{r random obs females within env, fig.height=10, fig.width=13}
+sex <- 1
+schemes <- "random_obs"
+model <- c("T", "Et", "TandE", "TxE")
+pheno <- "scaled_within_env_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("rep", "scheme", "model", "VarT", "VarE", "VarTxE", "VarEps", "VarTot")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$T$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$T$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$TxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$TxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+    }
+  }
+}
+
+###PVE
+res_var$propT <- res_var$VarT/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propTxE <- res_var$VarTxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(rep, model, propT, propE, propTxE, propEps) %>% 
+  gather(value="Prop", key="Source", propT, propE, propTxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propT", "propE", "propTxE", "propEps"), labels=c("VarT", "VarE", "VarTxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+
 The results show a similar pattern to the previous scenario. However, TE-BLUP and TxE-BLUP achieve marginally higher accuracies than 
 in the previous scenario, due to the full training-test transfer of information. 
 
@@ -369,10 +646,13 @@ in the previous scenario, due to the full training-test transfer of information.
 This is the baseline scenario, where we acknowldege that the genetic architecture of life span is different across environments and we
 analyze them separately using T-BLUP.
 
-```{r random within env males, fig.height=10, fig.width=13}
+##### Original scale phenotype
+
+```{r random within env males orig, fig.height=10, fig.width=13}
 sex <- 0
 temp <- c(18,25,28)
 model <- "T"
+pheno <- "original_pheno"
 
 
 i <- 0
@@ -388,7 +668,7 @@ colnames(res_var) <- c("rep", "temp", "model", "VarT", "VarEps", "H2")
 
   for(t in temp){
     for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/T_fit/", prefix, "_random_within_env_", sex, "_", t, "_T_fit_", repp, ".rds"))
+      dat <- readRDS(paste0("output/T_fit/", prefix, "_", pheno, "_random_within_env_", sex, "_", t, "_T_fit_", repp, ".rds"))
       i <- i + 1
       
       res[i, 1] <- repp
@@ -434,18 +714,89 @@ print(p)
 res %>% group_by(temp) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
-The results show that prediction accuracy is pretty similar across environments.
+##### Phenotype scaled within environment
+
+```{r random within env males within env, fig.height=10, fig.width=13}
+sex <- 0
+temp <- c(18,25,28)
+model <- "T"
+pheno <- "scaled_within_env_pheno"
+
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(temp) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "temp", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+2, nrow=n_row))
+colnames(res_var) <- c("rep", "temp", "model", "VarT", "VarEps", "H2")
+
+
+  for(t in temp){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/T_fit/", prefix, "_", pheno, "_random_within_env_", sex, "_", t, "_T_fit_", repp, ".rds"))
+      i <- i + 1
+      
+      res[i, 1] <- repp
+      res[i, 2] <- t
+      res[i, 3] <- model
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- t
+      res_var[i, 3] <- model
+      res_var[i, 4] <- dat$model_fit$ETA$T$varU
+      res_var[i, 5] <- dat$model_fit$varE
+      res_var[i, 6] <- dat$model_fit$ETA$T$varU/(dat$model_fit$ETA$T$varU + dat$model_fit$varE)
+    }
+  }
+
+###PVE
+res_var <- transform(res_var, temp=as.factor(temp))
+
+p_var <- ggplot(res_var, aes(x = temp, y = H2)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  labs(x = "Environment", y = expression(italic(PVE)), title="") +
+  theme_cowplot(font_size = 18)
+
+print(p_var)
+
+###Accuracy
+res <- transform(res, temp=as.factor(temp))
+
+p <- ggplot(res, aes(x = temp, y = r2)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  labs(x = "Environment", y = expression(italic(R)^2), title="") +
+  theme_cowplot(font_size = 18)
+
+print(p)
+
+res %>% group_by(temp) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+
+The results show that prediction accuracy varies across environments and is higher than using [genotypes](dgrp_lifespan_gxe_genomic_results.html).
 
 
 #### Random lines scenario
 
 In this scenario, we combine the data across environments and fit the different models.
 
-```{r random lines males, fig.height=10, fig.width=13}
+##### Original scale phenotype
+
+```{r random lines males orig, fig.height=10, fig.width=13}
 sex <- 0
 schemes <- "random_lines"
 model <- c("T", "Et", "TandE", "TxE")
-
+pheno <- "original_pheno"
 
 i <- 0
 
@@ -460,7 +811,7 @@ colnames(res_var) <- c("rep", "scheme", "model", "VarT", "VarE", "VarTxE", "VarE
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
       i <- i + 1
         
       res[i, 1] <- repp
@@ -514,7 +865,6 @@ p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
                position = position_dodge2(width = 0.87,   
                                           preserve = "total")) +
   scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
-  scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
   labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
   theme_cowplot(font_size = 18) 
 
@@ -531,7 +881,7 @@ p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
                                           preserve = "single")) +
   scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
   scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
-  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  labs(x = "Model", y = expression(italic(R)^2), title="") +
   theme_cowplot(font_size = 18) +
   theme(legend.position="none")
 
@@ -539,24 +889,128 @@ print(p)
 
 res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
+
+##### Phenotype scaled within environment
+
+```{r random lines males within env, fig.height=10, fig.width=13}
+sex <- 0
+schemes <- "random_lines"
+model <- c("T", "Et", "TandE", "TxE")
+pheno <- "scaled_within_env_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("rep", "scheme", "model", "VarT", "VarE", "VarTxE", "VarEps", "VarTot")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$T$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$T$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$TxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$TxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+###PVE
+res_var$propT <- res_var$VarT/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propTxE <- res_var$VarTxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(rep, model, propT, propE, propTxE, propEps) %>% 
+  gather(value="Prop", key="Source", propT, propE, propTxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propT", "propE", "propTxE", "propEps"), labels=c("VarT", "VarE", "VarTxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
+  labs(x = "Model", y = expression(italic(R)^2), title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
 
 The results show that T-BLUP performs poorly. This is expected because we are making the implicit assumption that transcriptomic
 effects are equal across environments, which is not the case. E-BLUP does very well in this scenario because when combining 
 the data across environments, a lot of the variance is explained by the environmental effects, which we have good power to 
-estimate. TE-BLUP and TxE-BLUP give marginally higher accuracy than E-BLUP, although these accuracies are very similar.
+estimate. TxE-BLUP gives marginally higher accuracy than TE-BLUP, which gives marginally higher accuracy than E-BLUP, although
+these accuracies are very similar.
 
 #### Random observations scenario
 
 In this scenario, every line and environment is potentially represented in the training set. It is specific combinations of
-lines and environments (e.g., line_101 in females at 18C) that are not seen in the training set. This is the scenario 
+lines and environments (e.g., line_101 at 18C) that are not seen in the training set. This is the scenario 
 where we expect an advantage from using models with both gene expression and environment information because the training-test 
-transfer of information happens at every level
+transfer of information happens at every level.
 
-```{r random obs males, fig.height=10, fig.width=13}
+##### Original scale phenotype
+
+```{r random obs males orig, fig.height=10, fig.width=13}
 sex <- 0
 schemes <- "random_obs"
 model <- c("T", "Et", "TandE", "TxE")
-
+pheno <- "original_pheno"
 
 i <- 0
 
@@ -571,7 +1025,7 @@ colnames(res_var) <- c("rep", "scheme", "model", "VarT", "VarE", "VarTxE", "VarE
 for(sche in schemes){
   for(met in model){
     for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
       i <- i + 1
         
       res[i, 1] <- repp
@@ -624,7 +1078,6 @@ p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
                position = position_dodge2(width = 0.87,   
                                           preserve = "total")) +
   scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
-  scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
   labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
   theme_cowplot(font_size = 18) 
 
@@ -650,5 +1103,105 @@ print(p)
 res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
-The results show a similar pattern to the previous scenario. However, the difference between (TE-BLUP, TxE-BLUP) and E-BLUP is larger than 
-in the previous scenario, due to the full training-test transfer of information.
+##### Phenotype scaled within environment
+
+```{r random obs males within env, fig.height=10, fig.width=13}
+sex <- 0
+schemes <- "random_obs"
+model <- c("T", "Et", "TandE", "TxE")
+pheno <- "scaled_within_env_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("rep", "scheme", "model", "VarT", "VarE", "VarTxE", "VarEps", "VarTot")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", sex, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$T$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$T$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$TxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$TxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+    }
+  }
+}
+
+###PVE
+res_var$propT <- res_var$VarT/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propTxE <- res_var$VarTxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(rep, model, propT, propE, propTxE, propEps) %>% 
+  gather(value="Prop", key="Source", propT, propE, propTxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propT", "propE", "propTxE", "propEps"), labels=c("VarT", "VarE", "VarTxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  scale_x_discrete(labels=c("Et" = "E", "T" = "T", "TandE" = "TandE", "TxE" = "TxE")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+
+The results show a similar pattern to the previous scenario. However, TE-BLUP and TxE-BLUP achieve marginally higher accuracies than 
+in the previous scenario, due to the full training-test transfer of information. 
