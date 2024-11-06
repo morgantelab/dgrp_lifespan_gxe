@@ -67,12 +67,13 @@ the test set randomly, and analyzed the sex/temperature combinations jointly wit
 scenario is that all the lines, sexes and temperatures are represented in the training set. This procedure was repeated 20 times.
 * _New temperature scenario_. We assigned all the observations in a specific temperature to the test set, i.e., that temperature 
 is never seen in the training set. This procedure was repeated 3 times, once for each temperature.
+* _New temperature and sex scenario_. We assigned all the observations in a specific temperature and sex to the test set, i.e., that combination 
+is never seen in the training set. This procedure was repeated 6 times, once for each temperature/sex combination.
 
 We used different treatments of the phenotype:
 
 * Leave it on the original scale.
 * Scale it within each sex/temperature combination.
-* Scale it across sex/temperature combinations.
 
 Prediction accuracy was evaluated as the $R^2$ of the regression of observed phenotypes on predicted phenotypes in the test set.
 
@@ -167,83 +168,6 @@ sex <- c(1, 0)
 temp <- c(18,25,28)
 model <- "G"
 pheno <- "scaled_within_env_pheno"
-
-
-i <- 0
-
-n_col <- 6
-n_row <- n_reps * length(sex) * length(temp) * length(model)
-res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) <- c("rep", "sex", "temp", "model", "r2", "env")
-
-res_var <- as.data.frame(matrix(NA, ncol=n_col+2, nrow=n_row))
-colnames(res_var) <- c("rep", "sex", "temp", "model", "VarG", "VarEps", "H2", "env")
-
-
-for(s in sex){
-  for(t in temp){
-    for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/G_fit/", prefix, "_", pheno, "_random_within_env_", s, "_", t, "_G_fit_", repp, ".rds"))
-      i <- i + 1
-      
-      res[i, 1] <- repp
-      res[i, 2] <- s
-      res[i, 3] <- t
-      res[i, 4] <- model
-      res[i, 5] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
-      res[i, 6] <- paste0(s, "_", t)
-      
-      res_var[i, 1] <- repp
-      res_var[i, 2] <- s
-      res_var[i, 3] <- t
-      res_var[i, 4] <- model
-      res_var[i, 5] <- dat$model_fit$ETA$G$varU
-      res_var[i, 6] <- dat$model_fit$varE
-      res_var[i, 7] <- dat$model_fit$ETA$G$varU/(dat$model_fit$ETA$G$varU + dat$model_fit$varE)
-      res_var[i, 8] <- paste0(s, "_", t)
-
-    }
-  }
-}
-
-#res_var_long <- res_var %>% select(rep, VarG, VarEps, env) %>% gather(value="Var", key="Source", VarG, VarEps)
-res_var <- transform(res_var, env=as.factor(env))
-
-p_var <- ggplot(res_var, aes(x = env, y = H2)) +
-  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
-  stat_summary(fun=mean, geom="point", shape=23,
-               position = position_dodge2(width = 0.87,   
-                                          preserve = "single")) +
-  labs(x = "Environment", y = expression(italic(PVE)), title="") +
-  theme_cowplot(font_size = 18)
-
-print(p_var)
-
-
-
-res <- transform(res, env=as.factor(env))
-
-p <- ggplot(res, aes(x = env, y = r2)) +
-  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
-  stat_summary(fun=mean, geom="point", shape=23,
-               position = position_dodge2(width = 0.87,   
-                                          preserve = "single")) +
-  labs(x = "Environment", y = expression(italic(R)^2), title="") +
-  theme_cowplot(font_size = 18)
-
-print(p)
-
-res %>% group_by(env) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>% as.data.frame()
-
-```
-
-#### Phenotype scaled across environments
-
-```{r random within env scaled overall, fig.height=10, fig.width=13}
-sex <- c(1, 0)
-temp <- c(18,25,28)
-model <- "G"
-pheno <- "scaled_overall_pheno"
 
 
 i <- 0
@@ -521,107 +445,7 @@ print(p)
 res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
-#### Phenotype scaled across environments
-
-```{r random lines overall, fig.height=10, fig.width=13}
-schemes <- "random_lines"
-model <- c("G", "E", "GandE", "GxE")
-pheno <- "scaled_overall_pheno"
-
-i <- 0
-
-n_col <- 4
-n_row <- n_reps * length(schemes) * length(model)
-res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) <- c("rep", "scheme", "model", "r2")
-
-res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
-colnames(res_var) <- c("rep", "scheme", "model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
-
-
-for(sche in schemes){
-  for(met in model){
-    for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
-      i <- i + 1
-        
-      res[i, 1] <- repp
-      res[i, 2] <- sche
-      res[i, 3] <- met
-      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
-      
-      res_var[i, 1] <- repp
-      res_var[i, 2] <- sche
-      res_var[i, 3] <- met
-      if(!is.null(dat$model_fit$ETA$G$varU)){
-        res_var[i, 4] <- dat$model_fit$ETA$G$varU
-      } else {
-        res_var[i, 4] <- NA
-      }
-      
-      if(!is.null(dat$model_fit$ETA$E$varU)){
-        res_var[i, 5] <- dat$model_fit$ETA$E$varU
-      } else {
-        res_var[i, 5] <- NA
-      }
-
-      if(!is.null(dat$model_fit$ETA$GxE$varU)){
-        res_var[i, 6] <- dat$model_fit$ETA$GxE$varU
-      } else {
-        res_var[i, 6] <- NA
-      }
-
-      res_var[i, 7] <- dat$model_fit$varE
-      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
-
-    }
-  }
-}
-
-
-###PVE
-res_var$propG <- res_var$VarG/res_var$VarTot
-res_var$propE <- res_var$VarE/res_var$VarTot
-res_var$propGxE <- res_var$VarGxE/res_var$VarTot
-res_var$propEps <- res_var$VarEps/res_var$VarTot
-
-res_var_long <- res_var %>% select(rep, model, propG, propE, propGxE, propEps) %>% 
-  gather(value="Prop", key="Source", propG, propE, propGxE, propEps)
-
-res_var_long <- transform(res_var_long, model=factor(model),
-                 Source=factor(Source, levels=c("propG", "propE", "propGxE", "propEps"), labels=c("VarG", "VarE", "VarGxE", "VarRes")))
-
-p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
-  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
-  stat_summary(fun=mean, geom="point", shape=23,
-               position = position_dodge2(width = 0.87,   
-                                          preserve = "total")) +
-  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
-  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
-  theme_cowplot(font_size = 18) 
-
-print(p)
-
-###Accuracy
-res <- transform(res, scheme=as.factor(scheme),
-                 model=as.factor(model))
-
-p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
-  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
-  stat_summary(fun=mean, geom="point", shape=23,
-               position = position_dodge2(width = 0.87,   
-                                          preserve = "single")) +
-  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
-  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
-  theme_cowplot(font_size = 18) +
-  theme(legend.position="none")
-
-print(p)
-
-res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
-```
-
-With the phenotype on the original scale or scaled across the environments, the results show that G-BLUP performs poorly. 
+With the phenotype on the original scale, the results show that G-BLUP performs poorly. 
 This is expected because we are making the implicit assumption that genetic effects are equal across environments, which 
 is not the case. E-BLUP does very well in this scenario because when combining the data across environments, a lot of the 
 variance is explained by the environmental effects, which we have good power to estimate. GE-BLUP and GxE-BLUP give very 
@@ -840,108 +664,7 @@ print(p)
 res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
-#### Phenotype scaled across environments
-
-```{r random obs overall, fig.height=10, fig.width=13}
-schemes <- "random_obs"
-model <- c("G", "E", "GandE", "GxE")
-pheno <- "scaled_overall_pheno"
-
-
-i <- 0
-
-n_col <- 4
-n_row <- n_reps * length(schemes) * length(model)
-res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
-colnames(res) <- c("rep", "scheme", "model", "r2")
-
-res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
-colnames(res_var) <- c("rep", "scheme", "model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
-
-
-for(sche in schemes){
-  for(met in model){
-    for(repp in 1:n_reps){
-      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
-      i <- i + 1
-        
-      res[i, 1] <- repp
-      res[i, 2] <- sche
-      res[i, 3] <- met
-      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
-      
-      res_var[i, 1] <- repp
-      res_var[i, 2] <- sche
-      res_var[i, 3] <- met
-      if(!is.null(dat$model_fit$ETA$G$varU)){
-        res_var[i, 4] <- dat$model_fit$ETA$G$varU
-      } else {
-        res_var[i, 4] <- NA
-      }
-      
-      if(!is.null(dat$model_fit$ETA$E$varU)){
-        res_var[i, 5] <- dat$model_fit$ETA$E$varU
-      } else {
-        res_var[i, 5] <- NA
-      }
-
-      if(!is.null(dat$model_fit$ETA$GxE$varU)){
-        res_var[i, 6] <- dat$model_fit$ETA$GxE$varU
-      } else {
-        res_var[i, 6] <- NA
-      }
-
-      res_var[i, 7] <- dat$model_fit$varE
-      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
-
-    }
-  }
-}
-
-
-###PVE
-res_var$propG <- res_var$VarG/res_var$VarTot
-res_var$propE <- res_var$VarE/res_var$VarTot
-res_var$propGxE <- res_var$VarGxE/res_var$VarTot
-res_var$propEps <- res_var$VarEps/res_var$VarTot
-
-res_var_long <- res_var %>% select(rep, model, propG, propE, propGxE, propEps) %>% 
-  gather(value="Prop", key="Source", propG, propE, propGxE, propEps)
-
-res_var_long <- transform(res_var_long, model=factor(model),
-                 Source=factor(Source, levels=c("propG", "propE", "propGxE", "propEps"), labels=c("VarG", "VarE", "VarGxE", "VarRes")))
-
-p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
-  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
-  stat_summary(fun=mean, geom="point", shape=23,
-               position = position_dodge2(width = 0.87,   
-                                          preserve = "total")) +
-  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
-  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
-  theme_cowplot(font_size = 18) 
-
-print(p)
-
-###Accuracy
-res <- transform(res, scheme=as.factor(scheme),
-                 model=as.factor(model))
-
-p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
-  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
-  stat_summary(fun=mean, geom="point", shape=23,
-               position = position_dodge2(width = 0.87,   
-                                          preserve = "single")) +
-  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
-  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
-  theme_cowplot(font_size = 18) +
-  theme(legend.position="none")
-
-print(p)
-
-res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
-```
-
-With the phenotype on the original scale or scaled across the environments, the results show that, as expected, GE-BLUP improves 
+With the phenotype on the original scale, the results show that, as expected, GE-BLUP improves 
 prediction accuracy over E-BLUP. GxE-BLUP achieves the highest prediction accuracy.
 
 However, with the phenotype scaled within environment, E-BLUP now does not predict at all because we have zeroed out 
@@ -1163,13 +886,26 @@ res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>
 res %>% group_by(model) %>% as.data.frame()
 ```
 
-#### Phenotype scaled across environments
+With the phenotype on the original scale, in general, prediction accuracy is lower in this scenario. 
+As expected, E-BLUP predicts poorly. G-BLUP predicts decently because all the lines are present in the test set. GE-BLUP improves 
+accuracy over G-BLUP. GxE-BLUP is worse than G-BLUP and GE-BLUP, on average. However, when looking at the temperature-specific accuracies, 
+we can see that it is only the prediction of lifespan at 28C that has lower accuracy.
 
-```{r across overall, fig.height=10, fig.width=13}
-n_reps <- 3
-schemes <- "temp"
+With the phenotype scaled within environment, the pattern is very similar in this scenario.
+
+
+### New temperature and sex scenario
+
+In this scenario, we assigned all the observations in a specific temperature and sex to the test set, i.e., that temperature/sex 
+combination is never seen in the training set.
+
+#### Original scale phenotype
+
+```{r across temp/sex orig, fig.height=10, fig.width=13}
+n_reps <- 6
+schemes <- "temp_sex"
 model <- c("G", "E", "GandE", "GxE")
-pheno <- "scaled_overall_pheno"
+pheno <- "original_pheno"
 
 
 i <- 0
@@ -1267,10 +1003,114 @@ res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>
 res %>% group_by(model) %>% as.data.frame()
 ```
 
+#### Phenotype scaled within environment
 
-With the phenotype on the original scale or scaled across the environments, in general, prediction accuracy is lower in this scenario. 
-As expected, E-BLUP predicts poorly. G-BLUP predicts decently because all the lines are present in the test set. GE-BLUP improves 
-accuracy over G-BLUP. GxE-BLUP is worse than G-BLUP and GE-BLUP, on average. However, when looking at the temperature-specific accuracies, 
-we can see that it is only the prediction of lifespan at 28C that has lower accuracy.
+```{r across temp/sex within env, fig.height=10, fig.width=13}
+n_reps <- 6
+schemes <- "temp_sex"
+model <- c("G", "E", "GandE", "GxE")
+pheno <- "scaled_within_env_pheno"
 
-With the phenotype scaled within environment, the pattern is very similar in this scenario.
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("temp", "scheme", "model", "r2")
+
+res_var <- as.data.frame(matrix(NA, ncol=n_col+4, nrow=n_row))
+colnames(res_var) <- c("temp", "scheme", "model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
+
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      
+      res_var[i, 1] <- repp
+      res_var[i, 2] <- sche
+      res_var[i, 3] <- met
+      if(!is.null(dat$model_fit$ETA$G$varU)){
+        res_var[i, 4] <- dat$model_fit$ETA$G$varU
+      } else {
+        res_var[i, 4] <- NA
+      }
+      
+      if(!is.null(dat$model_fit$ETA$E$varU)){
+        res_var[i, 5] <- dat$model_fit$ETA$E$varU
+      } else {
+        res_var[i, 5] <- NA
+      }
+
+      if(!is.null(dat$model_fit$ETA$GxE$varU)){
+        res_var[i, 6] <- dat$model_fit$ETA$GxE$varU
+      } else {
+        res_var[i, 6] <- NA
+      }
+
+      res_var[i, 7] <- dat$model_fit$varE
+      res_var[i, 8] <- sum(res_var[i, 4:7], na.rm=TRUE)
+
+    }
+  }
+}
+
+
+###PVE
+res_var$propG <- res_var$VarG/res_var$VarTot
+res_var$propE <- res_var$VarE/res_var$VarTot
+res_var$propGxE <- res_var$VarGxE/res_var$VarTot
+res_var$propEps <- res_var$VarEps/res_var$VarTot
+
+res_var_long <- res_var %>% select(temp, model, propG, propE, propGxE, propEps) %>% 
+  gather(value="Prop", key="Source", propG, propE, propGxE, propEps)
+
+res_var_long <- transform(res_var_long, model=factor(model),
+                 Source=factor(Source, levels=c("propG", "propE", "propGxE", "propEps"), labels=c("VarG", "VarE", "VarGxE", "VarRes")))
+
+p <- ggplot(res_var_long, aes(x = model, y = Prop, fill = Source)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "total")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+
+res %>% group_by(model) %>% as.data.frame()
+```
+
+With the phenotype on the original scale, in general, prediction accuracy is lower in this scenario. 
+As expected, E-BLUP does not have any predictive ability; all the observations in the test set get the same predicted phenotype because
+they are equally "related" based on the environment. G-BLUP predicts decently because all the lines are present in the test set. GE-BLUP barely 
+improves accuracy over G-BLUP. GxE-BLUP is better than G-BLUP and GE-BLUP, on average.
+
+With the phenotype scaled within environment, the pattern is very similar in this scenario, with the improvement of using GxE being larger.
+
