@@ -58,13 +58,22 @@ if(cv_scheme == "random_obs"){
   
   it <- 0
   for(i in c(18,25,28)){
-#    for(j in c(1,0)){
-      it <- it+1
+    it <- it+1
       
-      #test_idx <- which(dat$temp == i & dat$sex == j)
-      test_idx <- which(dat$temp == i)
-      test_sets[[it]] <- dat$obs_id[test_idx]
-#    }
+    test_idx <- which(dat$temp == i)
+    test_sets[[it]] <- dat$obs_id[test_idx]
+  }
+} else if(cv_scheme == "temp_sex"){
+  test_sets <- vector("list", 6)
+  
+  it <- 0
+  for(i in c(18,25,28)){
+    for(j in c(1,0)){
+    it <- it+1
+    
+    test_idx <- which(dat$temp == i & dat$sex == j)
+    test_sets[[it]] <- dat$obs_id[test_idx]
+   }
   }
 }
 
