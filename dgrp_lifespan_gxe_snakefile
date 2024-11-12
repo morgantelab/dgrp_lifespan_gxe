@@ -17,8 +17,9 @@ rule all:
 	#   config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
 	#   expand(config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_test_sets.rds", CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"]),
 	#   expand(config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{NEW_TEMP_SCENARIO}_test_sets.rds", NEW_TEMP_SCENARIO=config["NEW_TEMP_SCENARIO"]),
-	#   #expand(config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_random_within_env_{SEX}_{TEMP}_test_sets.rds", SEX=config["SEX"], TEMP=config["TEMP"]),
+	#   expand(config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_random_within_env_{SEX}_{TEMP}_test_sets.rds", SEX=config["SEX"], TEMP=config["TEMP"]),
 	#   config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_random_within_env_test_sets.rds",
+	  expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{MODEL_GBLUP}_fit_whole_data.rds", MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"]),
 	 	expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_{MODEL_GBLUP}_fit_{REP_REPS}.rds", MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], REP_REPS=config["REP_REPS"]),
 		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_{MODEL_GBLUP}_fit_{REP_NEW_TEMP_SCENARIO}.rds", MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SCENARIO=config["NEW_TEMP_SCENARIO"], REP_NEW_TEMP_SCENARIO=config["REP_NEW_TEMP_SCENARIO"]),
 		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SEX_SCENARIO}_{MODEL_GBLUP}_fit_{REP_NEW_TEMP_SEX_SCENARIO}.rds", MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SEX_SCENARIO=config["NEW_TEMP_SEX_SCENARIO"], REP_NEW_TEMP_SEX_SCENARIO=config["REP_NEW_TEMP_SEX_SCENARIO"]),
@@ -318,6 +319,50 @@ rule create_test_sets_within_env:
 		                      --test_set_prop {params.TEST_PROP} \
 		                      --seed {params.SEED} \
 		                      --output {output}
+
+		mamba deactivate
+		"""
+
+
+rule fit_gblup_whole_data:
+	input:
+		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
+		GRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{MODEL_GBLUP}_fit_whole_data.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"fit_gblup_g_e_gxe_whole_data.R",
+		MODEL="{MODEL_GBLUP}",
+		R2=config["R2_GBLUP"],
+		NITER=config["NITER_GBLUP"],
+		NBURNIN=config["NBURNIN_GBLUP"],
+		THIN=config["THIN_GBLUP"],
+		VERB=config["VERBOSE_GBLUP"],
+		SEED=config["SEED_GBLUP"],
+		TMP=config["SCRATCH"]+"/BGLR_1/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{MODEL_GBLUP}_whole_data_",
+		CPU="1"
+	resources: cpus=1, mem_mb=4000, time_min=60
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --grm_file {input.GRM} \
+		                      --pheno_file {input.PHENO} \
+		                      --model {params.MODEL} \
+		                      --R2 {params.R2} \
+		                      --niter {params.NITER} \
+		                      --nburn {params.NBURNIN} \
+		                      --thin {params.THIN} \
+		                      --verbose {params.VERB} \
+		                      --intermediate_file {params.TMP} \
+		                      --seed {params.SEED} \
+		                      --output_file {output}
 
 		mamba deactivate
 		"""
