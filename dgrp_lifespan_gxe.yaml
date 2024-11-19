@@ -10,12 +10,14 @@ SCALE_PHENO: ['original','scaled_within_env']
 CV_SCENARIO_REPS: ['random_obs','random_lines']
 N_REPS: "20"
 REP_REPS: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20']
-TEST_SET_PROP_REPS: "0.2"
+TEST_SET_PROP_REPS: "0.5"
 SEED_REPS: "123"
 NEW_TEMP_SCENARIO: ['temp']
 REP_NEW_TEMP_SCENARIO: ['1','2','3']
 NEW_TEMP_SEX_SCENARIO: ['temp_sex']
 REP_NEW_TEMP_SEX_SCENARIO: ['1','2','3','4','5','6']
+HALF_SPLIT_SCENARIO: ['gradient_1_2','gradient_3_4','sex']
+REP_HALF_SPLIT_SCENARIO: ['1','2']
 SEX: ['1','0']
 TEMP: ['18','25','28']
 MODEL_GBLUP: ['G','E','GandE','GxE']

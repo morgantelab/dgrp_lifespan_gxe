@@ -24,6 +24,15 @@ set.seed(seed)
 ###Load data
 dat <- readRDS(pheno_file)
 
+###Assign lines to two groups
+dgrp_lines <- 1:length(unique(dat$line_id))
+lines_A <- sort(sample(x=dgrp_lines, size=length(dgrp_lines)*test_set_prop))
+lines_B <- dgrp_lines[-lines_A]
+
+lines_A <- dat$line_id[lines_A]
+lines_B <- dat$line_id[lines_B]
+
+###Create sets based on scenario
 if(cv_scheme == "random_obs"){
   n <- nrow(dat)
   
@@ -75,6 +84,23 @@ if(cv_scheme == "random_obs"){
     test_sets[[it]] <- dat$obs_id[test_idx]
    }
   }
+} else if(cv_scheme == "gradient_1_2"){
+  test_sets <- vector("list", 2)
+  
+  test_sets[[1]] <- dat$obs_id[c(which((dat$line_id %in% lines_B) & dat$temp == 25), which(dat$temp == 28))]
+  test_sets[[2]] <- dat$obs_id[c(which((dat$line_id %in% lines_A) & dat$temp == 25), which(dat$temp == 18))]
+  
+} else if(cv_scheme == "gradient_3_4"){
+  test_sets <- vector("list", 2)
+  
+  test_sets[[1]] <- dat$obs_id[c(which((dat$sex == 1) & dat$temp == 25), which(dat$temp == 28))]
+  test_sets[[2]] <- dat$obs_id[c(which((dat$se == 0) & dat$temp == 25), which(dat$temp == 18))]
+  
+}else if(cv_scheme == "sex"){
+  test_sets <- vector("list", 2)
+  
+  test_sets[[1]] <- dat$obs_id[which(dat$sex == 1)]
+  test_sets[[2]] <- dat$obs_id[which(dat$sex == 0)]
 }
 
 saveRDS(test_sets, file=output)
