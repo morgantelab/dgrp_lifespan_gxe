@@ -11,11 +11,11 @@
 
 <meta name="author" content="Fabio Morgante" />
 
-<meta name="date" content="2024-11-19" />
+<meta name="date" content="2024-12-06" />
 
 <title>Genomic prediction of life span with different models</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
@@ -38,8 +38,8 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -374,7 +374,7 @@ div.tocify {
 <h1 class="title toc-ignore">Genomic prediction of life span with
 different models</h1>
 <h4 class="author">Fabio Morgante</h4>
-<h4 class="date">November 19, 2024</h4>
+<h4 class="date">December 06, 2024</h4>
 
 </div>
 
@@ -403,7 +403,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-11-19
+<strong>Last updated:</strong> 2024-12-06
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -534,15 +534,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree39ba942039ab6b2be5a263b35b5c3601920665d1targetblank39ba942a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree52b983f29198fd75a765214854dc956166c9fecctargetblank52b983fa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/39ba942039ab6b2be5a263b35b5c3601920665d1" target="_blank">39ba942</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/52b983f29198fd75a765214854dc956166c9fecc" target="_blank">52b983f</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree39ba942039ab6b2be5a263b35b5c3601920665d1targetblank39ba942a"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree52b983f29198fd75a765214854dc956166c9fecctargetblank52b983fa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -552,7 +552,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/39ba942039ab6b2be5a263b35b5c3601920665d1" target="_blank">39ba942</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/52b983f29198fd75a765214854dc956166c9fecc" target="_blank">52b983f</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -569,10 +569,14 @@ were generated:
 Ignored files:
     Ignored:    .snakemake/
     Ignored:    output/E_fit/
+    Ignored:    output/E_het_var_fit/
     Ignored:    output/Et_fit/
     Ignored:    output/G_fit/
+    Ignored:    output/G_het_var_fit/
     Ignored:    output/GandE_fit/
+    Ignored:    output/GandE_het_var_fit/
     Ignored:    output/GxE_fit/
+    Ignored:    output/GxE_het_var_fit/
     Ignored:    output/T_fit/
     Ignored:    output/TandE_fit/
     Ignored:    output/TxE_fit/
@@ -580,10 +584,8 @@ Ignored files:
     Ignored:    run/
     Ignored:    slurm/
 
-Unstaged changes:
-    Modified:   code/create_test_sets.R
-    Modified:   dgrp_lifespan_gxe.yaml
-    Modified:   dgrp_lifespan_gxe_snakefile
+Untracked files:
+    Untracked:  code/fit_gblup_het_var_g_e_gxe.R
 
 </code></pre>
 <p>
@@ -630,6 +632,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/52b983f29198fd75a765214854dc956166c9fecc/analysis/dgrp_lifespan_gxe_genomic_results.Rmd" target="_blank">52b983f</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-12-06
+</td>
+<td>
+Add het var results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/dgrp_lifespan_gxe_genomic_results.html" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1087,8 +1123,10 @@ phenotypes on predicted phenotypes in the test set.</p>
 <p>This is the baseline scenario, where we acknowldege that the genetic
 architecture of life span is different across environments and we
 analyze them separately using G-BLUP.</p>
-<div id="original-scale-phenotype" class="section level4">
-<h4>Original scale phenotype</h4>
+<div id="homogeneous-residual-variance" class="section level4">
+<h4>Homogeneous residual variance</h4>
+<div id="original-scale-phenotype" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>sex &lt;- c(1, 0)
 temp &lt;- c(18,25,28)
 model &lt;- &quot;G&quot;
@@ -1169,6 +1207,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env orig-1.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env orig-1.png" target="_blank">970178d</a>
 </td>
 <td>
@@ -1218,6 +1267,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env orig-2.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env orig-2.png" target="_blank">970178d</a>
 </td>
 <td>
@@ -1240,8 +1300,8 @@ fmorgante
 5 1_25 0.050655298 0.0016030720
 6 1_28 0.006023807 0.0003804171</code></pre>
 </div>
-<div id="phenotype-scaled-within-environment" class="section level4">
-<h4>Phenotype scaled within environment</h4>
+<div id="phenotype-scaled-within-environment" class="section level5">
+<h5>Phenotype scaled within environment</h5>
 <pre class="r"><code>sex &lt;- c(1, 0)
 temp &lt;- c(18,25,28)
 model &lt;- &quot;G&quot;
@@ -1323,6 +1383,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env scaled within env-1.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env scaled within env-1.png" target="_blank">970178d</a>
 </td>
 <td>
@@ -1373,6 +1444,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env scaled within env-2.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random within env scaled within env-2.png" target="_blank">970178d</a>
 </td>
 <td>
@@ -1399,12 +1481,15 @@ and is generally low. As expected, scaling the phenotypes does not
 affect accuracy in this case.</p>
 </div>
 </div>
+</div>
 <div id="random-lines-scenario" class="section level3">
 <h3>Random lines scenario</h3>
 <p>In this scenario, we combine the data across environments and fit the
 different models.</p>
-<div id="original-scale-phenotype-1" class="section level4">
-<h4>Original scale phenotype</h4>
+<div id="homogeneous-residual-variance-1" class="section level4">
+<h4>Homogeneous residual variance</h4>
+<div id="original-scale-phenotype-1" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>schemes &lt;- &quot;random_lines&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
 pheno &lt;- &quot;original_pheno&quot;
@@ -1511,6 +1596,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig-1.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig-1.png" target="_blank">970178d</a>
 </td>
 <td>
@@ -1564,6 +1660,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig-2.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig-2.png" target="_blank">970178d</a>
 </td>
 <td>
@@ -1584,8 +1691,8 @@ fmorgante
 3 GandE 0.726580957 0.0006751025
 4   GxE 0.726106729 0.0006674381</code></pre>
 </div>
-<div id="phenotype-scaled-within-environment-1" class="section level4">
-<h4>Phenotype scaled within environment</h4>
+<div id="phenotype-scaled-within-environment-1" class="section level5">
+<h5>Phenotype scaled within environment</h5>
 <pre class="r"><code>schemes &lt;- &quot;random_lines&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
 pheno &lt;- &quot;scaled_within_env_pheno&quot;
@@ -1692,6 +1799,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines within env-1.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines within env-1.png" target="_blank">970178d</a>
 </td>
 <td>
@@ -1745,6 +1863,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines within env-2.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines within env-2.png" target="_blank">970178d</a>
 </td>
 <td>
@@ -1779,6 +1908,62 @@ does not predict at all because we have zeroed out differences between
 environments. All the models including G do pretty poorly.</p>
 </div>
 </div>
+<div id="heterogeneous-residual-variance" class="section level4">
+<h4>Heterogeneous residual variance</h4>
+<div id="original-scale-phenotype-2" class="section level5">
+<h5>Original scale phenotype</h5>
+<pre class="r"><code>schemes &lt;- &quot;random_lines&quot;
+model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;)
+pheno &lt;- &quot;original_pheno&quot;
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position=&quot;none&quot;)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20lines%20orig%20het-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>          model     mean_r2         se_r
+1     E_het_var 0.723426379 0.0006849420
+2     G_het_var 0.004695946 0.0001691966
+3 GandE_het_var 0.726939663 0.0007040385
+4   GxE_het_var 0.725793527 0.0006896233</code></pre>
+<p>With heterogeneous residual variance, …</p>
+</div>
+</div>
+</div>
 <div id="random-observations-scenario" class="section level3">
 <h3>Random observations scenario</h3>
 <p>In this scenario, every line and environment is potentially
@@ -1787,8 +1972,10 @@ and environments (e.g., line_101 in females at 18C) that are not seen in
 the training set. This is the scenario where we expect an advantage from
 using models with both genotype and environment information because the
 training-test transfer of information happens at every level.</p>
-<div id="original-scale-phenotype-2" class="section level4">
-<h4>Original scale phenotype</h4>
+<div id="homogeneous-residual-variance-2" class="section level4">
+<h4>Homogeneous residual variance</h4>
+<div id="original-scale-phenotype-3" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>schemes &lt;- &quot;random_obs&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
 pheno &lt;- &quot;original_pheno&quot;
@@ -1896,6 +2083,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig-1.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig-1.png" target="_blank">970178d</a>
 </td>
 <td>
@@ -1949,6 +2147,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig-2.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig-2.png" target="_blank">970178d</a>
 </td>
 <td>
@@ -1969,8 +2178,8 @@ fmorgante
 3 GandE 0.786877061 0.0006237049
 4   GxE 0.802392982 0.0008092222</code></pre>
 </div>
-<div id="phenotype-scaled-within-environment-2" class="section level4">
-<h4>Phenotype scaled within environment</h4>
+<div id="phenotype-scaled-within-environment-2" class="section level5">
+<h5>Phenotype scaled within environment</h5>
 <pre class="r"><code>schemes &lt;- &quot;random_obs&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
 pheno &lt;- &quot;scaled_within_env_pheno&quot;
@@ -2078,6 +2287,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs within env-1.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs within env-1.png" target="_blank">970178d</a>
 </td>
 <td>
@@ -2131,6 +2351,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs within env-2.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/970178d00a7a639b591604e6c2f4ca5bacc03154/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs within env-2.png" target="_blank">970178d</a>
 </td>
 <td>
@@ -2160,6 +2391,62 @@ work decently now?) and GxE-BLUP achieves the highest prediction
 accuracy.</p>
 </div>
 </div>
+<div id="heterogeneous-residual-variance-1" class="section level4">
+<h4>Heterogeneous residual variance</h4>
+<div id="original-scale-phenotype-4" class="section level5">
+<h5>Original scale phenotype</h5>
+<pre class="r"><code>schemes &lt;- &quot;random_obs&quot;
+model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;)
+pheno &lt;- &quot;original_pheno&quot;
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position=&quot;none&quot;)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20obs%20orig%20het-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>          model     mean_r2         se_r
+1     E_het_var 0.721997508 0.0007902213
+2     G_het_var 0.002822643 0.0001601667
+3 GandE_het_var 0.785036894 0.0007417887
+4   GxE_het_var 0.794021024 0.0008231949</code></pre>
+<p>With heterogeneous residual variance, …</p>
+</div>
+</div>
+</div>
 <div id="new-temperature-scenario" class="section level3">
 <h3>New temperature scenario</h3>
 <p>In this scenario, we assigned all the observations in a specific
@@ -2167,8 +2454,10 @@ temperature to the test set, i.e., that temperature is never seen in the
 training set. Thus, there is no transfer of training-test information at
 the temperature level, which is the factor that explains the majority of
 the phenotypic variance.</p>
-<div id="original-scale-phenotype-3" class="section level4">
-<h4>Original scale phenotype</h4>
+<div id="homogeneous-residual-variance-3" class="section level4">
+<h4>Homogeneous residual variance</h4>
+<div id="original-scale-phenotype-5" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>n_reps &lt;- 3
 schemes &lt;- &quot;temp&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
@@ -2364,8 +2653,8 @@ fmorgante
 11    2   temp   GxE 0.377649823
 12    3   temp   GxE 0.123603541</code></pre>
 </div>
-<div id="phenotype-scaled-within-environment-3" class="section level4">
-<h4>Phenotype scaled within environment</h4>
+<div id="phenotype-scaled-within-environment-3" class="section level5">
+<h5>Phenotype scaled within environment</h5>
 <pre class="r"><code>n_reps &lt;- 3
 schemes &lt;- &quot;temp&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
@@ -2571,13 +2860,72 @@ prediction of lifespan at 28C that has lower accuracy.</p>
 similar in this scenario.</p>
 </div>
 </div>
+<div id="heterogeneous-residual-variance-2" class="section level4">
+<h4>Heterogeneous residual variance</h4>
+<div id="original-scale-phenotype-6" class="section level5">
+<h5>Original scale phenotype</h5>
+<pre class="r"><code>n_reps &lt;- 3
+schemes &lt;- &quot;temp&quot;
+model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;)
+pheno &lt;- &quot;original_pheno&quot;
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position=&quot;none&quot;)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp%20orig%20het-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>          model    mean_r2        se_r
+1     E_het_var 0.01530178 0.004543686
+2     G_het_var 0.23329755 0.015981306
+3 GandE_het_var 0.26323413 0.010625486
+4   GxE_het_var 0.27972420 0.023458242</code></pre>
+<p>With heterogeneous residual variance, …</p>
+</div>
+</div>
+</div>
 <div id="new-sex-scenario" class="section level3">
 <h3>New sex scenario</h3>
 <p>In this scenario, we assigned all the observations in a specific sex
 to the test set, i.e., that sex is never seen in the training set. Thus,
 there is no transfer of training-test information at the sex level.</p>
-<div id="original-scale-phenotype-4" class="section level4">
-<h4>Original scale phenotype</h4>
+<div id="homogeneous-residual-variance-4" class="section level4">
+<h4>Homogeneous residual variance</h4>
+<div id="original-scale-phenotype-7" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>n_reps &lt;- 2
 schemes &lt;- &quot;sex&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
@@ -2662,6 +3010,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 10 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20sex%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-sex-orig-1">
+Past versions of "across sex orig-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-sex-orig-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across sex orig-1.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -2678,6 +3063,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20sex%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-sex-orig-2">
+Past versions of "across sex orig-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-sex-orig-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across sex orig-2.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model    mean_r2        se_r
 1     E 0.72359620 0.011658860
@@ -2695,8 +3117,8 @@ print(p)</code></pre>
 7   1    sex   GxE 0.74569887
 8   2    sex   GxE 0.71896903</code></pre>
 </div>
-<div id="phenotype-scaled-within-environment-4" class="section level4">
-<h4>Phenotype scaled within environment</h4>
+<div id="phenotype-scaled-within-environment-4" class="section level5">
+<h5>Phenotype scaled within environment</h5>
 <pre class="r"><code>n_reps &lt;- 2
 schemes &lt;- &quot;sex&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
@@ -2781,6 +3203,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 10 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20sex%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-sex-env-1">
+Past versions of "across sex env-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-sex-env-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across sex env-1.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -2797,6 +3256,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20sex%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-sex-env-2">
+Past versions of "across sex env-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-sex-env-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across sex env-2.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model      mean_r2         se_r
 1     E 4.183670e-23 2.840449e-23
@@ -2817,13 +3313,72 @@ print(p)</code></pre>
 <p>With the phenotype scaled within environment, …</p>
 </div>
 </div>
+<div id="heterogeneous-residual-variance-3" class="section level4">
+<h4>Heterogeneous residual variance</h4>
+<div id="original-scale-phenotype-8" class="section level5">
+<h5>Original scale phenotype</h5>
+<pre class="r"><code>n_reps &lt;- 2
+schemes &lt;- &quot;sex&quot;
+model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;)
+pheno &lt;- &quot;original_pheno&quot;
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position=&quot;none&quot;)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20sex%20orig%20het-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>          model    mean_r2        se_r
+1     E_het_var 0.72359620 0.011658860
+2     G_het_var 0.06436602 0.004608881
+3 GandE_het_var 0.79402164 0.006638155
+4   GxE_het_var 0.79282122 0.009319443</code></pre>
+<p>With heterogeneous residual variance, …</p>
+</div>
+</div>
+</div>
 <div id="new-temperature-and-sex-scenario" class="section level3">
 <h3>New temperature and sex scenario</h3>
 <p>In this scenario, we assigned all the observations in a specific
 temperature and sex to the test set, i.e., that temperature/sex
 combination is never seen in the training set.</p>
-<div id="original-scale-phenotype-5" class="section level4">
-<h4>Original scale phenotype</h4>
+<div id="homogeneous-residual-variance-5" class="section level4">
+<h4>Homogeneous residual variance</h4>
+<div id="original-scale-phenotype-9" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>n_reps &lt;- 6
 schemes &lt;- &quot;temp_sex&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
@@ -3031,8 +3586,8 @@ fmorgante
 23    5 temp_sex   GxE 0.2862420
 24    6 temp_sex   GxE 0.2837347</code></pre>
 </div>
-<div id="phenotype-scaled-within-environment-5" class="section level4">
-<h4>Phenotype scaled within environment</h4>
+<div id="phenotype-scaled-within-environment-5" class="section level5">
+<h5>Phenotype scaled within environment</h5>
 <pre class="r"><code>n_reps &lt;- 6
 schemes &lt;- &quot;temp_sex&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
@@ -3251,11 +3806,70 @@ similar in this scenario, with the improvement of using GxE being
 larger.</p>
 </div>
 </div>
+<div id="heterogeneous-residual-variance-4" class="section level4">
+<h4>Heterogeneous residual variance</h4>
+<div id="original-scale-phenotype-10" class="section level5">
+<h5>Original scale phenotype</h5>
+<pre class="r"><code>n_reps &lt;- 6
+schemes &lt;- &quot;temp_sex&quot;
+model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;)
+pheno &lt;- &quot;original_pheno&quot;
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position=&quot;none&quot;)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp/sex%20orig%20het-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>          model   mean_r2        se_r
+1     E_het_var 0.0000000 0.000000000
+2     G_het_var 0.2736952 0.004330556
+3 GandE_het_var 0.3616820 0.010050622
+4   GxE_het_var 0.4088251 0.006291057</code></pre>
+<p>With heterogeneous residual variance, …</p>
+</div>
+</div>
+</div>
 <div id="gradient-1-and-2-scenario" class="section level3">
 <h3>Gradient 1 and 2 scenario</h3>
 <p>In this scenario, …</p>
-<div id="original-scale-phenotype-6" class="section level4">
-<h4>Original scale phenotype</h4>
+<div id="homogeneous-residual-variance-6" class="section level4">
+<h4>Homogeneous residual variance</h4>
+<div id="original-scale-phenotype-11" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>n_reps &lt;- 2
 schemes &lt;- &quot;gradient_1_2&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
@@ -3340,6 +3954,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 10 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20grad1/2%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-2-orig-1">
+Past versions of "2 orig-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-2-orig-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across grad1/2 orig-1.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -3356,6 +4007,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20grad1/2%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-2-orig-2">
+Past versions of "2 orig-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-2-orig-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across grad1/2 orig-2.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model   mean_r2       se_r
 1     E 0.4877220 0.01388916
@@ -3373,8 +4061,8 @@ print(p)</code></pre>
 7   1 gradient_1_2   GxE 0.4652952
 8   2 gradient_1_2   GxE 0.5955430</code></pre>
 </div>
-<div id="phenotype-scaled-within-environment-6" class="section level4">
-<h4>Phenotype scaled within environment</h4>
+<div id="phenotype-scaled-within-environment-6" class="section level5">
+<h5>Phenotype scaled within environment</h5>
 <pre class="r"><code>n_reps &lt;- 2
 schemes &lt;- &quot;gradient_1_2&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
@@ -3459,6 +4147,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 10 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20grad1/2%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-2-within-env-1">
+Past versions of "2 within env-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-2-within-env-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across grad1/2 within env-1.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -3475,6 +4200,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20grad1/2%20within%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-2-within-env-2">
+Past versions of "2 within env-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-2-within-env-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across grad1/2 within env-2.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model     mean_r2         se_r
 1     E 0.001960104 0.0000985436
@@ -3495,11 +4257,70 @@ print(p)</code></pre>
 <p>With the phenotype scaled within environment, …</p>
 </div>
 </div>
+<div id="heterogeneous-residual-variance-5" class="section level4">
+<h4>Heterogeneous residual variance</h4>
+<div id="original-scale-phenotype-12" class="section level5">
+<h5>Original scale phenotype</h5>
+<pre class="r"><code>n_reps &lt;- 2
+schemes &lt;- &quot;gradient_1_2&quot;
+model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;)
+pheno &lt;- &quot;original_pheno&quot;
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position=&quot;none&quot;)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20grad1/2%20orig%20het-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>          model   mean_r2        se_r
+1     E_het_var 0.4934274 0.008841599
+2     G_het_var 0.1021769 0.012736469
+3 GandE_het_var 0.5237888 0.047787222
+4   GxE_het_var 0.5388347 0.034080272</code></pre>
+<p>With heterogeneous residual variance, …</p>
+</div>
+</div>
+</div>
 <div id="gradient-3-and-4-scenario" class="section level3">
 <h3>Gradient 3 and 4 scenario</h3>
 <p>In this scenario, …</p>
-<div id="original-scale-phenotype-7" class="section level4">
-<h4>Original scale phenotype</h4>
+<div id="homogeneous-residual-variance-7" class="section level4">
+<h4>Homogeneous residual variance</h4>
+<div id="original-scale-phenotype-13" class="section level5">
+<h5>Original scale phenotype</h5>
 <pre class="r"><code>n_reps &lt;- 2
 schemes &lt;- &quot;gradient_3_4&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
@@ -3584,6 +4405,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 10 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20grad3/4%20orig-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-4-orig-1">
+Past versions of "4 orig-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-4-orig-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across grad3/4 orig-1.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -3600,6 +4458,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20grad3/4%20orig-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-4-orig-2">
+Past versions of "4 orig-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-4-orig-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across grad3/4 orig-2.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model   mean_r2         se_r
 1     E 0.4192114 0.0350159552
@@ -3617,8 +4512,8 @@ print(p)</code></pre>
 7   1 gradient_3_4   GxE 0.3601699
 8   2 gradient_3_4   GxE 0.5782034</code></pre>
 </div>
-<div id="phenotype-scaled-within-environment-7" class="section level4">
-<h4>Phenotype scaled within environment</h4>
+<div id="phenotype-scaled-within-environment-7" class="section level5">
+<h5>Phenotype scaled within environment</h5>
 <pre class="r"><code>n_reps &lt;- 2
 schemes &lt;- &quot;gradient_3_4&quot;
 model &lt;- c(&quot;G&quot;, &quot;E&quot;, &quot;GandE&quot;, &quot;GxE&quot;)
@@ -3703,6 +4598,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 10 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20grad3/4%20within%20env-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-4-within-env-1">
+Past versions of "4 within env-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-4-within-env-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across grad3/4 within env-1.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -3719,6 +4651,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20grad3/4%20within%20env-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-4-within-env-2">
+Past versions of "4 within env-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-4-within-env-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/63b4b0c56299ea7d6ba5cf88f417155718ec5f55/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across grad3/4 within env-2.png" target="_blank">63b4b0c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>  model      mean_r2         se_r
 1     E 2.230542e-24 1.355452e-24
@@ -3737,6 +4706,62 @@ print(p)</code></pre>
 8   2 gradient_3_4   GxE 3.076697e-01</code></pre>
 <p>With the phenotype on the original scale, …</p>
 <p>With the phenotype scaled within environment, …</p>
+</div>
+</div>
+<div id="heterogeneous-residual-variance-6" class="section level4">
+<h4>Heterogeneous residual variance</h4>
+<div id="original-scale-phenotype-14" class="section level5">
+<h5>Original scale phenotype</h5>
+<pre class="r"><code>n_reps &lt;- 2
+schemes &lt;- &quot;gradient_3_4&quot;
+model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;)
+pheno &lt;- &quot;original_pheno&quot;
+
+i &lt;- 0
+
+n_col &lt;- 4
+n_row &lt;- n_reps * length(schemes) * length(model)
+res &lt;- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) &lt;- c(&quot;rep&quot;, &quot;scheme&quot;, &quot;model&quot;, &quot;r2&quot;)
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat &lt;- readRDS(paste0(&quot;output/&quot;, met, &quot;_fit/&quot;, prefix, &quot;_&quot;, pheno, &quot;_&quot;, sche, &quot;_&quot;, met, &quot;_fit_&quot;, repp, &quot;.rds&quot;))
+      i &lt;- i + 1
+        
+      res[i, 1] &lt;- repp
+      res[i, 2] &lt;- sche
+      res[i, 3] &lt;- met
+      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res &lt;- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = &quot;black&quot;, outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom=&quot;point&quot;, shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = &quot;single&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;lightblue&quot;)) +
+  labs(x = &quot;Model&quot;, y = expression(italic(R)^2), fill=&quot;Method&quot;, title=&quot;&quot;) +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position=&quot;none&quot;)
+
+print(p)</code></pre>
+<p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20grad3/4%20orig%20het-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
+<pre><code>          model    mean_r2        se_r
+1     E_het_var 0.41693974 0.037003153
+2     G_het_var 0.09958552 0.007419591
+3 GandE_het_var 0.54148424 0.015349582
+4   GxE_het_var 0.49707333 0.046989572</code></pre>
+<p>With heterogeneous residual variance, …</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -3768,19 +4793,20 @@ other attached packages:
 [1] dplyr_1.1.4   tidyr_1.3.1   cowplot_1.1.3 ggplot2_3.5.1
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.13       highr_0.11        pillar_1.9.0      compiler_4.1.2   
- [5] bslib_0.7.0       later_1.3.2       jquerylib_0.1.4   git2r_0.32.0     
- [9] workflowr_1.7.0   tools_4.1.2       digest_0.6.35     gtable_0.3.5     
-[13] jsonlite_1.8.8    evaluate_0.23     lifecycle_1.0.4   tibble_3.2.1     
-[17] pkgconfig_2.0.3   rlang_1.1.4       cli_3.6.2         rstudioapi_0.16.0
-[21] yaml_2.3.8        xfun_0.44         fastmap_1.2.0     withr_3.0.0      
-[25] stringr_1.5.1     knitr_1.47        generics_0.1.3    fs_1.6.4         
-[29] vctrs_0.6.5       sass_0.4.9        tidyselect_1.2.1  rprojroot_2.0.4  
-[33] grid_4.1.2        glue_1.7.0        R6_2.5.1          fansi_1.0.6      
-[37] rmarkdown_2.27    farver_2.1.2      purrr_1.0.2       magrittr_2.0.3   
-[41] whisker_0.4.1     scales_1.3.0      promises_1.3.0    htmltools_0.5.8.1
-[45] colorspace_2.1-0  httpuv_1.6.11     labeling_0.4.3    utf8_1.2.4       
-[49] stringi_1.8.4     munsell_0.5.1     cachem_1.1.0     </code></pre>
+ [1] Rcpp_1.0.13-1     pillar_1.9.0      compiler_4.1.2    bslib_0.8.0      
+ [5] later_1.3.2       jquerylib_0.1.4   git2r_0.32.0      workflowr_1.7.0  
+ [9] tools_4.1.2       digest_0.6.37     gtable_0.3.6      jsonlite_1.8.9   
+[13] evaluate_1.0.1    lifecycle_1.0.4   tibble_3.2.1      pkgconfig_2.0.3  
+[17] rlang_1.1.4       cli_3.6.2         rstudioapi_0.16.0 yaml_2.3.10      
+[21] xfun_0.49         fastmap_1.2.0     withr_3.0.2       stringr_1.5.1    
+[25] knitr_1.49        generics_0.1.3    fs_1.6.5          vctrs_0.6.5      
+[29] sass_0.4.9        tidyselect_1.2.1  rprojroot_2.0.4   grid_4.1.2       
+[33] glue_1.8.0        R6_2.5.1          fansi_1.0.6       rmarkdown_2.29   
+[37] farver_2.1.2      purrr_1.0.2       magrittr_2.0.3    whisker_0.4.1    
+[41] scales_1.3.0      promises_1.3.0    htmltools_0.5.8.1 colorspace_2.1-1 
+[45] httpuv_1.6.11     labeling_0.4.3    utf8_1.2.4        stringi_1.8.4    
+[49] munsell_0.5.1     cachem_1.1.0     </code></pre>
+</div>
 </div>
 </div>
 </div>
