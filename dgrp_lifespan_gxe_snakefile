@@ -452,6 +452,7 @@ rule fit_gblup_reps:
 		mamba deactivate
 		"""
 
+
 rule fit_gblup_new_temp:
 	input:
 		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
