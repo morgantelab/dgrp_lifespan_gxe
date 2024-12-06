@@ -84,7 +84,9 @@ Prediction accuracy was evaluated as the $R^2$ of the regression of observed phe
 This is the baseline scenario, where we acknowldege that the genetic architecture of life span is different across environments and we
 analyze them separately using G-BLUP.
 
-#### Original scale phenotype
+#### Homogeneous residual variance
+
+##### Original scale phenotype
 
 ```{r random within env orig, fig.height=10, fig.width=13}
 sex <- c(1, 0)
@@ -161,7 +163,7 @@ res %>% group_by(env) %>% summarise(mean_r2=mean(r2), se_r2=(sd(r2)/n_reps)) %>%
 
 ```
 
-#### Phenotype scaled within environment
+##### Phenotype scaled within environment
 
 ```{r random within env scaled within env, fig.height=10, fig.width=13}
 sex <- c(1, 0)
@@ -245,7 +247,9 @@ not affect accuracy in this case.
 
 In this scenario, we combine the data across environments and fit the different models.
 
-#### Original scale phenotype
+#### Homogeneous residual variance
+
+##### Original scale phenotype
 
 ```{r random lines orig, fig.height=10, fig.width=13}
 schemes <- "random_lines"
@@ -345,7 +349,7 @@ print(p)
 res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
-#### Phenotype scaled within environment
+##### Phenotype scaled within environment
 
 ```{r random lines within env, fig.height=10, fig.width=13}
 schemes <- "random_lines"
@@ -455,6 +459,61 @@ transfer of information happens mostly at the environment level.
 However, with the phenotype scaled within environment, E-BLUP now does not predict at all because we have zeroed out 
 differences between environments. All the models including G do pretty poorly. 
 
+
+#### Heterogeneous residual variance
+
+##### Original scale phenotype
+
+```{r random lines orig het, fig.height=10, fig.width=13}
+schemes <- "random_lines"
+model <- c('G_het_var','E_het_var','GandE_het_var','GxE_het_var')
+pheno <- "original_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+With heterogeneous residual variance, ... 
+
+
+
 ### Random observations scenario
 
 In this scenario, every line and environment is potentially represented in the training set. It is specific combinations of
@@ -462,7 +521,9 @@ lines and environments (e.g., line_101 in females at 18C) that are not seen in t
 where we expect an advantage from using models with both genotype and environment information because the training-test 
 transfer of information happens at every level.
 
-#### Original scale phenotype
+#### Homogeneous residual variance
+
+##### Original scale phenotype
 
 ```{r random obs orig, fig.height=10, fig.width=13}
 schemes <- "random_obs"
@@ -563,7 +624,7 @@ print(p)
 res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
 ```
 
-#### Phenotype scaled within environment
+##### Phenotype scaled within environment
 
 ```{r random obs within env, fig.height=10, fig.width=13}
 schemes <- "random_obs"
@@ -672,13 +733,70 @@ differences between environments. G-BLUP and GE-BLUP perform equally well (why d
 GxE-BLUP achieves the highest prediction accuracy.
 
 
+#### Heterogeneous residual variance
+
+##### Original scale phenotype
+
+```{r random obs orig het, fig.height=10, fig.width=13}
+schemes <- "random_obs"
+model <- c('G_het_var','E_het_var','GandE_het_var','GxE_het_var')
+pheno <- "original_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+With heterogeneous residual variance, ... 
+
+
+
+
 ### New temperature scenario
 
 In this scenario, we assigned all the observations in a specific temperature to the test set, i.e., that temperature 
 is never seen in the training set. Thus, there is no transfer of training-test information at the temperature level,
 which is the factor that explains the majority of the phenotypic variance.
 
-#### Original scale phenotype
+#### Homogeneous residual variance
+
+##### Original scale phenotype
 
 ```{r across temp orig, fig.height=10, fig.width=13}
 n_reps <- 3
@@ -782,7 +900,7 @@ res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>
 res %>% group_by(model) %>% as.data.frame()
 ```
 
-#### Phenotype scaled within environment
+##### Phenotype scaled within environment
 
 ```{r across within env, fig.height=10, fig.width=13}
 n_reps <- 3
@@ -894,12 +1012,70 @@ we can see that it is only the prediction of lifespan at 28C that has lower accu
 With the phenotype scaled within environment, the pattern is very similar in this scenario.
 
 
+#### Heterogeneous residual variance
+
+##### Original scale phenotype
+
+```{r across temp orig het, fig.height=10, fig.width=13}
+n_reps <- 3
+schemes <- "temp"
+model <- c('G_het_var','E_het_var','GandE_het_var','GxE_het_var')
+pheno <- "original_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+With heterogeneous residual variance, ... 
+
+
+
+
 ### New sex scenario
 
 In this scenario, we assigned all the observations in a specific sex to the test set, i.e., that sex 
 is never seen in the training set. Thus, there is no transfer of training-test information at the sex level.
 
-#### Original scale phenotype
+#### Homogeneous residual variance
+
+##### Original scale phenotype
 
 ```{r across sex orig, fig.height=10, fig.width=13}
 n_reps <- 2
@@ -1003,7 +1179,7 @@ res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>
 res %>% group_by(model) %>% as.data.frame()
 ```
 
-#### Phenotype scaled within environment
+##### Phenotype scaled within environment
 
 ```{r across sex env, fig.height=10, fig.width=13}
 n_reps <- 2
@@ -1112,12 +1288,70 @@ With the phenotype on the original scale, ...
 With the phenotype scaled within environment, ...
 
 
+#### Heterogeneous residual variance
+
+##### Original scale phenotype
+
+```{r across sex orig het, fig.height=10, fig.width=13}
+n_reps <- 2
+schemes <- "sex"
+model <- c('G_het_var','E_het_var','GandE_het_var','GxE_het_var')
+pheno <- "original_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+With heterogeneous residual variance, ... 
+
+
+
+
 ### New temperature and sex scenario
 
 In this scenario, we assigned all the observations in a specific temperature and sex to the test set, i.e., that temperature/sex 
 combination is never seen in the training set.
 
-#### Original scale phenotype
+#### Homogeneous residual variance
+
+##### Original scale phenotype
 
 ```{r across temp/sex orig, fig.height=10, fig.width=13}
 n_reps <- 6
@@ -1221,7 +1455,7 @@ res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>
 res %>% group_by(model) %>% as.data.frame()
 ```
 
-#### Phenotype scaled within environment
+##### Phenotype scaled within environment
 
 ```{r across temp/sex within env, fig.height=10, fig.width=13}
 n_reps <- 6
@@ -1333,11 +1567,69 @@ improves accuracy over G-BLUP. GxE-BLUP is better than G-BLUP and GE-BLUP, on av
 With the phenotype scaled within environment, the pattern is very similar in this scenario, with the improvement of using GxE being larger.
 
 
+#### Heterogeneous residual variance
+
+##### Original scale phenotype
+
+```{r across temp/sex orig het, fig.height=10, fig.width=13}
+n_reps <- 6
+schemes <- "temp_sex"
+model <- c('G_het_var','E_het_var','GandE_het_var','GxE_het_var')
+pheno <- "original_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+With heterogeneous residual variance, ... 
+
+
+
+
 ### Gradient 1 and 2 scenario
 
 In this scenario, ...
 
-#### Original scale phenotype
+#### Homogeneous residual variance
+
+##### Original scale phenotype
 
 ```{r across grad1/2 orig, fig.height=10, fig.width=13}
 n_reps <- 2
@@ -1441,7 +1733,7 @@ res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>
 res %>% group_by(model) %>% as.data.frame()
 ```
 
-#### Phenotype scaled within environment
+##### Phenotype scaled within environment
 
 ```{r across grad1/2 within env, fig.height=10, fig.width=13}
 n_reps <- 2
@@ -1550,11 +1842,69 @@ With the phenotype on the original scale, ...
 With the phenotype scaled within environment, ...
 
 
+#### Heterogeneous residual variance
+
+##### Original scale phenotype
+
+```{r across grad1/2 orig het, fig.height=10, fig.width=13}
+n_reps <- 2
+schemes <- "gradient_1_2"
+model <- c('G_het_var','E_het_var','GandE_het_var','GxE_het_var')
+pheno <- "original_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+With heterogeneous residual variance, ... 
+
+
+
+
 ### Gradient 3 and 4 scenario
 
 In this scenario, ...
 
-#### Original scale phenotype
+#### Homogeneous residual variance
+
+##### Original scale phenotype
 
 ```{r across grad3/4 orig, fig.height=10, fig.width=13}
 n_reps <- 2
@@ -1658,7 +2008,7 @@ res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>
 res %>% group_by(model) %>% as.data.frame()
 ```
 
-#### Phenotype scaled within environment
+##### Phenotype scaled within environment
 
 ```{r across grad3/4 within env, fig.height=10, fig.width=13}
 n_reps <- 2
@@ -1765,3 +2115,57 @@ res %>% group_by(model) %>% as.data.frame()
 With the phenotype on the original scale, ...
 
 With the phenotype scaled within environment, ...
+
+#### Heterogeneous residual variance
+
+##### Original scale phenotype
+
+```{r across grad3/4 orig het, fig.height=10, fig.width=13}
+n_reps <- 2
+schemes <- "gradient_3_4"
+model <- c('G_het_var','E_het_var','GandE_het_var','GxE_het_var')
+pheno <- "original_pheno"
+
+i <- 0
+
+n_col <- 4
+n_row <- n_reps * length(schemes) * length(model)
+res <- as.data.frame(matrix(NA, ncol=n_col, nrow=n_row))
+colnames(res) <- c("rep", "scheme", "model", "r2")
+
+for(sche in schemes){
+  for(met in model){
+    for(repp in 1:n_reps){
+      dat <- readRDS(paste0("output/", met, "_fit/", prefix, "_", pheno, "_", sche, "_", met, "_fit_", repp, ".rds"))
+      i <- i + 1
+        
+      res[i, 1] <- repp
+      res[i, 2] <- sche
+      res[i, 3] <- met
+      res[i, 4] <- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+    }
+  }
+}
+
+
+###Accuracy
+res <- transform(res, scheme=as.factor(scheme),
+                 model=as.factor(model))
+
+p <- ggplot(res, aes(x = model, y = r2, fill = model)) +
+  geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
+  stat_summary(fun=mean, geom="point", shape=23,
+               position = position_dodge2(width = 0.87,   
+                                          preserve = "single")) +
+  scale_fill_manual(values = c("pink", "red", "yellow", "orange", "green", "blue", "lightblue")) +
+  labs(x = "Model", y = expression(italic(R)^2), fill="Method", title="") +
+  theme_cowplot(font_size = 18) +
+  theme(legend.position="none")
+
+print(p)
+
+res %>% group_by(model) %>% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %>% as.data.frame()
+```
+
+With heterogeneous residual variance, ... 
+
