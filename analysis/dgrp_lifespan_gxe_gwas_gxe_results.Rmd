@@ -57,7 +57,7 @@ Each column of $X$ was standardized to mean 0 and variance 1.
 ### Mean of the environment
 
 ```{r means, fig.height=10, fig.width=10}
-dat_lmm_means <- readRDS("/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_means_stand.rds")
+dat_lmm_means <- readRDS("output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_means_stand.rds")
 
 qq(dat_lmm_means[,3], main="Main effects of genetic variants")
 
@@ -68,7 +68,7 @@ qq(dat_lmm_means[,9], main="GxE interaction effects")
 ### Indicator
 
 ```{r ind, fig.height=10, fig.width=10}
-dat_lmm_ind <- readRDS("/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_indicator_stand.rds")
+dat_lmm_ind <- readRDS("output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_indicator_stand.rds")
 
 qq(dat_lmm_ind[,3], main="Main effects of genetic variants")
 
@@ -80,7 +80,7 @@ qq(dat_lmm_ind[,9], main="GxE interaction effects")
 ### Sex
 
 ```{r sex, fig.height=10, fig.width=10}
-dat_lmm_sex <- readRDS("/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_sex_stand.rds")
+dat_lmm_sex <- readRDS("output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_sex_stand.rds")
 
 qq(dat_lmm_sex[,3], main="Main effects of genetic variants")
 
@@ -92,7 +92,7 @@ qq(dat_lmm_sex[,9], main="GxE interaction effects")
 ### Temperature
 
 ```{r temp, fig.height=10, fig.width=10}
-dat_lmm_temp <- readRDS("/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_temp_stand.rds")
+dat_lmm_temp <- readRDS("output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_temp_stand.rds")
 
 qq(dat_lmm_temp[,3], main="Main effects of genetic variants")
 
