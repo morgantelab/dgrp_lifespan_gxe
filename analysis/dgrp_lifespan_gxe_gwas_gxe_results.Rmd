@@ -1,0 +1,102 @@
+---
+title: "GxE GWAS of life span"
+author: "Fabio Morgante"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  workflowr::wflow_html:
+    toc: true
+editor_options:
+  chunk_output_type: console
+---
+
+```{r set options, message=FALSE}
+###Load libraries
+library(qqman)
+```
+
+## Introduction
+
+The goal of this analysis is to perform a GWAS for life span in the DGRP to identify GxE interactions.
+
+We used data from [Huang et al. (2020)](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000645), which
+has life span measurements for $n=176$ lines at 3 temperatures (18C, 25C, 28C) for the 2 sexes (coded as 1=females and 0=males), 
+which results in $q=1,056$ observations. 
+The authors showed that there is extensive $G \times E$ affecting life span. In the present work, we used both temperature 
+and sex as $c=2$ environmental variables, for a total of $r=6$ environments.
+
+We fitted the following linear mixed model:
+
+* $y = Xb + Zg + \epsilon$.
+
+where
+
+$y$ is a $q$-vector of phenotypic observations, 
+$X$ is a $q \times t$ matrix including the intercept, covariates, genetic variant being tested, environmental variable,
+and the interaction between the genetic variant and the environmental variable.
+$b$ is a $t$-vector of fixed effects estimates,
+$g$ is a $q$-vector of additive genetic values, $g \sim N_q(\mathbf O, \mathbf{ZGZ^\intercal} \sigma^2_g)$, 
+$\mathbf Z$ is a $q \times n$ incidence matrix, 
+$\mathbf G$ is a $n \times n$ genomic relationship matrix (GRM), 
+$\epsilon$ is a $q$-vector of residual values, $\epsilon \sim N_q(\mathbf O, \mathbf{I} \sigma^2_\epsilon)$.
+
+These models were fitted using a REML approach as implemented in the $\sf rrBLUP$ package.
+
+We used different environmental variables:
+
+* Phenotypic mean of each of the $r = 6$ environments.
+* An indicator from 1 to 6, where 1 corresponds to the environment with the smallest phenotypic mean and 6 corresponds 
+to the environment with the largest phenotypic mean.
+* Sex, including temperature as a covariate.
+* Temperature, including sex as a covariate.
+
+Each column of $X$ was standardized to mean 0 and variance 1.
+
+
+## Results
+
+### Mean of the environment
+
+```{r means, fig.height=10, fig.width=10}
+dat_lmm_means <- readRDS("/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_means_stand.rds")
+
+qq(dat_lmm_means[,3], main="Main effects of genetic variants")
+
+qq(dat_lmm_means[,9], main="GxE interaction effects")
+```
+
+
+### Indicator
+
+<!-- ```{r ind, fig.height=10, fig.width=10} -->
+<!-- dat_lmm_ind <- readRDS("/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_indicator_stand.rds") -->
+
+<!-- qq(dat_lmm_ind[,3], main="Main effects of genetic variants") -->
+
+<!-- qq(dat_lmm_ind[,9], main="GxE interaction effects") -->
+
+<!-- ``` -->
+
+
+### Sex
+
+```{r sex, fig.height=10, fig.width=10}
+dat_lmm_sex <- readRDS("/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_sex_stand.rds")
+
+qq(dat_lmm_sex[,3], main="Main effects of genetic variants")
+
+qq(dat_lmm_sex[,9], main="GxE interaction effects")
+
+```
+
+
+### Temperature
+
+```{r temp, fig.height=10, fig.width=10}
+dat_lmm_temp <- readRDS("/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_temp_stand.rds")
+
+qq(dat_lmm_temp[,3], main="Main effects of genetic variants")
+
+qq(dat_lmm_temp[,9], main="GxE interaction effects")
+
+```
+

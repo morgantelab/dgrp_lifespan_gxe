@@ -13,3 +13,4 @@ Genetic Reference Panel (DGRP).
 
 + [Genomic prediction.](dgrp_lifespan_gxe_genomic_results.html)
 + [Transcriptomic prediction.](dgrp_lifespan_gxe_transcriptomic_results.html)
++ [GxE GWAS](dgrp_lifespan_gxe_gwas_gxe_results.html)
