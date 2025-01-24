@@ -381,7 +381,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -392,8 +392,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -406,9 +406,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>dgrp_lifespan_gxe/</code> <span
@@ -518,80 +518,30 @@ run.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
 </p>
 </div>
-<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
 <div class="panel-body">
-<p>
-Using absolute paths to the files within your workflowr project makes it
-difficult for you and others to run your code on a different machine.
-Change the absolute path(s) below to the suggested relative path(s) to
-make your code more reproducible.
-</p>
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th style="text-align:left;">
-absolute
-</th>
-<th style="text-align:left;">
-relative
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_means_stand.rds
-</td>
-<td style="text-align:left;">
-output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_means_stand.rds
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_indicator_stand.rds
-</td>
-<td style="text-align:left;">
-output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_indicator_stand.rds
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_sex_stand.rds
-</td>
-<td style="text-align:left;">
-output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_sex_stand.rds
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_temp_stand.rds
-</td>
-<td style="text-align:left;">
-output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_temp_stand.rds
-</td>
-</tr>
-</tbody>
-</table>
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreed7212aff3099ce3c09307a301fd5f62c3a19fb46targetblankd7212afa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreea5a98af266349eb974d461a8c41de78754bad10dtargetblanka5a98afa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/d7212aff3099ce3c09307a301fd5f62c3a19fb46" target="_blank">d7212af</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/a5a98af266349eb974d461a8c41de78754bad10d" target="_blank">a5a98af</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreed7212aff3099ce3c09307a301fd5f62c3a19fb46targetblankd7212afa"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreea5a98af266349eb974d461a8c41de78754bad10dtargetblanka5a98afa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -601,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/d7212aff3099ce3c09307a301fd5f62c3a19fb46" target="_blank">d7212af</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/a5a98af266349eb974d461a8c41de78754bad10d" target="_blank">a5a98af</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -697,6 +647,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/a5a98af266349eb974d461a8c41de78754bad10d/analysis/dgrp_lifespan_gxe_gwas_gxe_results.Rmd" target="_blank">a5a98af</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-01-24
+</td>
+<td>
+Fix paths
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/bdf02f1693c335cbabfc79f3290fef077813beee/docs/dgrp_lifespan_gxe_gwas_gxe_results.html" target="_blank">bdf02f1</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-01-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -815,7 +799,7 @@ standardized to mean 0 and variance 1.</p>
 <h2>Results</h2>
 <div id="mean-of-the-environment" class="section level3">
 <h3>Mean of the environment</h3>
-<pre class="r"><code>dat_lmm_means &lt;- readRDS(&quot;/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_means_stand.rds&quot;)
+<pre class="r"><code>dat_lmm_means &lt;- readRDS(&quot;output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_means_stand.rds&quot;)
 
 qq(dat_lmm_means[,3], main=&quot;Main effects of genetic variants&quot;)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_gwas_gxe_results.Rmd/means-1.png" width="960" style="display: block; margin: auto;" /></p>
@@ -898,16 +882,90 @@ fmorgante
 </div>
 <div id="indicator" class="section level3">
 <h3>Indicator</h3>
-<pre class="r"><code>dat_lmm_ind &lt;- readRDS(&quot;/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_indicator_stand.rds&quot;)
+<pre class="r"><code>dat_lmm_ind &lt;- readRDS(&quot;output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_indicator_stand.rds&quot;)
 
 qq(dat_lmm_ind[,3], main=&quot;Main effects of genetic variants&quot;)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_gwas_gxe_results.Rmd/ind-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ind-1">
+Past versions of ind-1.png
+</button>
+</p>
+<div id="fig-ind-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/bdf02f1693c335cbabfc79f3290fef077813beee/docs/figure/dgrp_lifespan_gxe_gwas_gxe_results.Rmd/ind-1.png" target="_blank">bdf02f1</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-01-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>qq(dat_lmm_ind[,9], main=&quot;GxE interaction effects&quot;)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_gwas_gxe_results.Rmd/ind-2.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ind-2">
+Past versions of ind-2.png
+</button>
+</p>
+<div id="fig-ind-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/bdf02f1693c335cbabfc79f3290fef077813beee/docs/figure/dgrp_lifespan_gxe_gwas_gxe_results.Rmd/ind-2.png" target="_blank">bdf02f1</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-01-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="sex" class="section level3">
 <h3>Sex</h3>
-<pre class="r"><code>dat_lmm_sex &lt;- readRDS(&quot;/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_sex_stand.rds&quot;)
+<pre class="r"><code>dat_lmm_sex &lt;- readRDS(&quot;output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_sex_stand.rds&quot;)
 
 qq(dat_lmm_sex[,3], main=&quot;Main effects of genetic variants&quot;)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_gwas_gxe_results.Rmd/sex-1.png" width="960" style="display: block; margin: auto;" /></p>
@@ -990,7 +1048,7 @@ fmorgante
 </div>
 <div id="temperature" class="section level3">
 <h3>Temperature</h3>
-<pre class="r"><code>dat_lmm_temp &lt;- readRDS(&quot;/data2/morgante_lab/fabiom/dgrp_lifespan_gxe/output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_temp_stand.rds&quot;)
+<pre class="r"><code>dat_lmm_temp &lt;- readRDS(&quot;output/GxE_gwas/dgrp_lifespan_gxe_gwas_gxe_lmm_temp_stand.rds&quot;)
 
 qq(dat_lmm_temp[,3], main=&quot;Main effects of genetic variants&quot;)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_gwas_gxe_results.Rmd/temp-1.png" width="960" style="display: block; margin: auto;" /></p>
