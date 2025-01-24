@@ -13,7 +13,7 @@
 
 <title>Home</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
@@ -33,8 +33,8 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -322,7 +322,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-11-06
+<strong>Last updated:</strong> 2025-01-24
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -369,15 +369,15 @@ results.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreecc02d0d573816c5d58468d6311a982274f3be934targetblankcc02d0da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreea2b2d2a1fa774835a0e4023cfb13a90e7baf74f5targetblanka2b2d2aa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/cc02d0d573816c5d58468d6311a982274f3be934" target="_blank">cc02d0d</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/a2b2d2a1fa774835a0e4023cfb13a90e7baf74f5" target="_blank">a2b2d2a</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreecc02d0d573816c5d58468d6311a982274f3be934targetblankcc02d0da"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreea2b2d2a1fa774835a0e4023cfb13a90e7baf74f5targetblanka2b2d2aa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -387,7 +387,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/cc02d0d573816c5d58468d6311a982274f3be934" target="_blank">cc02d0d</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/a2b2d2a1fa774835a0e4023cfb13a90e7baf74f5" target="_blank">a2b2d2a</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -404,10 +404,15 @@ were generated:
 Ignored files:
     Ignored:    .snakemake/
     Ignored:    output/E_fit/
+    Ignored:    output/E_het_var_fit/
     Ignored:    output/Et_fit/
     Ignored:    output/G_fit/
+    Ignored:    output/G_het_var_fit/
     Ignored:    output/GandE_fit/
+    Ignored:    output/GandE_het_var_fit/
     Ignored:    output/GxE_fit/
+    Ignored:    output/GxE_gwas/
+    Ignored:    output/GxE_het_var_fit/
     Ignored:    output/T_fit/
     Ignored:    output/TandE_fit/
     Ignored:    output/TxE_fit/
@@ -415,11 +420,23 @@ Ignored files:
     Ignored:    run/
     Ignored:    slurm/
 
-Unstaged changes:
-    Modified:   code/create_test_sets.R
-    Modified:   dgrp_lifespan_gxe.yaml
-    Modified:   dgrp_lifespan_gxe_snakefile
-    Modified:   dgrp_lifespan_gxe_snakemake_submitter.sh
+Untracked files:
+    Untracked:  code/fit_gblup_het_var_g_e_gxe.R
+    Untracked:  code/fit_gwas_gxe.R
+    Untracked:  code/fit_gwas_gxe_test.R
+    Untracked:  scripts/run_fit_gwas_gxe_grammar_indicator.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_grammar_means.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_grammar_sex.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_grammar_temp.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_lm.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_lmm_indicator.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_lmm_indicator_stand.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_lmm_means.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_lmm_means_stand.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_lmm_sex.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_lmm_sex_stand.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_lmm_temp.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_lmm_temp_stand.sbatch
 
 </code></pre>
 <p>
@@ -464,6 +481,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/a2b2d2a1fa774835a0e4023cfb13a90e7baf74f5/analysis/index.Rmd" target="_blank">a2b2d2a</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-01-24
+</td>
+<td>
+Add first GxE GWAS results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/9a93c45b800f43a4f4c6d14619221bf65971f03e/docs/index.html" target="_blank">9a93c45</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2024-11-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -684,6 +735,7 @@ prediction.</a></li>
 <li><a
 href="dgrp_lifespan_gxe_transcriptomic_results.html">Transcriptomic
 prediction.</a></li>
+<li><a href="dgrp_lifespan_gxe_gwas_gxe_results.html">GxE GWAS</a></li>
 </ul>
 
 
