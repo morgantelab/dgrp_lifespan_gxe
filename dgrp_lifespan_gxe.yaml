@@ -6,7 +6,7 @@ GENO_PLINK_FILE: "/data2/morgante_lab/data/dgrp/genotypes/dgrp2"
 PREFIX: "dgrp_lifespan_gxe"
 GENO_MAF: "0.05"
 GENO_MISS: "0.2"
-SCALE_PHENO: ['original','scaled_within_env']
+SCALE_PHENO: ['original']
 CV_SCENARIO_REPS: ['random_obs','random_lines']
 N_REPS: "20"
 REP_REPS: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20']
@@ -34,3 +34,6 @@ NBURNIN_TBLUP: "50000"
 THIN_TBLUP: "50"
 VERBOSE_TBLUP: "FALSE"
 SEED_TBLUP: "999"
+METHOD_GWAS: "lmm"
+ENVIRONMENT_GWAS: "indicator"
+STANDARDIZE_GWAS: "TRUE"
