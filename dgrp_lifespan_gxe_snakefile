@@ -10,8 +10,10 @@ wildcard_constraints:
     REP_HALF_SPLIT_SCENARIO = "|".join(map(str, config["REP_HALF_SPLIT_SCENARIO"])),
     MODEL_GBLUP = "|".join(map(str, config["MODEL_GBLUP"])),
     MODEL_TBLUP = "|".join(map(str, config["MODEL_TBLUP"])),
+    MODEL_GBLUP_GWAS = "|".join(map(str, config["MODEL_GBLUP_GWAS"])),
     SEX = "|".join(map(str, config["SEX"])),
-    TEMP = "|".join(map(str, config["TEMP"]))
+    TEMP = "|".join(map(str, config["TEMP"])),
+    P_GWAS_GBLUP = "|".join(map(str, config["P_GWAS_GBLUP"]))
     
 
 rule all:
@@ -21,13 +23,27 @@ rule all:
 	#  expand(config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{NEW_TEMP_SCENARIO}_test_sets.rds", NEW_TEMP_SCENARIO=config["NEW_TEMP_SCENARIO"]),
 	#  expand(config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_random_within_env_{SEX}_{TEMP}_test_sets.rds", SEX=config["SEX"], TEMP=config["TEMP"]),
 	#  config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_random_within_env_test_sets.rds",
-	  expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{MODEL_GBLUP}_fit_whole_data.rds", MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"]),
-	 	expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_{MODEL_GBLUP}_fit_{REP_REPS}.rds", MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], REP_REPS=config["REP_REPS"]),
-		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_{MODEL_GBLUP}_fit_{REP_NEW_TEMP_SCENARIO}.rds", MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SCENARIO=config["NEW_TEMP_SCENARIO"], REP_NEW_TEMP_SCENARIO=config["REP_NEW_TEMP_SCENARIO"]),
-		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SEX_SCENARIO}_{MODEL_GBLUP}_fit_{REP_NEW_TEMP_SEX_SCENARIO}.rds", MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SEX_SCENARIO=config["NEW_TEMP_SEX_SCENARIO"], REP_NEW_TEMP_SEX_SCENARIO=config["REP_NEW_TEMP_SEX_SCENARIO"]),
-		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_{MODEL_GBLUP}_fit_{REP_HALF_SPLIT_SCENARIO}.rds", MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"], HALF_SPLIT_SCENARIO=config["HALF_SPLIT_SCENARIO"], REP_HALF_SPLIT_SCENARIO=config["REP_HALF_SPLIT_SCENARIO"]),
-		expand(config["WORKDIR"]+"/"+"output/G_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_random_within_env_{SEX}_{TEMP}_G_fit_{REP_REPS}.rds", SCALE_PHENO=config["SCALE_PHENO"], SEX=config["SEX"], TEMP=config["TEMP"], REP_REPS=config["REP_REPS"]),
-		expand(config["WORKDIR"]+"/"+"output/GxE_gwas/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SEX_SCENARIO}_gxe_gwas_{REP_NEW_TEMP_SEX_SCENARIO}.rds", SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SEX_SCENARIO=config["NEW_TEMP_SEX_SCENARIO"], REP_NEW_TEMP_SEX_SCENARIO=config["REP_NEW_TEMP_SEX_SCENARIO"]) #,
+	  expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{MODEL_GBLUP}_fit_whole_data.rds", MODEL_GBLUP=config["MODEL_GBLUP"], 
+	  SCALE_PHENO=config["SCALE_PHENO"]),
+	 	expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_{MODEL_GBLUP}_fit_{REP_REPS}.rds", 
+	 	MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], REP_REPS=config["REP_REPS"]),
+		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_{MODEL_GBLUP}_fit_{REP_NEW_TEMP_SCENARIO}.rds", 
+		MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SCENARIO=config["NEW_TEMP_SCENARIO"], REP_NEW_TEMP_SCENARIO=config["REP_NEW_TEMP_SCENARIO"]),
+		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SEX_SCENARIO}_{MODEL_GBLUP}_fit_{REP_NEW_TEMP_SEX_SCENARIO}.rds", 
+		MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SEX_SCENARIO=config["NEW_TEMP_SEX_SCENARIO"], REP_NEW_TEMP_SEX_SCENARIO=config["REP_NEW_TEMP_SEX_SCENARIO"]),
+		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_{MODEL_GBLUP}_fit_{REP_HALF_SPLIT_SCENARIO}.rds", 
+		MODEL_GBLUP=config["MODEL_GBLUP"], SCALE_PHENO=config["SCALE_PHENO"], HALF_SPLIT_SCENARIO=config["HALF_SPLIT_SCENARIO"], REP_HALF_SPLIT_SCENARIO=config["REP_HALF_SPLIT_SCENARIO"]),
+		expand(config["WORKDIR"]+"/"+"output/G_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_random_within_env_{SEX}_{TEMP}_G_fit_{REP_REPS}.rds", SCALE_PHENO=config["SCALE_PHENO"], 
+		SEX=config["SEX"], TEMP=config["TEMP"], REP_REPS=config["REP_REPS"]),
+		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP_GWAS}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_{MODEL_GBLUP_GWAS}_{P_GWAS_GBLUP}_fit_{REP_REPS}.rds", 
+		MODEL_GBLUP_GWAS=config["MODEL_GBLUP_GWAS"], SCALE_PHENO=config["SCALE_PHENO"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], P_GWAS_GBLUP=config["P_GWAS_GBLUP"], REP_REPS=config["REP_REPS"]),
+		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP_GWAS}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_{MODEL_GBLUP_GWAS}_{P_GWAS_GBLUP}_fit_{REP_NEW_TEMP_SCENARIO}.rds", 
+		MODEL_GBLUP_GWAS=config["MODEL_GBLUP_GWAS"], SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SCENARIO=config["NEW_TEMP_SCENARIO"], P_GWAS_GBLUP=config["P_GWAS_GBLUP"], REP_NEW_TEMP_SCENARIO=config["REP_NEW_TEMP_SCENARIO"]),
+		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP_GWAS}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SEX_SCENARIO}_{MODEL_GBLUP_GWAS}_{P_GWAS_GBLUP}_fit_{REP_NEW_TEMP_SEX_SCENARIO}.rds", 
+		MODEL_GBLUP_GWAS=config["MODEL_GBLUP_GWAS"], SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SEX_SCENARIO=config["NEW_TEMP_SEX_SCENARIO"], P_GWAS_GBLUP=config["P_GWAS_GBLUP"], REP_NEW_TEMP_SEX_SCENARIO=config["REP_NEW_TEMP_SEX_SCENARIO"]),
+		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP_GWAS}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_{MODEL_GBLUP_GWAS}_{P_GWAS_GBLUP}_fit_{REP_HALF_SPLIT_SCENARIO}.rds", 
+		MODEL_GBLUP_GWAS=config["MODEL_GBLUP_GWAS"], SCALE_PHENO=config["SCALE_PHENO"], HALF_SPLIT_SCENARIO=config["HALF_SPLIT_SCENARIO"], P_GWAS_GBLUP=config["P_GWAS_GBLUP"], REP_HALF_SPLIT_SCENARIO=config["REP_HALF_SPLIT_SCENARIO"])
+		
 		# expand(config["WORKDIR"]+"/"+"output/GxE_gwas/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_gxe_gwas_{REP_NEW_TEMP_SCENARIO}.rds", SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SCENARIO=config["NEW_TEMP_SCENARIO"], REP_NEW_TEMP_SCENARIO=config["REP_NEW_TEMP_SCENARIO"]),
 		# expand(config["WORKDIR"]+"/"+"output/GxE_gwas/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_gxe_gwas_{REP_HALF_SPLIT_SCENARIO}.rds", SCALE_PHENO=config["SCALE_PHENO"], HALF_SPLIT_SCENARIO=config["HALF_SPLIT_SCENARIO"], REP_HALF_SPLIT_SCENARIO=config["REP_HALF_SPLIT_SCENARIO"])
 		# expand(config["WORKDIR"]+"/"+"output/GxE_gwas/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_gxe_gwas_{REP_REPS}.rds", SCALE_PHENO=config["SCALE_PHENO"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], REP_REPS=config["REP_REPS"])
@@ -669,7 +685,7 @@ rule fit_gxe_gwas_reps:
 		ENVIRONMENT=config["ENVIRONMENT_GWAS"],
 		STAND=config["STANDARDIZE_GWAS"],
 		CPU="10"
-	resources: cpus=10, mem_mb=450000, time_min=4320
+	resources: cpus=10, mem_mb=450000, time_min=1440
 	shell:
 		"""
 		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
@@ -713,7 +729,7 @@ rule fit_gxe_gwas_new_temp_sex:
 		ENVIRONMENT=config["ENVIRONMENT_GWAS"],
 		STAND=config["STANDARDIZE_GWAS"],
 		CPU="10"
-	resources: cpus=10, mem_mb=400000, time_min=4320
+	resources: cpus=10, mem_mb=450000, time_min=1440
 	shell:
 		"""
 		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
@@ -757,7 +773,7 @@ rule fit_gxe_gwas_new_temp:
 		ENVIRONMENT=config["ENVIRONMENT_GWAS"],
 		STAND=config["STANDARDIZE_GWAS"],
 		CPU="10"
-	resources: cpus=10, mem_mb=400000, time_min=4320
+	resources: cpus=10, mem_mb=450000, time_min=1440
 	shell:
 		"""
 		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
@@ -801,7 +817,7 @@ rule fit_gxe_gwas_half_split:
 		ENVIRONMENT=config["ENVIRONMENT_GWAS"],
 		STAND=config["STANDARDIZE_GWAS"],
 		CPU="10"
-	resources: cpus=10, mem_mb=400000, time_min=4320
+	resources: cpus=10, mem_mb=450000, time_min=1440
 	shell:
 		"""
 		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
@@ -826,6 +842,253 @@ rule fit_gxe_gwas_half_split:
 		mamba deactivate
 		"""
 		
+
+rule fit_gblup_gwas_reps:
+	input:
+	  GENO_BED=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno.bed",
+		GENO_BIM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno.bim",
+		GENO_FAM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno.fam",
+		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
+		GRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
+		CV=config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_test_sets.rds",
+		GWAS=config["WORKDIR"]+"/"+"output/GxE_gwas/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_gxe_gwas_{REP_REPS}.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/{MODEL_GBLUP_GWAS}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_{MODEL_GBLUP_GWAS}_{P_GWAS_GBLUP}_fit_{REP_REPS}.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"fit_gblup_g_e_gxe_select.R",
+		GENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno",
+		REP="{REP_REPS}",
+		MODEL="{MODEL_GBLUP_GWAS}",
+		R2=config["R2_GBLUP"],
+		NITER=config["NITER_GBLUP"],
+		NBURNIN=config["NBURNIN_GBLUP"],
+		THIN=config["THIN_GBLUP"],
+		VERB=config["VERBOSE_GBLUP"],
+		P_THRESH="{P_GWAS_GBLUP}",
+		SEED=config["SEED_GBLUP"],
+		TMP=config["SCRATCH"]+"/BGLR_1/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_{MODEL_GBLUP_GWAS}_{P_GWAS_GBLUP}_{REP_REPS}_",
+		CPU="2"
+	resources: cpus=2, mem_mb=15000, time_min=60
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --grm_file {input.GRM} \
+		                      --geno_file {params.GENO} \
+		                      --pheno_file {input.PHENO} \
+		                      --gwas_file {input.GWAS} \
+		                      --cv_file {input.CV} \
+		                      --rep {params.REP} \
+		                      --model {params.MODEL} \
+		                      --R2 {params.R2} \
+		                      --niter {params.NITER} \
+		                      --nburn {params.NBURNIN} \
+		                      --thin {params.THIN} \
+		                      --verbose {params.VERB} \
+		                      --gwas_p_thresh {params.P_THRESH} \
+		                      --intermediate_file {params.TMP} \
+		                      --seed {params.SEED} \
+		                      --output_file {output}
+
+		mamba deactivate
+		"""
+
+
+rule fit_gblup_gwas_new_temp:
+	input:
+	  GENO_BED=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno.bed",
+		GENO_BIM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno.bim",
+		GENO_FAM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno.fam",
+		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
+		GRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
+		CV=config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{NEW_TEMP_SCENARIO}_test_sets.rds",
+		GWAS=config["WORKDIR"]+"/"+"output/GxE_gwas/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_gxe_gwas_{REP_NEW_TEMP_SCENARIO}.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/{MODEL_GBLUP_GWAS}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_{MODEL_GBLUP_GWAS}_{P_GWAS_GBLUP}_fit_{REP_NEW_TEMP_SCENARIO}.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"fit_gblup_g_e_gxe_select.R",
+		GENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno",
+		REP="{REP_NEW_TEMP_SCENARIO}",
+		MODEL="{MODEL_GBLUP_GWAS}",
+		R2=config["R2_GBLUP"],
+		NITER=config["NITER_GBLUP"],
+		NBURNIN=config["NBURNIN_GBLUP"],
+		THIN=config["THIN_GBLUP"],
+		VERB=config["VERBOSE_GBLUP"],
+		P_THRESH="{P_GWAS_GBLUP}",
+		SEED=config["SEED_GBLUP"],
+		TMP=config["SCRATCH"]+"/BGLR_1/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_{MODEL_GBLUP_GWAS}_{P_GWAS_GBLUP}_{REP_NEW_TEMP_SCENARIO}_",
+		CPU="2"
+	resources: cpus=2, mem_mb=15000, time_min=60
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --grm_file {input.GRM} \
+		                      --geno_file {params.GENO} \
+		                      --pheno_file {input.PHENO} \
+		                      --gwas_file {input.GWAS} \
+		                      --cv_file {input.CV} \
+		                      --rep {params.REP} \
+		                      --model {params.MODEL} \
+		                      --R2 {params.R2} \
+		                      --niter {params.NITER} \
+		                      --nburn {params.NBURNIN} \
+		                      --thin {params.THIN} \
+		                      --verbose {params.VERB} \
+		                      --gwas_p_thresh {params.P_THRESH} \
+		                      --intermediate_file {params.TMP} \
+		                      --seed {params.SEED} \
+		                      --output_file {output}
+
+		mamba deactivate
+		"""
+
+
+rule fit_gblup_gwas_new_temp_sex:
+	input:
+	  GENO_BED=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno.bed",
+		GENO_BIM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno.bim",
+		GENO_FAM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno.fam",
+		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
+		GRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
+		CV=config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{NEW_TEMP_SEX_SCENARIO}_test_sets.rds",
+		GWAS=config["WORKDIR"]+"/"+"output/GxE_gwas/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SEX_SCENARIO}_gxe_gwas_{REP_NEW_TEMP_SEX_SCENARIO}.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/{MODEL_GBLUP_GWAS}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SEX_SCENARIO}_{MODEL_GBLUP_GWAS}_{P_GWAS_GBLUP}_fit_{REP_NEW_TEMP_SEX_SCENARIO}.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"fit_gblup_g_e_gxe_select.R",
+		GENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno",
+		REP="{REP_NEW_TEMP_SEX_SCENARIO}",
+		MODEL="{MODEL_GBLUP_GWAS}",
+		R2=config["R2_GBLUP"],
+		NITER=config["NITER_GBLUP"],
+		NBURNIN=config["NBURNIN_GBLUP"],
+		THIN=config["THIN_GBLUP"],
+		VERB=config["VERBOSE_GBLUP"],
+		P_THRESH="{P_GWAS_GBLUP}",
+		SEED=config["SEED_GBLUP"],
+		TMP=config["SCRATCH"]+"/BGLR_1/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SEX_SCENARIO}_{MODEL_GBLUP_GWAS}_{P_GWAS_GBLUP}_{REP_NEW_TEMP_SEX_SCENARIO}_",
+		CPU="2"
+	resources: cpus=2, mem_mb=15000, time_min=60
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --grm_file {input.GRM} \
+		                      --geno_file {params.GENO} \
+		                      --pheno_file {input.PHENO} \
+		                      --gwas_file {input.GWAS} \
+		                      --cv_file {input.CV} \
+		                      --rep {params.REP} \
+		                      --model {params.MODEL} \
+		                      --R2 {params.R2} \
+		                      --niter {params.NITER} \
+		                      --nburn {params.NBURNIN} \
+		                      --thin {params.THIN} \
+		                      --verbose {params.VERB} \
+		                      --gwas_p_thresh {params.P_THRESH} \
+		                      --intermediate_file {params.TMP} \
+		                      --seed {params.SEED} \
+		                      --output_file {output}
+
+		mamba deactivate
+		"""
+
+
+rule fit_gblup_gwas_half_split:
+	input:
+	  GENO_BED=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno.bed",
+		GENO_BIM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno.bim",
+		GENO_FAM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno.fam",
+		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
+		GRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
+		CV=config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{HALF_SPLIT_SCENARIO}_test_sets.rds",
+		GWAS=config["WORKDIR"]+"/"+"output/GxE_gwas/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_gxe_gwas_{REP_HALF_SPLIT_SCENARIO}.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/{MODEL_GBLUP_GWAS}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_{MODEL_GBLUP_GWAS}_{P_GWAS_GBLUP}_fit_{REP_HALF_SPLIT_SCENARIO}.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"fit_gblup_g_e_gxe_select.R",
+		GENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_filt_geno",
+		REP="{REP_HALF_SPLIT_SCENARIO}",
+		MODEL="{MODEL_GBLUP_GWAS}",
+		R2=config["R2_GBLUP"],
+		NITER=config["NITER_GBLUP"],
+		NBURNIN=config["NBURNIN_GBLUP"],
+		THIN=config["THIN_GBLUP"],
+		VERB=config["VERBOSE_GBLUP"],
+		P_THRESH="{P_GWAS_GBLUP}",
+		SEED=config["SEED_GBLUP"],
+		TMP=config["SCRATCH"]+"/BGLR_1/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_{MODEL_GBLUP_GWAS}_{P_GWAS_GBLUP}_{REP_HALF_SPLIT_SCENARIO}_",
+		CPU="2"
+	resources: cpus=2, mem_mb=15000, time_min=60
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --grm_file {input.GRM} \
+		                      --geno_file {params.GENO} \
+		                      --pheno_file {input.PHENO} \
+		                      --gwas_file {input.GWAS} \
+		                      --cv_file {input.CV} \
+		                      --rep {params.REP} \
+		                      --model {params.MODEL} \
+		                      --R2 {params.R2} \
+		                      --niter {params.NITER} \
+		                      --nburn {params.NBURNIN} \
+		                      --thin {params.THIN} \
+		                      --verbose {params.VERB} \
+		                      --gwas_p_thresh {params.P_THRESH} \
+		                      --intermediate_file {params.TMP} \
+		                      --seed {params.SEED} \
+		                      --output_file {output}
+
+		mamba deactivate
+		"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 # rule compute_trm:
 # 	input:

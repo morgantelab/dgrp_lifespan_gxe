@@ -16,7 +16,7 @@ NEW_TEMP_SCENARIO: ['temp']
 REP_NEW_TEMP_SCENARIO: ['1','2','3']
 NEW_TEMP_SEX_SCENARIO: ['temp_sex']
 REP_NEW_TEMP_SEX_SCENARIO: ['1','2','3','4','5','6']
-HALF_SPLIT_SCENARIO: ['gradient_1_2','gradient_3_4','sex']
+HALF_SPLIT_SCENARIO: ['sex'] #'gradient_1_2','gradient_3_4',
 REP_HALF_SPLIT_SCENARIO: ['1','2']
 SEX: ['1','0']
 TEMP: ['18','25','28']
@@ -37,3 +37,5 @@ SEED_TBLUP: "999"
 METHOD_GWAS: "lmm"
 ENVIRONMENT_GWAS: "indicator"
 STANDARDIZE_GWAS: "TRUE"
+MODEL_GBLUP_GWAS: ['GxE_gwas', 'GxE_gwas_het_var']
+P_GWAS_GBLUP: ['1e-5']
