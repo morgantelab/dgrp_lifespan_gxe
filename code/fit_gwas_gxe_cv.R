@@ -119,16 +119,18 @@ GxE_GWAS <- function(X, y, Z, G, e, C, mc.cores, method=c("grammar", "lmm", "lm"
       fit_mix <- rrBLUP::mixed.solve(y=y, X=Xtest, Z=Z, K=G, SE=TRUE)
       
       j <- ncol(Xtest) - 3
+      n <- nrow(Xtest)
+      p <- ncol(Xtest)
       
       gen[1] <- fit_mix$beta[j+1]
       gen[2] <- fit_mix$beta.SE[j+1]
-      gen[3] <- pchisq(q=(fit_mix$beta[j+1] / fit_mix$beta.SE[j+1])^2, df=1, ncp = 0, lower.tail = FALSE)
+      gen[3] <- pf(q=(fit_mix$beta[j+1] / fit_mix$beta.SE[j+1])^2, df1 = 1, df2 = n-p, lower.tail = FALSE)
       env[1] <- fit_mix$beta[j+2]
       env[2] <- fit_mix$beta.SE[j+2]
-      env[3] <- pchisq(q=(fit_mix$beta[j+2] / fit_mix$beta.SE[j+2])^2, df=1, ncp = 0, lower.tail = FALSE)
+      env[3] <- pf(q=(fit_mix$beta[j+2] / fit_mix$beta.SE[j+2])^2, df1 = 1, df2 = n-p, lower.tail = FALSE)
       gxe[1] <- fit_mix$beta[j+3]
       gxe[2] <- fit_mix$beta.SE[j+3]
-      gxe[3] <- pchisq(q=(fit_mix$beta[j+3] / fit_mix$beta.SE[j+3])^2, df=1, ncp = 0, lower.tail = FALSE)
+      gxe[3] <- pf(q=(fit_mix$beta[j+3] / fit_mix$beta.SE[j+3])^2, df1 = 1, df2 = n-p, lower.tail = FALSE)
       
       return(list(g=gen, e=env, gxe=gxe))
     }
