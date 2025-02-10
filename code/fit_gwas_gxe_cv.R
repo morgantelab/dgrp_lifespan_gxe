@@ -1,5 +1,6 @@
 library(optparse)
 library(genio)
+library(matrixStats)
 library(rrBLUP)
 library(dplyr)
 library(parallel)
@@ -252,10 +253,12 @@ dat <- left_join(dat, env_means, by=join_by(sex,temp))
 whichTest <- which(dat$obs_id %in% cv[[repp]])
 dat <- dat[-whichTest, ]
 
-###Order GRM and geno data according to phenotype data
+###Order GRM and geno data according to phenotype data and filter out variants that do not vary
 G <- G[unique(dat$line_id), unique(dat$line_id)]
 X <- geno$X[, unique(dat$line_id)]
-rm(geno, env_means); gc()
+varz <- rowVars(X, na.rm = TRUE)
+X <- X[-which(varz < 0.01), ]
+rm(geno, env_means, varz); gc()
 
 ###Impute missing values
 X <- mean_impute(X)
