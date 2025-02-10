@@ -37,5 +37,5 @@ SEED_TBLUP: "999"
 METHOD_GWAS: "lmm"
 ENVIRONMENT_GWAS: "indicator"
 STANDARDIZE_GWAS: "TRUE"
-MODEL_GBLUP_GWAS: ['GxE_gwas', 'GxE_gwas_het_var']
-P_GWAS_GBLUP: ['1e-5']
+MODEL_GBLUP_GWAS: ['GxE_gwas','GxE_gwas_het_var']
+P_GWAS_GBLUP: ['1e-5','1e-8']
