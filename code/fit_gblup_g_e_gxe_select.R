@@ -119,7 +119,7 @@ X <- colScale(X, center = TRUE, scale = TRUE, add_attr = FALSE)
 to_sel <- which(gwas[, 9] < gwas_p_thresh)
 
 if(length(to_sel) > 0){
-  gwas_sel <- gwas[to_sel, ]
+  gwas_sel <- gwas[to_sel, , drop=FALSE]
   
   ###Split X in significant and not significant variants for GxE
   X_sig_indexes <- which(colnames(X) %in% rownames(gwas_sel))
