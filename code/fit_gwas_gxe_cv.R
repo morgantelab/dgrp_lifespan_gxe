@@ -257,8 +257,11 @@ dat <- dat[-whichTest, ]
 G <- G[unique(dat$line_id), unique(dat$line_id)]
 X <- geno$X[, unique(dat$line_id)]
 varz <- rowVars(X, na.rm = TRUE)
-X <- X[-which(varz < 0.01), ]
-rm(geno, env_means, varz); gc()
+to_rem <- which(varz < 0.01)
+if(length(to_rem) > 0){
+  X <- X[-to_rem, ]
+} 
+rm(geno, env_means, varz, to_rem); gc()
 
 ###Impute missing values
 X <- mean_impute(X)
