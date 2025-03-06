@@ -47,12 +47,7 @@ rule all:
 		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP_BY_CHR}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_{MODEL_GBLUP_BY_CHR}_fit_{REP_HALF_SPLIT_SCENARIO}.rds", 
 		MODEL_GBLUP_BY_CHR=config["MODEL_GBLUP_BY_CHR"], SCALE_PHENO=config["SCALE_PHENO"], HALF_SPLIT_SCENARIO=config["HALF_SPLIT_SCENARIO"], REP_HALF_SPLIT_SCENARIO=config["REP_HALF_SPLIT_SCENARIO"]),
 		expand(config["WORKDIR"]+"/"+"output/mvgblup_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_mvgblup_fit_{REP_REPS}.rds", 
-	 	SCALE_PHENO=config["SCALE_PHENO"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], REP_REPS=config["REP_REPS"]),
-	 	expand(config["WORKDIR"]+"/"+"output/mvgblup_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_mvgblup_fit_{REP_NEW_TEMP_SCENARIO}.rds", 
-		SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SCENARIO=config["NEW_TEMP_SCENARIO"], REP_NEW_TEMP_SCENARIO=config["REP_NEW_TEMP_SCENARIO"]),
-		expand(config["WORKDIR"]+"/"+"output/mvgblup_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_mvgblup_fit_{REP_HALF_SPLIT_SCENARIO}.rds", 
-		SCALE_PHENO=config["SCALE_PHENO"], HALF_SPLIT_SCENARIO=config["HALF_SPLIT_SCENARIO"], REP_HALF_SPLIT_SCENARIO=config["REP_HALF_SPLIT_SCENARIO"])
-		
+	 	SCALE_PHENO=config["SCALE_PHENO"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], REP_REPS=config["REP_REPS"])
 		
 		# expand(config["WORKDIR"]+"/"+"output/GxE_gwas/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_gxe_gwas_{REP_NEW_TEMP_SCENARIO}.rds", SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SCENARIO=config["NEW_TEMP_SCENARIO"], REP_NEW_TEMP_SCENARIO=config["REP_NEW_TEMP_SCENARIO"]),
 		# expand(config["WORKDIR"]+"/"+"output/GxE_gwas/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_gxe_gwas_{REP_HALF_SPLIT_SCENARIO}.rds", SCALE_PHENO=config["SCALE_PHENO"], HALF_SPLIT_SCENARIO=config["HALF_SPLIT_SCENARIO"], REP_HALF_SPLIT_SCENARIO=config["REP_HALF_SPLIT_SCENARIO"])
@@ -1353,10 +1348,6 @@ rule fit_gblup_gxe_by_chr_half_split:
 		"""
 
 
-
-
-
-
 rule fit_mvgblup_reps:
 	input:
 		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
@@ -1375,102 +1366,6 @@ rule fit_mvgblup_reps:
 		VERB=config["VERBOSE_GBLUP"],
 		SEED=config["SEED_GBLUP"],
 		TMP=config["SCRATCH"]+"/BGLR_1/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_mvgblup_{REP_REPS}_",
-		CPU="2"
-	resources: cpus=2, mem_mb=4000, time_min=120
-	shell:
-		"""
-		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
-		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
-		mamba activate dgrp_lifespan_gxe
-
-		###Set variables
-		export MKL_NUM_THREADS={params.CPU}
-		export OMP_NUM_THREADS={params.CPU}
-
-		Rscript {params.CODE} --grm_file {input.GRM} \
-		                      --pheno_file {input.PHENO} \
-		                      --cv_file {input.CV} \
-		                      --rep {params.REP} \
-		                      --ResCov_type {params.RESCOV} \
-		                      --R2 {params.R2} \
-		                      --niter {params.NITER} \
-		                      --nburn {params.NBURNIN} \
-		                      --thin {params.THIN} \
-		                      --verbose {params.VERB} \
-		                      --intermediate_file {params.TMP} \
-		                      --seed {params.SEED} \
-		                      --output_file {output}
-
-		mamba deactivate
-		"""
-
-
-rule fit_mvgblup_new_temp:
-	input:
-		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
-		GRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
-		CV=config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{NEW_TEMP_SCENARIO}_test_sets.rds"
-	output:
-		config["WORKDIR"]+"/"+"output/mvgblup_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_mvgblup_fit_{REP_NEW_TEMP_SCENARIO}.rds"
-	params:
-		CODE=config["CODE_DIR"]+"/"+"fit_multitrait_gblup.R",
-		REP="{REP_NEW_TEMP_SCENARIO}",
-		RESCOV=config["RESCOV_TYPE_MVGBLUP"],
-		R2=config["R2_GBLUP"],
-		NITER=config["NITER_MVGBLUP"],
-		NBURNIN=config["NBURNIN_MVGBLUP"],
-		THIN=config["THIN_MVGBLUP"],
-		VERB=config["VERBOSE_GBLUP"],
-		SEED=config["SEED_GBLUP"],
-		TMP=config["SCRATCH"]+"/BGLR_1/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_mvgblup_{REP_NEW_TEMP_SCENARIO}_",
-		CPU="2"
-	resources: cpus=2, mem_mb=4000, time_min=120
-	shell:
-		"""
-		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
-		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
-		mamba activate dgrp_lifespan_gxe
-
-		###Set variables
-		export MKL_NUM_THREADS={params.CPU}
-		export OMP_NUM_THREADS={params.CPU}
-
-		Rscript {params.CODE} --grm_file {input.GRM} \
-		                      --pheno_file {input.PHENO} \
-		                      --cv_file {input.CV} \
-		                      --rep {params.REP} \
-		                      --ResCov_type {params.RESCOV} \
-		                      --R2 {params.R2} \
-		                      --niter {params.NITER} \
-		                      --nburn {params.NBURNIN} \
-		                      --thin {params.THIN} \
-		                      --verbose {params.VERB} \
-		                      --intermediate_file {params.TMP} \
-		                      --seed {params.SEED} \
-		                      --output_file {output}
-
-		mamba deactivate
-		"""
-
-
-rule fit_mvgblup_half_split:
-	input:
-		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
-		GRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
-		CV=config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{HALF_SPLIT_SCENARIO}_test_sets.rds"
-	output:
-		config["WORKDIR"]+"/"+"output/mvgblup_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_mvgblup_fit_{REP_HALF_SPLIT_SCENARIO}.rds"
-	params:
-		CODE=config["CODE_DIR"]+"/"+"fit_multitrait_gblup.R",
-		REP="{REP_HALF_SPLIT_SCENARIO}",
-		RESCOV=config["RESCOV_TYPE_MVGBLUP"],
-		R2=config["R2_GBLUP"],
-		NITER=config["NITER_MVGBLUP"],
-		NBURNIN=config["NBURNIN_MVGBLUP"],
-		THIN=config["THIN_MVGBLUP"],
-		VERB=config["VERBOSE_GBLUP"],
-		SEED=config["SEED_GBLUP"],
-		TMP=config["SCRATCH"]+"/BGLR_1/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_mvgblup_{REP_HALF_SPLIT_SCENARIO}_",
 		CPU="2"
 	resources: cpus=2, mem_mb=4000, time_min=120
 	shell:
