@@ -47,7 +47,16 @@ rule all:
 		expand(config["WORKDIR"]+"/"+"output/{MODEL_GBLUP_BY_CHR}_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_{MODEL_GBLUP_BY_CHR}_fit_{REP_HALF_SPLIT_SCENARIO}.rds", 
 		MODEL_GBLUP_BY_CHR=config["MODEL_GBLUP_BY_CHR"], SCALE_PHENO=config["SCALE_PHENO"], HALF_SPLIT_SCENARIO=config["HALF_SPLIT_SCENARIO"], REP_HALF_SPLIT_SCENARIO=config["REP_HALF_SPLIT_SCENARIO"]),
 		expand(config["WORKDIR"]+"/"+"output/mvgblup_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_mvgblup_fit_{REP_REPS}.rds", 
-	 	SCALE_PHENO=config["SCALE_PHENO"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], REP_REPS=config["REP_REPS"])
+	 	SCALE_PHENO=config["SCALE_PHENO"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], REP_REPS=config["REP_REPS"]),
+	 	expand(config["WORKDIR"]+"/"+"output/rrm_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_rrm_fit_{REP_REPS}.rds", 
+	 	SCALE_PHENO=config["SCALE_PHENO"], CV_SCENARIO_REPS=config["CV_SCENARIO_REPS"], REP_REPS=config["REP_REPS"]),
+	 	expand(config["WORKDIR"]+"/"+"output/rrm_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_rrm_fit_{REP_NEW_TEMP_SCENARIO}.rds", 
+		SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SCENARIO=config["NEW_TEMP_SCENARIO"], REP_NEW_TEMP_SCENARIO=config["REP_NEW_TEMP_SCENARIO"]),
+		expand(config["WORKDIR"]+"/"+"output/rrm_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SEX_SCENARIO}_rrm_fit_{REP_NEW_TEMP_SEX_SCENARIO}.rds", 
+		SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SEX_SCENARIO=config["NEW_TEMP_SEX_SCENARIO"], REP_NEW_TEMP_SEX_SCENARIO=config["REP_NEW_TEMP_SEX_SCENARIO"]),
+		expand(config["WORKDIR"]+"/"+"output/rrm_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_rrm_fit_{REP_HALF_SPLIT_SCENARIO}.rds", 
+		SCALE_PHENO=config["SCALE_PHENO"], HALF_SPLIT_SCENARIO=config["HALF_SPLIT_SCENARIO"], REP_HALF_SPLIT_SCENARIO=config["REP_HALF_SPLIT_SCENARIO"]),
+
 		
 		# expand(config["WORKDIR"]+"/"+"output/GxE_gwas/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_gxe_gwas_{REP_NEW_TEMP_SCENARIO}.rds", SCALE_PHENO=config["SCALE_PHENO"], NEW_TEMP_SCENARIO=config["NEW_TEMP_SCENARIO"], REP_NEW_TEMP_SCENARIO=config["REP_NEW_TEMP_SCENARIO"]),
 		# expand(config["WORKDIR"]+"/"+"output/GxE_gwas/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_gxe_gwas_{REP_HALF_SPLIT_SCENARIO}.rds", SCALE_PHENO=config["SCALE_PHENO"], HALF_SPLIT_SCENARIO=config["HALF_SPLIT_SCENARIO"], REP_HALF_SPLIT_SCENARIO=config["REP_HALF_SPLIT_SCENARIO"])
@@ -1394,17 +1403,174 @@ rule fit_mvgblup_reps:
 
 		mamba deactivate
 		"""
+		
+
+rule fit_rrm_reps:
+	input:
+		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
+		GRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
+		CV=config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{CV_SCENARIO_REPS}_test_sets.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/rrm_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{CV_SCENARIO_REPS}_rrm_fit_{REP_REPS}.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"fit_rrm.R",
+		REP="{REP_REPS}",
+		FIXED=config["FIXED_STR_RRM"],
+		RANDOM=config["RANDOM_STR_RRM"],
+		RES=config["RESIDUAL_STR_RRM"],
+		VERB=config["VERBOSE_RRM"],
+		SEED=config["SEED_RRM"],
+		CPU="1"
+	resources: cpus=1, mem_mb=2000, time_min=60
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --grm_file {input.GRM} \
+		                      --pheno_file {input.PHENO} \
+		                      --cv_file {input.CV} \
+		                      --rep {params.REP} \
+		                      --fixed_str "{params.FIXED}" \
+		                      --random_str "{params.RANDOM}" \
+		                      --residual_str "{params.RES}" \
+		                      --verbose {params.VERB} \
+		                      --seed {params.SEED} \
+		                      --output_file {output}
+
+		mamba deactivate
+		"""
 
 
+rule fit_rrm_new_temp:
+	input:
+		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
+		GRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
+		CV=config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{NEW_TEMP_SCENARIO}_test_sets.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/rrm_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SCENARIO}_rrm_fit_{REP_NEW_TEMP_SCENARIO}.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"fit_rrm.R",
+		REP="{REP_NEW_TEMP_SCENARIO}",
+		FIXED=config["FIXED_STR_RRM"],
+		RANDOM=config["RANDOM_STR_RRM"],
+		RES=config["RESIDUAL_STR_RRM"],
+		VERB=config["VERBOSE_RRM"],
+		SEED=config["SEED_RRM"],
+		CPU="1"
+	resources: cpus=1, mem_mb=2000, time_min=60
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --grm_file {input.GRM} \
+		                      --pheno_file {input.PHENO} \
+		                      --cv_file {input.CV} \
+		                      --rep {params.REP} \
+		                      --fixed_str "{params.FIXED}" \
+		                      --random_str "{params.RANDOM}" \
+		                      --residual_str "{params.RES}" \
+		                      --verbose {params.VERB} \
+		                      --seed {params.SEED} \
+		                      --output_file {output}
+
+		mamba deactivate
+		"""
 
 
+rule fit_rrm_new_temp_sex:
+	input:
+		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
+		GRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
+		CV=config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{NEW_TEMP_SEX_SCENARIO}_test_sets.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/rrm_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{NEW_TEMP_SEX_SCENARIO}_rrm_fit_{REP_NEW_TEMP_SEX_SCENARIO}.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"fit_rrm.R",
+		REP="{REP_NEW_TEMP_SEX_SCENARIO}",
+		FIXED=config["FIXED_STR_RRM"],
+		RANDOM=config["RANDOM_STR_RRM"],
+		RES=config["RESIDUAL_STR_RRM"],
+		VERB=config["VERBOSE_RRM"],
+		SEED=config["SEED_RRM"],
+		CPU="1"
+	resources: cpus=1, mem_mb=2000, time_min=60
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
+
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
+
+		Rscript {params.CODE} --grm_file {input.GRM} \
+		                      --pheno_file {input.PHENO} \
+		                      --cv_file {input.CV} \
+		                      --rep {params.REP} \
+		                      --fixed_str "{params.FIXED}" \
+		                      --random_str "{params.RANDOM}" \
+		                      --residual_str "{params.RES}" \
+		                      --verbose {params.VERB} \
+		                      --seed {params.SEED} \
+		                      --output_file {output}
+
+		mamba deactivate
+		"""
 
 
+rule fit_rrm_half_split:
+	input:
+		PHENO=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_env.rds",
+		GRM=config["WORKDIR"]+"/data/"+config["PREFIX"]+"_grm.rds",
+		CV=config["WORKDIR"]+"/"+"output/test_sets/"+config["PREFIX"]+"_{HALF_SPLIT_SCENARIO}_test_sets.rds"
+	output:
+		config["WORKDIR"]+"/"+"output/rrm_fit/"+config["PREFIX"]+"_{SCALE_PHENO}_pheno_{HALF_SPLIT_SCENARIO}_rrm_fit_{REP_HALF_SPLIT_SCENARIO}.rds"
+	params:
+		CODE=config["CODE_DIR"]+"/"+"fit_rrm.R",
+		REP="{REP_HALF_SPLIT_SCENARIO}",
+		FIXED=config["FIXED_STR_RRM"],
+		RANDOM=config["RANDOM_STR_RRM"],
+		RES=config["RESIDUAL_STR_RRM"],
+		VERB=config["VERBOSE_RRM"],
+		SEED=config["SEED_RRM"],
+		CPU="1"
+	resources: cpus=1, mem_mb=2000, time_min=60
+	shell:
+		"""
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/conda.sh
+		source /data2/morgante_lab/fabiom/software/miniconda3/etc/profile.d/mamba.sh
+		mamba activate dgrp_lifespan_gxe
 
+		###Set variables
+		export MKL_NUM_THREADS={params.CPU}
+		export OMP_NUM_THREADS={params.CPU}
 
+		Rscript {params.CODE} --grm_file {input.GRM} \
+		                      --pheno_file {input.PHENO} \
+		                      --cv_file {input.CV} \
+		                      --rep {params.REP} \
+		                      --fixed_str "{params.FIXED}" \
+		                      --random_str "{params.RANDOM}" \
+		                      --residual_str "{params.RES}" \
+		                      --verbose {params.VERB} \
+		                      --seed {params.SEED} \
+		                      --output_file {output}
 
-
-
+		mamba deactivate
+		"""
 
 
 
