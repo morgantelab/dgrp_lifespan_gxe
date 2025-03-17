@@ -54,7 +54,7 @@ $\mathbf X$ is a $q \times c$ matrix of environmental measurements,
 $ge \sim N_q(\mathbf O, \mathbf{ZGZ^\intercal \circ E} \sigma^2_{ge})$,
 $\epsilon$ is a $q$-vector of residual values, $\epsilon \sim N_q(\mathbf O, \mathbf{I} \sigma^2_\epsilon)$.
 
-These models were also implemented with heterogeneous residual variances across environments (i.e., $\epsilon \sim N_q(\mathbf O, \mathbf{D})$, where $D$ is a $r \times r$ diagonal matrix where $D_{s,s} = \sigma^2_{\epsilon s}$).
+These models were also implemented with heterogeneous residual variances across environments (i.e., $\epsilon \sim N_q(\mathbf O, \mathbf D)$, where $\mathbf D$ is a $r \times r$ diagonal matrix where $D_{s,s} = \sigma^2_{\epsilon s}$).
 
 We also fit a multivariate GBLUP -- $Y = M + U + R$:
 
@@ -62,8 +62,8 @@ where
 
 $Y$ is an $n \times r$ matrix of phenotypic observations, 
 $M$ is an $r$-vector of intercept values, 
-$U$ is an $n \times r$ matrix of additive genetic values, $U \sim MN_{n \times r}(\mathbf O, \mathbf G, \mathbf \Sigma_U})$ and $\Sigma_U$ is an $r \times r$ covariance matrix,
-$R$ is an $r \times r$ matrix of residual values, $R \sim MN_{n \times r}(\mathbf O, \mathbf I_n, \mathbf \Sigma_R})$ and $\Sigma_R$ is an $r \times r$ covariance matrix.
+$U$ is an $n \times r$ matrix of additive genetic values, $U \sim MN_{n \times r}(\mathbf O, \mathbf G, \mathbf \Sigma_U})$ and $\mathbf  \Sigma_U$ is an $r \times r$ covariance matrix,
+$R$ is an $r \times r$ matrix of residual values, $R \sim MN_{n \times r}(\mathbf O, \mathbf I_n, \mathbf \Sigma_R})$ and $\mathbf  \Sigma_R$ is an $r \times r$ covariance matrix.
 
 We also fit a random regression model -- $y_{is} = \sum_{m=0}^K \beta_{m} \phi_m(s) + \sum_{m=0}^K a_{im} \phi_m(s) + \epsilon$:
 
@@ -72,12 +72,14 @@ where
 $y_{is}$ is the phenotype for line $i$ in environment $s$, 
 $\phi_m(s)$ is the Legendre polynomial of order $m$ for environment $s$,
 $\beta_{m}$ is the fixed effect of the $m^{th}$-order Legendre polynomial,
-$a_{im}$ is the random additive genetic value of the $m^{th}$-order Legendre polynomial, $a_{im} \sim N(\mathbf 0, \mathbf G \otimes \mathbf \Sigma_a)$ and $\Sigma_r$ is an $K \times K$ covariance matrix.
+$a_{im}$ is the random additive genetic value of the $m^{th}$-order Legendre polynomial, $a_{im} \sim N(\mathbf 0, \mathbf G \otimes \mathbf \Sigma_a)$ and $\mathbf  \Sigma_r$ is an $K \times K$ covariance matrix.
 $\epsilon_{is}$ is the residual value for line $i$ in environment $s$, $\epsilon \sim N(O, \sigma^2_{\epsilon s})$.
 
 After some testing, we chose $K=1$.
 
-These models were fitted in the training set using a Bayesian approach as implemented in the $\sf BGLR$ package.
+All these models (except for the random regression) were fitted in the training set using a Bayesian approach as implemented in the 
+$\sf BGLR$ package. The random regression model was fitted in the training set using a REML approach as implemented in the 
+$\sf sommer$ package.
 
 We used different cross-validation schemes:
 
