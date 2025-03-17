@@ -11,7 +11,7 @@
 
 <meta name="author" content="Fabio Morgante" />
 
-<meta name="date" content="2025-02-27" />
+<meta name="date" content="2025-03-17" />
 
 <title>Genomic prediction of life span with different models</title>
 
@@ -374,7 +374,7 @@ div.tocify {
 <h1 class="title toc-ignore">Genomic prediction of life span with
 different models</h1>
 <h4 class="author">Fabio Morgante</h4>
-<h4 class="date">February 27, 2025</h4>
+<h4 class="date">March 17, 2025</h4>
 
 </div>
 
@@ -403,7 +403,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-02-27
+<strong>Last updated:</strong> 2025-03-17
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -534,15 +534,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreee4fa0f2bcb40cd22ea49909822db207dfc11a291targetblanke4fa0f2a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree583e8ce3141f44534bf030f98122066fd76a888btargetblank583e8cea">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/e4fa0f2bcb40cd22ea49909822db207dfc11a291" target="_blank">e4fa0f2</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/583e8ce3141f44534bf030f98122066fd76a888b" target="_blank">583e8ce</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreee4fa0f2bcb40cd22ea49909822db207dfc11a291targetblanke4fa0f2a"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree583e8ce3141f44534bf030f98122066fd76a888btargetblank583e8cea"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -552,7 +552,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/e4fa0f2bcb40cd22ea49909822db207dfc11a291" target="_blank">e4fa0f2</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/583e8ce3141f44534bf030f98122066fd76a888b" target="_blank">583e8ce</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -585,6 +585,8 @@ Ignored files:
     Ignored:    output/T_fit/
     Ignored:    output/TandE_fit/
     Ignored:    output/TxE_fit/
+    Ignored:    output/mvgblup_fit/
+    Ignored:    output/rrm_fit/
     Ignored:    output/test_sets/
     Ignored:    run/
     Ignored:    slurm/
@@ -653,6 +655,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/583e8ce3141f44534bf030f98122066fd76a888b/analysis/dgrp_lifespan_gxe_genomic_results.Rmd" target="_blank">583e8ce</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-03-17
+</td>
+<td>
+Add RRM results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/dgrp_lifespan_gxe_genomic_results.html" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1133,6 +1169,55 @@ class="math inline">\(\epsilon\)</span> is a <span
 class="math inline">\(q\)</span>-vector of residual values, <span
 class="math inline">\(\epsilon \sim N_q(\mathbf O, \mathbf{I}
 \sigma^2_\epsilon)\)</span>.</p>
+<p>These models were also implemented with heterogeneous residual
+variances across environments (i.e., <span
+class="math inline">\(\epsilon \sim N_q(\mathbf O, \mathbf{D})\)</span>,
+where <span class="math inline">\(D\)</span> is a <span
+class="math inline">\(r \times r\)</span> diagonal matrix where <span
+class="math inline">\(D_{s,s} = \sigma^2_{\epsilon s}\)</span>).</p>
+<p>We also fit a multivariate GBLUP – <span class="math inline">\(Y = M
++ U + R\)</span>:</p>
+<p>where</p>
+<p><span class="math inline">\(Y\)</span> is an <span
+class="math inline">\(n \times r\)</span> matrix of phenotypic
+observations, <span class="math inline">\(M\)</span> is an <span
+class="math inline">\(r\)</span>-vector of intercept values, <span
+class="math inline">\(U\)</span> is an <span class="math inline">\(n
+\times r\)</span> matrix of additive genetic values, <span
+class="math inline">\(U \sim MN_{n \times r}(\mathbf O, \mathbf G,
+\mathbf \Sigma_U})\)</span> and <span
+class="math inline">\(\Sigma_U\)</span> is an <span
+class="math inline">\(r \times r\)</span> covariance matrix, <span
+class="math inline">\(R\)</span> is an <span class="math inline">\(r
+\times r\)</span> matrix of residual values, <span
+class="math inline">\(R \sim MN_{n \times r}(\mathbf O, \mathbf I_n,
+\mathbf \Sigma_R})\)</span> and <span
+class="math inline">\(\Sigma_R\)</span> is an <span
+class="math inline">\(r \times r\)</span> covariance matrix.</p>
+<p>We also fit a random regression model – <span
+class="math inline">\(y_{is} = \sum_{m=0}^K \beta_{m} \phi_m(s) +
+\sum_{m=0}^K a_{im} \phi_m(s) + \epsilon\)</span>:</p>
+<p>where</p>
+<p><span class="math inline">\(y_{is}\)</span> is the phenotype for line
+<span class="math inline">\(i\)</span> in environment <span
+class="math inline">\(s\)</span>, <span
+class="math inline">\(\phi_m(s)\)</span> is the Legendre polynomial of
+order <span class="math inline">\(m\)</span> for environment <span
+class="math inline">\(s\)</span>, <span
+class="math inline">\(\beta_{m}\)</span> is the fixed effect of the
+<span class="math inline">\(m^{th}\)</span>-order Legendre polynomial,
+<span class="math inline">\(a_{im}\)</span> is the random additive
+genetic value of the <span class="math inline">\(m^{th}\)</span>-order
+Legendre polynomial, <span class="math inline">\(a_{im} \sim N(\mathbf
+0, \mathbf G \otimes \mathbf \Sigma_a)\)</span> and <span
+class="math inline">\(\Sigma_r\)</span> is an <span
+class="math inline">\(K \times K\)</span> covariance matrix. <span
+class="math inline">\(\epsilon_{is}\)</span> is the residual value for
+line <span class="math inline">\(i\)</span> in environment <span
+class="math inline">\(s\)</span>, <span class="math inline">\(\epsilon
+\sim N(O, \sigma^2_{\epsilon s})\)</span>.</p>
+<p>After some testing, we chose <span
+class="math inline">\(K=1\)</span>.</p>
 <p>These models were fitted in the training set using a Bayesian
 approach as implemented in the <span class="math inline">\(\sf
 BGLR\)</span> package.</p>
@@ -1974,7 +2059,7 @@ environments. All the models including G do pretty poorly.</p>
 <div id="original-scale-phenotype-2" class="section level6">
 <h6>Original scale phenotype</h6>
 <pre class="r"><code>schemes &lt;- &quot;random_lines&quot;
-model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;)
+model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;,&#39;mvgblup&#39;,&#39;rrm&#39;)
 pheno &lt;- &quot;original_pheno&quot;
 
 i &lt;- 0
@@ -1993,7 +2078,13 @@ for(sche in schemes){
       res[i, 1] &lt;- repp
       res[i, 2] &lt;- sche
       res[i, 3] &lt;- met
-      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      if(met == &quot;mvgblup&quot;){
+        y_test &lt;- do.call(&quot;c&quot;, dat$y_test)
+        yhat_test &lt;- do.call(&quot;c&quot;, dat$yhat_test)
+        res[i, 4] &lt;- summary(lm(y_test ~ yhat_test))$r.squared
+      } else {
+        res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      }
     }
   }
 }
@@ -2057,7 +2148,9 @@ fmorgante
 1     E_het_var 0.723426379 0.0006849420
 2     G_het_var 0.004695946 0.0001691966
 3 GandE_het_var 0.726939663 0.0007040385
-4   GxE_het_var 0.725793527 0.0006896233</code></pre>
+4   GxE_het_var 0.725793527 0.0006896233
+5       mvgblup 0.726812433 0.0006878835
+6           rrm 0.461193384 0.0026022254</code></pre>
 <p>With heterogeneous residual variance, …</p>
 </div>
 </div>
@@ -2122,6 +2215,43 @@ p &lt;- ggplot(res, aes(x = pval, y = r2, fill = pval)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20lines%20orig%20gwas-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-orig-gwas-1">
+Past versions of "random lines orig gwas-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-orig-gwas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig gwas-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model, pval) %&gt;% summarise(mean_r2=mean(r2, na.rm = TRUE), se_r=(sd(r2, na.rm = TRUE)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;model&#39;. You can override using the
 `.groups` argument.</code></pre>
@@ -2193,6 +2323,43 @@ p &lt;- ggplot(res, aes(x = pval, y = r2, fill = pval)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20lines%20orig%20het%20gwas-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-orig-het-gwas-1">
+Past versions of "random lines orig het gwas-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-orig-het-gwas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig het gwas-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model, pval) %&gt;% summarise(mean_r2=mean(r2, na.rm = TRUE), se_r=(sd(r2, na.rm = TRUE)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;model&#39;. You can override using the
 `.groups` argument.</code></pre>
@@ -2342,6 +2509,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 120 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20lines%20orig%20chr-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-orig-chr-1">
+Past versions of "random lines orig chr-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-orig-chr-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig chr-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -2358,6 +2562,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20lines%20orig%20chr-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-orig-chr-2">
+Past versions of "random lines orig chr-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-orig-chr-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig chr-2.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>       model   mean_r2         se_r
 1        GxE 0.7261067 0.0006674381
@@ -2410,6 +2651,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20lines%20orig%20het%20chr-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-lines-orig-het-chr-1">
+Past versions of "random lines orig het chr-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-lines-orig-het-chr-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig het chr-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>               model   mean_r2         se_r
 1        GxE_het_var 0.7257935 0.0006896233
@@ -2852,7 +3130,7 @@ accuracy.</p>
 <div id="original-scale-phenotype-8" class="section level6">
 <h6>Original scale phenotype</h6>
 <pre class="r"><code>schemes &lt;- &quot;random_obs&quot;
-model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;)
+model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;,&#39;mvgblup&#39;,&#39;rrm&#39;)
 pheno &lt;- &quot;original_pheno&quot;
 
 i &lt;- 0
@@ -2871,7 +3149,13 @@ for(sche in schemes){
       res[i, 1] &lt;- repp
       res[i, 2] &lt;- sche
       res[i, 3] &lt;- met
-      res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      if(met == &quot;mvgblup&quot;){
+        y_test &lt;- do.call(&quot;c&quot;, dat$y_test)
+        yhat_test &lt;- do.call(&quot;c&quot;, dat$yhat_test)
+        res[i, 4] &lt;- summary(lm(y_test ~ yhat_test))$r.squared
+      } else {
+        res[i, 4] &lt;- summary(lm(dat$y_test ~ dat$yhat_test))$r.squared
+      }
     }
   }
 }
@@ -2935,7 +3219,9 @@ fmorgante
 1     E_het_var 0.721997508 0.0007902213
 2     G_het_var 0.002822643 0.0001601667
 3 GandE_het_var 0.785036894 0.0007417887
-4   GxE_het_var 0.794021024 0.0008231949</code></pre>
+4   GxE_het_var 0.794021024 0.0008231949
+5       mvgblup 0.828859386 0.0006172694
+6           rrm 0.468926165 0.0041345991</code></pre>
 <p>With heterogeneous residual variance, …</p>
 </div>
 </div>
@@ -3004,6 +3290,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 16 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20obs%20orig%20gwas-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-orig-gwas-1">
+Past versions of "random obs orig gwas-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-orig-gwas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig gwas-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model, pval) %&gt;% summarise(mean_r2=mean(r2, na.rm = TRUE), se_r=(sd(r2, na.rm = TRUE)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;model&#39;. You can override using the
 `.groups` argument.</code></pre>
@@ -3079,6 +3402,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 16 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20obs%20orig%20het%20gwas-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-orig-het-gwas-1">
+Past versions of "random obs orig het gwas-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-orig-het-gwas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig het gwas-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model, pval) %&gt;% summarise(mean_r2=mean(r2, na.rm = TRUE), se_r=(sd(r2, na.rm = TRUE)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;model&#39;. You can override using the
 `.groups` argument.</code></pre>
@@ -3228,6 +3588,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 120 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20obs%20orig%20chr-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-orig-chr-1">
+Past versions of "random obs orig chr-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-orig-chr-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig chr-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -3244,6 +3641,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20obs%20orig%20chr-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-orig-chr-2">
+Past versions of "random obs orig chr-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-orig-chr-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig chr-2.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>       model   mean_r2         se_r
 1        GxE 0.8023930 0.0008092222
@@ -3296,6 +3730,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/random%20obs%20orig%20het%20chr-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-random-obs-orig-het-chr-1">
+Past versions of "random obs orig het chr-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-random-obs-orig-het-chr-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig het chr-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>               model   mean_r2         se_r
 1        GxE_het_var 0.7940210 0.0008231949
@@ -3725,7 +4196,7 @@ similar in this scenario.</p>
 <h6>Original scale phenotype</h6>
 <pre class="r"><code>n_reps &lt;- 3
 schemes &lt;- &quot;temp&quot;
-model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;)
+model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;,&#39;rrm&#39;)
 pheno &lt;- &quot;original_pheno&quot;
 
 i &lt;- 0
@@ -3808,7 +4279,8 @@ fmorgante
 1     E_het_var 0.01530178 0.004543686
 2     G_het_var 0.23329755 0.015981306
 3 GandE_het_var 0.26323413 0.010625486
-4   GxE_het_var 0.27972420 0.023458242</code></pre>
+4   GxE_het_var 0.27972420 0.023458242
+5           rrm 0.21213751 0.027158371</code></pre>
 <p>With heterogeneous residual variance, …</p>
 </div>
 </div>
@@ -3878,6 +4350,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp%20orig%20gwas-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-temp-orig-gwas-1">
+Past versions of "across temp orig gwas-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-temp-orig-gwas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp orig gwas-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model, pval) %&gt;% summarise(mean_r2=mean(r2, na.rm = TRUE), se_r=(sd(r2, na.rm = TRUE)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;model&#39;. You can override using the
 `.groups` argument.</code></pre>
@@ -3954,6 +4463,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp%20orig%20het%20gwas-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-temp-orig-het-gwas-1">
+Past versions of "across temp orig het gwas-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-temp-orig-het-gwas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp orig het gwas-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model, pval) %&gt;% summarise(mean_r2=mean(r2, na.rm = TRUE), se_r=(sd(r2, na.rm = TRUE)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;model&#39;. You can override using the
 `.groups` argument.</code></pre>
@@ -4103,6 +4649,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 18 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp%20orig%20chr-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-temp-orig-chr-1">
+Past versions of "across temp orig chr-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-temp-orig-chr-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp orig chr-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -4119,6 +4702,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp%20orig%20chr-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-temp-orig-chr-2">
+Past versions of "across temp orig chr-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-temp-orig-chr-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp orig chr-2.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>       model   mean_r2       se_r
 1        GxE 0.2690440 0.04365582
@@ -4171,6 +4791,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp%20orig%20het%20chr-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-temp-orig-het-chr-1">
+Past versions of "across temp orig het chr-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-temp-orig-het-chr-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp orig het chr-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>               model   mean_r2       se_r
 1        GxE_het_var 0.2797242 0.02345824
@@ -4583,7 +5240,7 @@ fmorgante
 <h6>Original scale phenotype</h6>
 <pre class="r"><code>n_reps &lt;- 2
 schemes &lt;- &quot;sex&quot;
-model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;)
+model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;,&#39;rrm&#39;)
 pheno &lt;- &quot;original_pheno&quot;
 
 i &lt;- 0
@@ -4666,7 +5323,8 @@ fmorgante
 1     E_het_var 0.72359620 0.011658860
 2     G_het_var 0.06436602 0.004608881
 3 GandE_het_var 0.79402164 0.006638155
-4   GxE_het_var 0.79282122 0.009319443</code></pre>
+4   GxE_het_var 0.79282122 0.009319443
+5           rrm 0.64229984 0.025527903</code></pre>
 <p>With heterogeneous residual variance, …</p>
 </div>
 </div>
@@ -4736,6 +5394,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20sex%20orig%20gwas-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-sex-orig-gwas-1">
+Past versions of "across sex orig gwas-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-sex-orig-gwas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across sex orig gwas-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model, pval) %&gt;% summarise(mean_r2=mean(r2, na.rm = TRUE), se_r=(sd(r2, na.rm = TRUE)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;model&#39;. You can override using the
 `.groups` argument.</code></pre>
@@ -4812,6 +5507,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20sex%20orig%20het%20gwas-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-sex-orig-het-gwas-1">
+Past versions of "across sex orig het gwas-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-sex-orig-het-gwas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across sex orig het gwas-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model, pval) %&gt;% summarise(mean_r2=mean(r2, na.rm = TRUE), se_r=(sd(r2, na.rm = TRUE)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;model&#39;. You can override using the
 `.groups` argument.</code></pre>
@@ -4961,6 +5693,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 12 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20sex%20orig%20chr-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-sex-orig-chr-1">
+Past versions of "across sex orig chr-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-sex-orig-chr-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across sex orig chr-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -4977,6 +5746,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20sex%20orig%20chr-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-sex-orig-chr-2">
+Past versions of "across sex orig chr-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-sex-orig-chr-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across sex orig chr-2.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>       model   mean_r2        se_r
 1        GxE 0.7323339 0.009450426
@@ -5029,6 +5835,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20sex%20orig%20het%20chr-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-across-sex-orig-het-chr-1">
+Past versions of "across sex orig het chr-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-across-sex-orig-het-chr-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across sex orig het chr-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>               model   mean_r2        se_r
 1        GxE_het_var 0.7928212 0.009319443
@@ -5481,7 +6324,7 @@ larger.</p>
 <h6>Original scale phenotype</h6>
 <pre class="r"><code>n_reps &lt;- 6
 schemes &lt;- &quot;temp_sex&quot;
-model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;)
+model &lt;- c(&#39;G_het_var&#39;,&#39;E_het_var&#39;,&#39;GandE_het_var&#39;,&#39;GxE_het_var&#39;,&#39;rrm&#39;)
 pheno &lt;- &quot;original_pheno&quot;
 
 i &lt;- 0
@@ -5564,7 +6407,8 @@ fmorgante
 1     E_het_var 0.0000000 0.000000000
 2     G_het_var 0.2736952 0.004330556
 3 GandE_het_var 0.3616820 0.010050622
-4   GxE_het_var 0.4088251 0.006291057</code></pre>
+4   GxE_het_var 0.4088251 0.006291057
+5           rrm 0.3372179 0.020640791</code></pre>
 <p>With heterogeneous residual variance, …</p>
 </div>
 </div>
@@ -5630,6 +6474,43 @@ p &lt;- ggplot(res, aes(x = pval, y = r2, fill = pval)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp/sex%20orig%20gwas-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sex-orig-gwas-1">
+Past versions of "sex orig gwas-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-sex-orig-gwas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp/sex orig gwas-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model, pval) %&gt;% summarise(mean_r2=mean(r2, na.rm = TRUE), se_r=(sd(r2, na.rm = TRUE)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;model&#39;. You can override using the
 `.groups` argument.</code></pre>
@@ -5702,6 +6583,43 @@ p &lt;- ggplot(res, aes(x = pval, y = r2, fill = pval)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp/sex%20orig%20het%20gwas-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sex-orig-het-gwas-1">
+Past versions of "sex orig het gwas-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-sex-orig-het-gwas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp/sex orig het gwas-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model, pval) %&gt;% summarise(mean_r2=mean(r2, na.rm = TRUE), se_r=(sd(r2, na.rm = TRUE)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;model&#39;. You can override using the
 `.groups` argument.</code></pre>
@@ -5851,6 +6769,43 @@ print(p)</code></pre>
 <pre><code>Warning: Removed 36 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp/sex%20orig%20chr-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sex-orig-chr-1">
+Past versions of "sex orig chr-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-sex-orig-chr-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp/sex orig chr-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>###Accuracy
 res &lt;- transform(res, scheme=as.factor(scheme),
                  model=as.factor(model))
@@ -5867,6 +6822,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp/sex%20orig%20chr-2.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sex-orig-chr-2">
+Past versions of "sex orig chr-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-sex-orig-chr-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp/sex orig chr-2.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>       model   mean_r2       se_r
 1        GxE 0.4361919 0.02644908
@@ -5919,6 +6911,43 @@ p &lt;- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 print(p)</code></pre>
 <p><img src="figure/dgrp_lifespan_gxe_genomic_results.Rmd/across%20temp/sex%20orig%20het%20chr-1.png" width="1248" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sex-orig-het-chr-1">
+Past versions of "sex orig het chr-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-sex-orig-het-chr-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/9b44f8d85c07220ce84ab313a001ab16bd8757c9/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp/sex orig het chr-1.png" target="_blank">9b44f8d</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-02-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res %&gt;% group_by(model) %&gt;% summarise(mean_r2=mean(r2), se_r=(sd(r2)/n_reps)) %&gt;% as.data.frame()</code></pre>
 <pre><code>               model   mean_r2        se_r
 1        GxE_het_var 0.4088251 0.006291057
