@@ -534,15 +534,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree583e8ce3141f44534bf030f98122066fd76a888btargetblank583e8cea">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreeac30118ace3ed69eb651512e27367fa05a52b544targetblankac30118a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/583e8ce3141f44534bf030f98122066fd76a888b" target="_blank">583e8ce</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/ac30118ace3ed69eb651512e27367fa05a52b544" target="_blank">ac30118</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetree583e8ce3141f44534bf030f98122066fd76a888btargetblank583e8cea"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreeac30118ace3ed69eb651512e27367fa05a52b544targetblankac30118a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -552,7 +552,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/583e8ce3141f44534bf030f98122066fd76a888b" target="_blank">583e8ce</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/ac30118ace3ed69eb651512e27367fa05a52b544" target="_blank">ac30118</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -655,6 +655,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/ac30118ace3ed69eb651512e27367fa05a52b544/analysis/dgrp_lifespan_gxe_genomic_results.Rmd" target="_blank">ac30118</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-03-17
+</td>
+<td>
+Minor fixes
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/ec76fc861d9f9cd7de140202a1a7952e36a829f4/docs/dgrp_lifespan_gxe_genomic_results.html" target="_blank">ec76fc8</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-03-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1171,8 +1205,8 @@ class="math inline">\(\epsilon \sim N_q(\mathbf O, \mathbf{I}
 \sigma^2_\epsilon)\)</span>.</p>
 <p>These models were also implemented with heterogeneous residual
 variances across environments (i.e., <span
-class="math inline">\(\epsilon \sim N_q(\mathbf O, \mathbf{D})\)</span>,
-where <span class="math inline">\(D\)</span> is a <span
+class="math inline">\(\epsilon \sim N_q(\mathbf O, \mathbf D)\)</span>,
+where <span class="math inline">\(\mathbf D\)</span> is a <span
 class="math inline">\(r \times r\)</span> diagonal matrix where <span
 class="math inline">\(D_{s,s} = \sigma^2_{\epsilon s}\)</span>).</p>
 <p>We also fit a multivariate GBLUP – <span class="math inline">\(Y = M
@@ -1185,15 +1219,14 @@ class="math inline">\(r\)</span>-vector of intercept values, <span
 class="math inline">\(U\)</span> is an <span class="math inline">\(n
 \times r\)</span> matrix of additive genetic values, <span
 class="math inline">\(U \sim MN_{n \times r}(\mathbf O, \mathbf G,
-\mathbf \Sigma_U})\)</span> and <span
-class="math inline">\(\Sigma_U\)</span> is an <span
-class="math inline">\(r \times r\)</span> covariance matrix, <span
-class="math inline">\(R\)</span> is an <span class="math inline">\(r
-\times r\)</span> matrix of residual values, <span
-class="math inline">\(R \sim MN_{n \times r}(\mathbf O, \mathbf I_n,
-\mathbf \Sigma_R})\)</span> and <span
-class="math inline">\(\Sigma_R\)</span> is an <span
-class="math inline">\(r \times r\)</span> covariance matrix.</p>
+\mathbf \Sigma_U})\)</span> and <span class="math inline">\(\mathbf
+\Sigma_U\)</span> is an <span class="math inline">\(r \times r\)</span>
+covariance matrix, <span class="math inline">\(R\)</span> is an <span
+class="math inline">\(r \times r\)</span> matrix of residual values,
+<span class="math inline">\(R \sim MN_{n \times r}(\mathbf O, \mathbf
+I_n, \mathbf \Sigma_R})\)</span> and <span class="math inline">\(\mathbf
+\Sigma_R\)</span> is an <span class="math inline">\(r \times r\)</span>
+covariance matrix.</p>
 <p>We also fit a random regression model – <span
 class="math inline">\(y_{is} = \sum_{m=0}^K \beta_{m} \phi_m(s) +
 \sum_{m=0}^K a_{im} \phi_m(s) + \epsilon\)</span>:</p>
@@ -1210,7 +1243,7 @@ class="math inline">\(\beta_{m}\)</span> is the fixed effect of the
 genetic value of the <span class="math inline">\(m^{th}\)</span>-order
 Legendre polynomial, <span class="math inline">\(a_{im} \sim N(\mathbf
 0, \mathbf G \otimes \mathbf \Sigma_a)\)</span> and <span
-class="math inline">\(\Sigma_r\)</span> is an <span
+class="math inline">\(\mathbf \Sigma_r\)</span> is an <span
 class="math inline">\(K \times K\)</span> covariance matrix. <span
 class="math inline">\(\epsilon_{is}\)</span> is the residual value for
 line <span class="math inline">\(i\)</span> in environment <span
@@ -1218,9 +1251,12 @@ class="math inline">\(s\)</span>, <span class="math inline">\(\epsilon
 \sim N(O, \sigma^2_{\epsilon s})\)</span>.</p>
 <p>After some testing, we chose <span
 class="math inline">\(K=1\)</span>.</p>
-<p>These models were fitted in the training set using a Bayesian
-approach as implemented in the <span class="math inline">\(\sf
-BGLR\)</span> package.</p>
+<p>All these models (except for the random regression) were fitted in
+the training set using a Bayesian approach as implemented in the <span
+class="math inline">\(\sf BGLR\)</span> package. The random regression
+model was fitted in the training set using a REML approach as
+implemented in the <span class="math inline">\(\sf sommer\)</span>
+package.</p>
 <p>We used different cross-validation schemes:</p>
 <ul>
 <li><em>Random within environment scenario</em>. We assigned 20% of the
@@ -2128,6 +2164,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/ec76fc861d9f9cd7de140202a1a7952e36a829f4/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig het-1.png" target="_blank">ec76fc8</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-03-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/86e70e8f90276892cf04e441b9537e217c723826/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random lines orig het-1.png" target="_blank">86e70e8</a>
@@ -3201,6 +3248,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/ec76fc861d9f9cd7de140202a1a7952e36a829f4/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig het-1.png" target="_blank">ec76fc8</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-03-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/86e70e8f90276892cf04e441b9537e217c723826/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/random obs orig het-1.png" target="_blank">86e70e8</a>
 </td>
 <td>
@@ -4261,6 +4319,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/ec76fc861d9f9cd7de140202a1a7952e36a829f4/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp orig het-1.png" target="_blank">ec76fc8</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-03-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/86e70e8f90276892cf04e441b9537e217c723826/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp orig het-1.png" target="_blank">86e70e8</a>
 </td>
 <td>
@@ -5303,6 +5372,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/ec76fc861d9f9cd7de140202a1a7952e36a829f4/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across sex orig het-1.png" target="_blank">ec76fc8</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-03-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/86e70e8f90276892cf04e441b9537e217c723826/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across sex orig het-1.png" target="_blank">86e70e8</a>
@@ -6387,6 +6467,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/ec76fc861d9f9cd7de140202a1a7952e36a829f4/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp/sex orig het-1.png" target="_blank">ec76fc8</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-03-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/86e70e8f90276892cf04e441b9537e217c723826/docs/figure/dgrp_lifespan_gxe_genomic_results.Rmd/across temp/sex orig het-1.png" target="_blank">86e70e8</a>
