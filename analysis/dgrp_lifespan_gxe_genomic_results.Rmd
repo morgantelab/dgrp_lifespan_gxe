@@ -62,8 +62,8 @@ where
 
 $Y$ is an $n \times r$ matrix of phenotypic observations, 
 $M$ is an $r$-vector of intercept values, 
-$U$ is an $n \times r$ matrix of additive genetic values, $U \sim MN_{n \times r}(\mathbf O, \mathbf G, \mathbf \Sigma_U})$ and $\mathbf  \Sigma_U$ is an $r \times r$ covariance matrix,
-$R$ is an $r \times r$ matrix of residual values, $R \sim MN_{n \times r}(\mathbf O, \mathbf I_n, \mathbf \Sigma_R})$ and $\mathbf  \Sigma_R$ is an $r \times r$ covariance matrix.
+$U$ is an $n \times r$ matrix of additive genetic values, $U \sim MN_{n \times r} (\mathbf O, \mathbf G, \mathbf \Sigma_U)$ and $\mathbf \Sigma_U$ is an $r \times r$ covariance matrix,
+$R$ is an $r \times r$ matrix of residual values, $R \sim MN_{n \times r} (\mathbf O, \mathbf I_n, \mathbf \Sigma_R)$ and $\mathbf  \Sigma_R$ is an $r \times r$ covariance matrix.
 
 We also fit a random regression model -- $y_{is} = \sum_{m=0}^K \beta_{m} \phi_m(s) + \sum_{m=0}^K a_{im} \phi_m(s) + \epsilon$:
 
