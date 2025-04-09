@@ -9,9 +9,9 @@ GENO_MISS: "0.2"
 CHR: ['1','2','3','4','5','6']
 SCALE_PHENO: ['original']
 CV_SCENARIO_REPS: ['random_obs','random_lines']
-N_REPS: "20"
-REP_REPS: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20']
-TEST_SET_PROP_REPS: "0.5"
+N_REPS: "6"
+REP_REPS: ['1','2','3','4','5','6']
+TEST_SET_PROP_REPS: "0.17"
 SEED_REPS: "123"
 NEW_TEMP_SCENARIO: ['temp']
 REP_NEW_TEMP_SCENARIO: ['1','2','3']
