@@ -21,9 +21,8 @@ prefix <- "dgrp_lifespan_gxe"
 
 ## Introduction
 
-The goal of this analysis is to assess the performance of the linear mixed models including genotype only, environment only,
-genotype + environment, genotype + environment + genotype $\times$ environment information at predicting life span in the 
-DGRP.
+The goal of this analysis is to partition the phenotypic variance using linear mixed models including genotype only, environment only,
+genotype + environment, genotype + environment + genotype $\times$ environment information.
 
 We used data from [Huang et al. (2020)](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000645), which
 has life span measurements for $n=176$ lines at 3 temperatures (18C, 25C, 28C) for the 2 sexes (coded as 1=females and 0=males), 
@@ -53,6 +52,16 @@ $ge \sim N_q(\mathbf O, \mathbf{ZGZ^\intercal \circ E} \sigma^2_{ge})$,
 $\epsilon$ is a $q$-vector of residual values, $\epsilon \sim N_q(\mathbf O, \mathbf{I} \sigma^2_\epsilon)$.
 
 These models were fitted to the whole data using a Bayesian approach as implemented in the $\sf BGLR$ package.
+
+We also computed genetic correlations across the environments using multivariate GBLUP -- $Y = M + U + R$:
+
+where
+
+$Y$ is an $n \times r$ matrix of phenotypic observations, 
+$M$ is an $r$-vector of intercept values, 
+$U$ is an $n \times r$ matrix of additive genetic values, $U \sim MN_{n \times r} (\mathbf O, \mathbf G, \mathbf \Sigma_U)$ and $\mathbf \Sigma_U$ is an $r \times r$ covariance matrix,
+$R$ is an $r \times r$ matrix of residual values, $R \sim MN_{n \times r} (\mathbf O, \mathbf I_n, \mathbf \Sigma_R)$ and $\mathbf  \Sigma_R$ is an $r \times r$ covariance matrix.
+
 
 ## Results
 
@@ -117,4 +126,35 @@ p <- ggplot(res_var_long, aes(x = model, y = Var, fill = Source)) +
 
 print(p)
 ```
+
+There is definitely evidence of GxE.
+
+```{r gencor, fig.height=10, fig.width=13}
+pheno <- "original_pheno"
+
+dat <- readRDS(paste0("output/mvgblup_fit/", prefix, "_", pheno, "_mvgblup_fit_whole_data.rds"))
+
+corg <- cov2cor(dat$ETA$G$Cov$Omega)
+colnames(corg) <- rownames(corg) <- gsub("y_", "", colnames(dat$ETAHat))
+
+corg_melt <-reshape2::melt(corg)
+colnames(corg_melt) <- c("Env1", "Env2", "Cor")
+
+p <- ggplot(corg_melt, aes(x = Env1, y = Env2, fill = Cor)) +
+  geom_tile() +
+  labs(x = "", y = "", fill="Cor", title="") +
+  scale_fill_gradient2(low = "#075AFF",
+                       mid = "#FFFFCC",
+                       high = "#FF0000") +
+  coord_fixed() +
+  theme_cowplot(font_size = 18) 
+
+print(p)
+```
+
+This is also confirmed by the estimates of the cross-environment genetic correlations, which are different from unity in the majority
+of comparisons.
+
+The residual variances are also different across environments `r print(diag(dat$resCov$R))`, justifying fitting models with heterogenous residual variance. 
+
 
