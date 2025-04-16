@@ -23,4 +23,5 @@ snakemake \
   -s dgrp_lifespan_gxe_snakefile \
   --profile slurm \
   --latency-wait 120 \
+  -k \
   --configfile dgrp_lifespan_gxe.yaml
