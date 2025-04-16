@@ -322,7 +322,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-01-30
+<strong>Last updated:</strong> 2025-04-16
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -369,15 +369,15 @@ results.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreea860e4ff06b84e08caf935438a40ad810ff9fefatargetblanka860e4fa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreee0a570b4e4a54d8ca4768bb69fd6027fb960b59ftargetblanke0a570ba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/a860e4ff06b84e08caf935438a40ad810ff9fefa" target="_blank">a860e4f</a>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/e0a570b4e4a54d8ca4768bb69fd6027fb960b59f" target="_blank">e0a570b</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreea860e4ff06b84e08caf935438a40ad810ff9fefatargetblanka860e4fa"
+id="strongRepositoryversionstrongahrefhttpsgithubcommorgantelabdgrplifespangxetreee0a570b4e4a54d8ca4768bb69fd6027fb960b59ftargetblanke0a570ba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -387,7 +387,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/a860e4ff06b84e08caf935438a40ad810ff9fefa" target="_blank">a860e4f</a>.
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/tree/e0a570b4e4a54d8ca4768bb69fd6027fb960b59f" target="_blank">e0a570b</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -405,38 +405,48 @@ Ignored files:
     Ignored:    .snakemake/
     Ignored:    output/E_fit/
     Ignored:    output/E_het_var_fit/
-    Ignored:    output/Et_fit/
     Ignored:    output/G_fit/
     Ignored:    output/G_het_var_fit/
     Ignored:    output/GandE_fit/
     Ignored:    output/GandE_het_var_fit/
+    Ignored:    output/GxE_by_chr_fit/
+    Ignored:    output/GxE_by_chr_het_var_fit/
     Ignored:    output/GxE_fit/
     Ignored:    output/GxE_gwas/
+    Ignored:    output/GxE_gwas_fit/
+    Ignored:    output/GxE_gwas_het_var_fit/
     Ignored:    output/GxE_het_var_fit/
-    Ignored:    output/T_fit/
-    Ignored:    output/TandE_fit/
-    Ignored:    output/TxE_fit/
+    Ignored:    output/mvgblup_fit/
+    Ignored:    output/rrm_fit/
     Ignored:    output/test_sets/
     Ignored:    run/
     Ignored:    slurm/
 
 Untracked files:
-    Untracked:  code/fit_gblup_het_var_g_e_gxe.R
-    Untracked:  code/fit_gwas_gxe.R
+    Untracked:  analysis/dgrp_lifespan_gxe_genomic_results_OLD.Rmd
+    Untracked:  code/fit_gwas_gxe_2envs_test.R
     Untracked:  code/fit_gwas_gxe_test.R
+    Untracked:  code/fit_multitrait_gblup_whole_data.R
     Untracked:  scripts/run_fit_gwas_gxe_grammar_indicator.sbatch
     Untracked:  scripts/run_fit_gwas_gxe_grammar_means.sbatch
     Untracked:  scripts/run_fit_gwas_gxe_grammar_sex.sbatch
     Untracked:  scripts/run_fit_gwas_gxe_grammar_temp.sbatch
     Untracked:  scripts/run_fit_gwas_gxe_lm.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_lmm_2envs_stand.sbatch
     Untracked:  scripts/run_fit_gwas_gxe_lmm_indicator.sbatch
     Untracked:  scripts/run_fit_gwas_gxe_lmm_indicator_stand.sbatch
     Untracked:  scripts/run_fit_gwas_gxe_lmm_means.sbatch
     Untracked:  scripts/run_fit_gwas_gxe_lmm_means_stand.sbatch
+    Untracked:  scripts/run_fit_gwas_gxe_lmm_scaled_within_env_pheno_2envs_stand.sbatch
     Untracked:  scripts/run_fit_gwas_gxe_lmm_sex.sbatch
     Untracked:  scripts/run_fit_gwas_gxe_lmm_sex_stand.sbatch
     Untracked:  scripts/run_fit_gwas_gxe_lmm_temp.sbatch
     Untracked:  scripts/run_fit_gwas_gxe_lmm_temp_stand.sbatch
+
+Unstaged changes:
+    Modified:   dgrp_lifespan_gxe.yaml
+    Modified:   dgrp_lifespan_gxe_snakefile
+    Modified:   dgrp_lifespan_gxe_snakemake_submitter.sh
 
 </code></pre>
 <p>
@@ -481,6 +491,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/morgantelab/dgrp_lifespan_gxe/blob/e0a570b4e4a54d8ca4768bb69fd6027fb960b59f/analysis/index.Rmd" target="_blank">e0a570b</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-04-16
+</td>
+<td>
+Update results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/morgantelab/dgrp_lifespan_gxe/ec63d8c36ff9b244df871f1f22679d24510d5df1/docs/index.html" target="_blank">ec63d8c</a>
+</td>
+<td>
+fmorgante
+</td>
+<td>
+2025-01-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -785,10 +829,6 @@ lifespan in the <em>Drosophila</em> Genetic Reference Panel (DGRP).</p>
 partition.</a></li>
 <li><a href="dgrp_lifespan_gxe_genomic_results.html">Genomic
 prediction.</a></li>
-<li><a
-href="dgrp_lifespan_gxe_transcriptomic_results.html">Transcriptomic
-prediction.</a></li>
-<li><a href="dgrp_lifespan_gxe_gwas_gxe_results.html">GxE GWAS</a></li>
 </ul>
 
 
