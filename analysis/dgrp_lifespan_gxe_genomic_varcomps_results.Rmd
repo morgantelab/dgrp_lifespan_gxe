@@ -155,6 +155,6 @@ print(p)
 This is also confirmed by the estimates of the cross-environment genetic correlations, which are different from unity in the majority
 of comparisons.
 
-The residual variances are also different across environments `r print(diag(dat$resCov$R))`, justifying fitting models with heterogenous residual variance. 
+The residual variances are also different across environments `r diag(dat$resCov$R)`, justifying fitting models with heterogenous residual variance. 
 
 
