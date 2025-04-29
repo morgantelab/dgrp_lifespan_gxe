@@ -51,7 +51,7 @@ res_var_long <- res_var %>% select(model, VarG, VarE, VarGxE, VarEps) %>%
   gather(value="Var", key="Source", VarG, VarE, VarGxE, VarEps)
 
 res_var_long <- transform(res_var_long, model=factor(model, levels=c("G", "E", "GandE", "GxE"),
-                                                     labels=c("G", "E", "G+E", "G+E+GxE")),
+                                                     labels=c("G-BLUP", "E-BLUP", "GE-BLUP", "GxE-BLUP")),
                           Source=factor(Source, levels=c("VarEps", "VarGxE", "VarE", "VarG")))
 
 
@@ -65,7 +65,8 @@ p_varcomps <- ggplot(res_var_long, aes(x = model, y = Var, fill = Source)) +
   labs(x = "Model", y = expression(italic(PVE)), fill="Source", title="") +
   theme_cowplot(font_size = 18) +
   theme(legend.position="bottom",
-        legend.justification.bottom = "center")
+        legend.justification.bottom = "center",
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 
 ###Genetic correlations
 dat <- readRDS("../output/mvgblup_fit/dgrp_lifespan_gxe_original_pheno_mvgblup_fit_whole_data.rds")

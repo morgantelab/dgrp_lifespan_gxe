@@ -36,7 +36,7 @@ for(met in model){
 
 res <- transform(res,
                  model=factor(model, levels=c("G_het_var", "E_het_var", "GandE_het_var", "GxE_het_var", "mvgblup", "rrm"),
-                              labels=c("G", "E", "G+E", "G+E+GxE", "mvG", "RRM")))
+                              labels=c("G-BLUP", "E-BLUP", "GE-BLUP", "GxE-BLUP", "mvG-BLUP", "RRM")))
 
 p_rl <- ggplot(res, aes(x = model, y = r2, fill = model)) +
   geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
@@ -81,7 +81,7 @@ for(met in model){
 
 res <- transform(res,
                  model=factor(model, levels=c("G_het_var", "E_het_var", "GandE_het_var", "GxE_het_var", "mvgblup", "rrm"),
-                              labels=c("G", "E", "G+E", "G+E+GxE", "mvG", "RRM")))
+                              labels=c("G-BLUP", "E-BLUP", "GE-BLUP", "GxE-BLUP", "mvG-BLUP", "RRM")))
 
 p_ro <- ggplot(res, aes(x = model, y = r2, fill = model)) +
   geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
@@ -127,7 +127,7 @@ for(met in model){
 
 res <- transform(res,
                  model=factor(model, levels=c("G_het_var", "E_het_var", "GandE_het_var", "GxE_het_var", "rrm"),
-                              labels=c("G", "E", "G+E", "G+E+GxE", "RRM")))
+                              labels=c("G-BLUP", "E-BLUP", "GE-BLUP", "GxE-BLUP", "RRM")))
 
 p_ne <- ggplot(res, aes(x = model, y = r2, fill = model)) +
   geom_boxplot(color = "black", outlier.size = 1, width = 0.85) +
