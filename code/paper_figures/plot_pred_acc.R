@@ -7,7 +7,7 @@ set.seed(1)
 reps <- c(1,2,4,5,7,9)
 
 ###Random lines
-model <- c('G_het_var','E_het_var','GandE_het_var','GxE_het_var','mvgblup','rrm')
+model <- c('G','E','GandE','GxE',"mvgblup", "rrm")
 
 i <- 0
 
@@ -18,10 +18,14 @@ colnames(res) <- c("rep", "model", "r2")
 
 for(met in model){
   for(repp in reps){
-    dat <- readRDS(paste0("../output/", met, "_fit/dgrp_lifespan_gxe_original_pheno_random_lines_", met, "_fit_", repp, ".rds"))
-      
+    if(met %in% c('G','E','GandE','GxE')){
+      dat <- readRDS(paste0("../output/", met, "_fit/dgrp_lifespan_gxe_original_pheno_random_lines_", met, "_reml_fit_", repp, ".rds"))
+    } else {
+      dat <- readRDS(paste0("../output/", met, "_fit/dgrp_lifespan_gxe_original_pheno_random_lines_", met, "_fit_", repp, ".rds"))
+    }
+    
     i <- i + 1
-      
+    
     res[i, 1] <- repp
     res[i, 2] <- met
     if(met == "mvgblup"){
@@ -35,7 +39,7 @@ for(met in model){
 }
 
 res <- transform(res,
-                 model=factor(model, levels=c("G_het_var", "E_het_var", "GandE_het_var", "GxE_het_var", "mvgblup", "rrm"),
+                 model=factor(model, levels=c("G", "E", "GandE", "GxE", "mvgblup", "rrm"),
                               labels=c("G-BLUP", "E-BLUP", "GE-BLUP", "GxE-BLUP", "mvG-BLUP", "RRM")))
 
 p_rl <- ggplot(res, aes(x = model, y = r2, fill = model)) +
@@ -52,7 +56,7 @@ p_rl <- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 
 ###Random observations
-model <- c('G_het_var','E_het_var','GandE_het_var','GxE_het_var','mvgblup','rrm')
+model <- c('G','E','GandE','GxE',"mvgblup", "rrm")
 
 i <- 0
 
@@ -63,7 +67,12 @@ colnames(res) <- c("rep", "model", "r2")
 
 for(met in model){
   for(repp in reps){
-    dat <- readRDS(paste0("../output/", met, "_fit/dgrp_lifespan_gxe_original_pheno_random_obs_", met, "_fit_", repp, ".rds"))
+    
+    if(met %in% c('G','E','GandE','GxE')){
+      dat <- readRDS(paste0("../output/", met, "_fit/dgrp_lifespan_gxe_original_pheno_random_obs_", met, "_reml_fit_", repp, ".rds"))
+    } else {
+      dat <- readRDS(paste0("../output/", met, "_fit/dgrp_lifespan_gxe_original_pheno_random_obs_", met, "_fit_", repp, ".rds"))
+    }
     
     i <- i + 1
     
@@ -80,7 +89,7 @@ for(met in model){
 }
 
 res <- transform(res,
-                 model=factor(model, levels=c("G_het_var", "E_het_var", "GandE_het_var", "GxE_het_var", "mvgblup", "rrm"),
+                 model=factor(model, levels=c("G", "E", "GandE", "GxE", "mvgblup", "rrm"),
                               labels=c("G-BLUP", "E-BLUP", "GE-BLUP", "GxE-BLUP", "mvG-BLUP", "RRM")))
 
 p_ro <- ggplot(res, aes(x = model, y = r2, fill = model)) +
@@ -98,7 +107,7 @@ p_ro <- ggplot(res, aes(x = model, y = r2, fill = model)) +
 
 ###New environment
 n_reps <- 6
-model <- c('G_het_var','E_het_var','GandE_het_var','GxE_het_var','rrm')
+model <- c('G','E','GandE','GxE','rrm')
 
 i <- 0
 
@@ -109,7 +118,12 @@ colnames(res) <- c("rep", "model", "r2")
 
 for(met in model){
   for(repp in 1:n_reps){
-    dat <- readRDS(paste0("../output/", met, "_fit/dgrp_lifespan_gxe_original_pheno_temp_sex_", met, "_fit_", repp, ".rds"))
+    
+    if(met %in% c('G','E','GandE','GxE')){
+      dat <- readRDS(paste0("../output/", met, "_fit/dgrp_lifespan_gxe_original_pheno_temp_sex_", met, "_reml_fit_", repp, ".rds"))
+    } else {
+      dat <- readRDS(paste0("../output/", met, "_fit/dgrp_lifespan_gxe_original_pheno_temp_sex_", met, "_fit_", repp, ".rds"))
+    }
     
     i <- i + 1
     
@@ -126,7 +140,7 @@ for(met in model){
 }
 
 res <- transform(res,
-                 model=factor(model, levels=c("G_het_var", "E_het_var", "GandE_het_var", "GxE_het_var", "rrm"),
+                 model=factor(model, levels=c("G", "E", "GandE", "GxE", "rrm"),
                               labels=c("G-BLUP", "E-BLUP", "GE-BLUP", "GxE-BLUP", "RRM")))
 
 p_ne <- ggplot(res, aes(x = model, y = r2, fill = model)) +

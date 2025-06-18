@@ -14,29 +14,30 @@ colnames(res_var) <- c("model", "VarG", "VarE", "VarGxE", "VarEps", "VarTot")
 i <- 0
 
 for(met in model){
-  dat <- readRDS(paste0("../output/", met, "_fit/dgrp_lifespan_gxe_original_pheno_", met, "_fit_whole_data.rds"))
+  dat <- readRDS(paste0("../output/", met, "_fit/dgrp_lifespan_gxe_original_pheno_", met, "_reml_fit_whole_data.rds"))
   i <- i + 1
   
   res_var[i, 1] <- met
-  if(!is.null(dat$ETA$G$varU)){
-    res_var[i, 2] <- dat$ETA$G$varU
-  } else {
-    res_var[i, 2] <- NA
-  }
   
-  if(!is.null(dat$ETA$E$varU)){
-    res_var[i, 3] <- dat$ETA$E$varU
-  } else {
+  if(met=="G"){
+    res_var[i, 2] <- unlist(dat$sigma)["u:obs_id"]
     res_var[i, 3] <- NA
-  }
-  
-  if(!is.null(dat$ETA$GxE$varU)){
-    res_var[i, 4] <- dat$ETA$GxE$varU
-  } else {
     res_var[i, 4] <- NA
+  } else if(met=="E") {
+    res_var[i, 2] <- NA
+    res_var[i, 3] <- unlist(dat$sigma)["u:obs_id"]
+    res_var[i, 4] <- NA
+  } else if(met=="GandE") {
+    res_var[i, 2] <- unlist(dat$sigma)["u:obs_id"]
+    res_var[i, 3] <- unlist(dat$sigma)["u:obs_idd"]
+    res_var[i, 4] <- NA
+  } else if(met=="GxE") {
+    res_var[i, 2] <- unlist(dat$sigma)["u:obs_id"]
+    res_var[i, 3] <- unlist(dat$sigma)["u:obs_idd"]
+    res_var[i, 4] <- unlist(dat$sigma)["u:obs_iddd"]
   }
   
-  res_var[i, 5] <- dat$varE
+  res_var[i, 5] <- unlist(dat$sigma)["u:units"]
   res_var[i, 6] <- sum(res_var[i, 2:5], na.rm=TRUE)
 }
 
