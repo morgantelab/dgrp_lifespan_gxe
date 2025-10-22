@@ -113,6 +113,7 @@ for(i in 1:nrow(dat)){
     row_to_keep <- which(rownames(yHat) == dat$line_id[i]) 
     col_to_keep <- which(colnames(yHat) == dat$env[i])
     yHat_test[it] <- yHat[row_to_keep, col_to_keep]
+    names(yHat_test)[it] <- dat$obs_id[i]
   }
 }
 
