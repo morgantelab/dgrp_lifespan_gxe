@@ -217,7 +217,7 @@ p <- plot_grid(p_rl,
                nrow=1,
                labels = c("A", "B"))
 
-ggsave("../analysis/paper_figures/FigS1.eps", plot=p, device="eps", units="in", height=5, width=10)
+ggsave("../analysis/paper_figures/FigS2.eps", plot=p, device="eps", units="in", height=5, width=10)
 
 
 
