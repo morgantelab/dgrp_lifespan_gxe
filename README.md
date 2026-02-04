@@ -1,7 +1,7 @@
 This repository contains code and data resources to accompany our research paper:
 
-> Morgante, F & Tiezzi, F. (2025).
+> Morgante, F & Tiezzi, F. (2026).
 > When does accounting for gene-environment interactions improve complex trait prediction?
 > A case study with *Drosophila* lifespan.
-> *bioRxiv* 2025.07.12.664531.
-> [https://doi.org/10.1101/2025.07.12.664531](https://doi.org/10.1101/2025.07.12.664531)
+> *G3* 26(2): jkaf304.
+> [https://doi.org/10.1093/g3journal/jkaf304](https://doi.org/10.1093/g3journal/jkaf304)
